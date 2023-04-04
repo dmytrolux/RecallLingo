@@ -7,18 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6618605C29DC21AA00C5DFA5 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6618605B29DC21AA00C5DFA5 /* .gitignore */; };
 		66847BDF29DB3E8400CB3A8E /* RecallLingoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BDE29DB3E8400CB3A8E /* RecallLingoApp.swift */; };
-		66847BE129DB3E8400CB3A8E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BE029DB3E8400CB3A8E /* ContentView.swift */; };
+		66847BE129DB3E8400CB3A8E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BE029DB3E8400CB3A8E /* MainView.swift */; };
 		66847BE329DB3E8600CB3A8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66847BE229DB3E8600CB3A8E /* Assets.xcassets */; };
 		66847BE629DB3E8600CB3A8E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66847BE529DB3E8600CB3A8E /* Preview Assets.xcassets */; };
+		66847BEF29DB468400CB3A8E /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BEE29DB468400CB3A8E /* Word.swift */; };
+		66847BF129DB485F00CB3A8E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BF029DB485F00CB3A8E /* ViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6618605B29DC21AA00C5DFA5 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		66847BDB29DB3E8400CB3A8E /* RecallLingo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecallLingo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66847BDE29DB3E8400CB3A8E /* RecallLingoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecallLingoApp.swift; sourceTree = "<group>"; };
-		66847BE029DB3E8400CB3A8E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		66847BE029DB3E8400CB3A8E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		66847BE229DB3E8600CB3A8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		66847BE529DB3E8600CB3A8E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		66847BEE29DB468400CB3A8E /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
+		66847BF029DB485F00CB3A8E /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +41,8 @@
 		66847BD229DB3E8400CB3A8E = {
 			isa = PBXGroup;
 			children = (
+				6618605B29DC21AA00C5DFA5 /* .gitignore */,
+				66847BF029DB485F00CB3A8E /* ViewModel.swift */,
 				66847BDD29DB3E8400CB3A8E /* RecallLingo */,
 				66847BDC29DB3E8400CB3A8E /* Products */,
 			);
@@ -52,7 +60,8 @@
 			isa = PBXGroup;
 			children = (
 				66847BDE29DB3E8400CB3A8E /* RecallLingoApp.swift */,
-				66847BE029DB3E8400CB3A8E /* ContentView.swift */,
+				66847BE029DB3E8400CB3A8E /* MainView.swift */,
+				66847BEE29DB468400CB3A8E /* Word.swift */,
 				66847BE229DB3E8600CB3A8E /* Assets.xcassets */,
 				66847BE429DB3E8600CB3A8E /* Preview Content */,
 			);
@@ -126,6 +135,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66847BE629DB3E8600CB3A8E /* Preview Assets.xcassets in Resources */,
+				6618605C29DC21AA00C5DFA5 /* .gitignore in Resources */,
 				66847BE329DB3E8600CB3A8E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,8 +147,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66847BE129DB3E8400CB3A8E /* ContentView.swift in Sources */,
+				66847BE129DB3E8400CB3A8E /* MainView.swift in Sources */,
 				66847BDF29DB3E8400CB3A8E /* RecallLingoApp.swift in Sources */,
+				66847BF129DB485F00CB3A8E /* ViewModel.swift in Sources */,
+				66847BEF29DB468400CB3A8E /* Word.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

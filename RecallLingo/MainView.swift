@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  MainView.swift
 //  RecallLingo
 //
 //  Created by Pryshliak Dmytro on 03.04.2023.
@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct MainView: View {
+    @ObservedObject var viewModel = WordsModel()
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -21,6 +22,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        MainView()
     }
 }
