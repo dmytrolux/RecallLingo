@@ -47,7 +47,6 @@
 			isa = PBXGroup;
 			children = (
 				6618605B29DC21AA00C5DFA5 /* .gitignore */,
-				66847BF029DB485F00CB3A8E /* ViewModel.swift */,
 				66847BDD29DB3E8400CB3A8E /* RecallLingo */,
 				66847BDC29DB3E8400CB3A8E /* Products */,
 				AFD7866A5A372AC78D1024FA /* Pods */,
@@ -67,6 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				66847BDE29DB3E8400CB3A8E /* RecallLingoApp.swift */,
+				66847BF029DB485F00CB3A8E /* ViewModel.swift */,
 				66847BE029DB3E8400CB3A8E /* MainView.swift */,
 				66847BEE29DB468400CB3A8E /* Word.swift */,
 				66847BE229DB3E8600CB3A8E /* Assets.xcassets */,

@@ -7,10 +7,9 @@
 
 import Foundation
 
-struct Word: Identifiable, Codable{
-    var id = UUID()
-    var word: String
+struct Word: Codable{
+    var original: String
     var translate: String
-    var popularity: Int
+    var popularity: Int = 1
     
 }
