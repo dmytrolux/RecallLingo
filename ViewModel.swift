@@ -8,22 +8,15 @@
 import SwiftUI
 
 class WordsModel: ObservableObject {
-    @Published var words = [Word](){
+    @Published var dict: [String: Word] = UserDefaults.standard.dictionary(forKey: "Dict") as? [String: Word] ?? [:] {
         didSet{
-            if let encoded = try? JSONEncoder().encode(words){
-                UserDefaults.standard.set(encoded, forKey: "Words")
+            if let encoded = try? JSONEncoder().encode(dict){
+                UserDefaults.standard.set(encoded, forKey: "Dict")
             }
         }
     }
     
-    init() {
-        if let savedItems = UserDefaults.standard.data(forKey: "Words"),
-           let decodedItems = try? JSONDecoder().decode([Word].self, from: savedItems) {
-            words = decodedItems
-        } else {
-            words = []
-        }
-    }
+  
     
 }
 

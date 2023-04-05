@@ -14,9 +14,12 @@
 		66847BE629DB3E8600CB3A8E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66847BE529DB3E8600CB3A8E /* Preview Assets.xcassets */; };
 		66847BEF29DB468400CB3A8E /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BEE29DB468400CB3A8E /* Word.swift */; };
 		66847BF129DB485F00CB3A8E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BF029DB485F00CB3A8E /* ViewModel.swift */; };
+		7D84D92468C5963AB630D797 /* Pods_RecallLingo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C14DED490A074D0C462606 /* Pods_RecallLingo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0660B24177A1A7EF25FDE922 /* Pods-RecallLingo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecallLingo.debug.xcconfig"; path = "Target Support Files/Pods-RecallLingo/Pods-RecallLingo.debug.xcconfig"; sourceTree = "<group>"; };
+		42C14DED490A074D0C462606 /* Pods_RecallLingo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RecallLingo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6618605B29DC21AA00C5DFA5 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		66847BDB29DB3E8400CB3A8E /* RecallLingo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecallLingo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66847BDE29DB3E8400CB3A8E /* RecallLingoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecallLingoApp.swift; sourceTree = "<group>"; };
@@ -25,6 +28,7 @@
 		66847BE529DB3E8600CB3A8E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		66847BEE29DB468400CB3A8E /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		66847BF029DB485F00CB3A8E /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		9E00A7C5683470A92F0DFB29 /* Pods-RecallLingo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecallLingo.release.xcconfig"; path = "Target Support Files/Pods-RecallLingo/Pods-RecallLingo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D84D92468C5963AB630D797 /* Pods_RecallLingo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,6 +50,8 @@
 				66847BF029DB485F00CB3A8E /* ViewModel.swift */,
 				66847BDD29DB3E8400CB3A8E /* RecallLingo */,
 				66847BDC29DB3E8400CB3A8E /* Products */,
+				AFD7866A5A372AC78D1024FA /* Pods */,
+				C0663A8FB99E8143E641EBF1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -76,6 +83,23 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		AFD7866A5A372AC78D1024FA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0660B24177A1A7EF25FDE922 /* Pods-RecallLingo.debug.xcconfig */,
+				9E00A7C5683470A92F0DFB29 /* Pods-RecallLingo.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		C0663A8FB99E8143E641EBF1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				42C14DED490A074D0C462606 /* Pods_RecallLingo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -83,9 +107,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66847BE929DB3E8600CB3A8E /* Build configuration list for PBXNativeTarget "RecallLingo" */;
 			buildPhases = (
+				986213CC18EEC120C78640DF /* [CP] Check Pods Manifest.lock */,
 				66847BD729DB3E8400CB3A8E /* Sources */,
 				66847BD829DB3E8400CB3A8E /* Frameworks */,
 				66847BD929DB3E8400CB3A8E /* Resources */,
+				4A4FF835B27901EB0AA5551D /* [CP] Embed Pods Frameworks */,
+				433D3AD04FA32DEA371B82FD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -141,6 +168,65 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		433D3AD04FA32DEA371B82FD /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RecallLingo/Pods-RecallLingo-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RecallLingo/Pods-RecallLingo-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RecallLingo/Pods-RecallLingo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4A4FF835B27901EB0AA5551D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RecallLingo/Pods-RecallLingo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RecallLingo/Pods-RecallLingo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RecallLingo/Pods-RecallLingo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		986213CC18EEC120C78640DF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RecallLingo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		66847BD729DB3E8400CB3A8E /* Sources */ = {
@@ -273,6 +359,7 @@
 		};
 		66847BEA29DB3E8600CB3A8E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0660B24177A1A7EF25FDE922 /* Pods-RecallLingo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -302,6 +389,7 @@
 		};
 		66847BEB29DB3E8600CB3A8E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E00A7C5683470A92F0DFB29 /* Pods-RecallLingo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
