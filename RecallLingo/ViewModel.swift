@@ -29,6 +29,15 @@ class WordsModel: ObservableObject {
     private let conditions = ModelDownloadConditions(allowsCellularAccess: false,
                                                           allowsBackgroundDownloading: true)
     
+    init(){
+        if let savedItems = UserDefaults.standard.data(forKey: "Dict"),
+           let decodedItems = try? JSONDecoder().decode([String: Word].self, from: savedItems) {
+            dict = decodedItems
+        } else {
+            dict = [String: Word]()
+        }
+    }
+    
     func translateText() {
         downloadedModelIfNeeded()
     }
@@ -60,7 +69,6 @@ class WordsModel: ObservableObject {
             dict[inputEn.formatToDictKey()] = Word(original: inputEn, translate: outputUk)
             clearTextFields()
             isUniqueWord = false
-//            print(self.dict)
         }
     }
     
@@ -69,10 +77,6 @@ class WordsModel: ObservableObject {
     }
     
     private func updateDict(){
-//        print(inputEn)
-//        print(inputEn.formatToDictKey())
-        
-        
         if var word = dict[inputEn.formatToDictKey()] {
             word.popularity += 1
             dict[inputEn.formatToDictKey()] = word

@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct RecallLingoApp: App {
+    @StateObject var viewModel = WordsModel()
     var body: some Scene {
         WindowGroup {
-            MainView()
+            MainScreen(viewModel: viewModel)
         }
     }
 }

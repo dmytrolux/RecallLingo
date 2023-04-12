@@ -11,5 +11,4 @@ struct Word: Codable{
     var original: String
     var translate: String
     var popularity: Int = 1
-    
 }

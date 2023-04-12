@@ -7,28 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0FDD6AF52F2781874D53860E /* Pods_RecallLingo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC65256C5D1978619E61C04 /* Pods_RecallLingo.framework */; };
 		6618605C29DC21AA00C5DFA5 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6618605B29DC21AA00C5DFA5 /* .gitignore */; };
 		66847BDF29DB3E8400CB3A8E /* RecallLingoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BDE29DB3E8400CB3A8E /* RecallLingoApp.swift */; };
-		66847BE129DB3E8400CB3A8E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BE029DB3E8400CB3A8E /* MainView.swift */; };
+		66847BE129DB3E8400CB3A8E /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BE029DB3E8400CB3A8E /* MainScreen.swift */; };
 		66847BE329DB3E8600CB3A8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66847BE229DB3E8600CB3A8E /* Assets.xcassets */; };
 		66847BE629DB3E8600CB3A8E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66847BE529DB3E8600CB3A8E /* Preview Assets.xcassets */; };
 		66847BEF29DB468400CB3A8E /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BEE29DB468400CB3A8E /* Word.swift */; };
 		66847BF129DB485F00CB3A8E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BF029DB485F00CB3A8E /* ViewModel.swift */; };
-		7D84D92468C5963AB630D797 /* Pods_RecallLingo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C14DED490A074D0C462606 /* Pods_RecallLingo.framework */; };
+		66FA88CA29E702D10077C159 /* TranslateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FA88C929E702D10077C159 /* TranslateView.swift */; };
+		66FA88CC29E706C10077C159 /* DictionaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FA88CB29E706C10077C159 /* DictionaryView.swift */; };
+		66FA88D029E726A80077C159 /* StatisticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FA88CF29E726A80077C159 /* StatisticView.swift */; };
+		66FA88D529E726FA0077C159 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FA88D429E726FA0077C159 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0660B24177A1A7EF25FDE922 /* Pods-RecallLingo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecallLingo.debug.xcconfig"; path = "Target Support Files/Pods-RecallLingo/Pods-RecallLingo.debug.xcconfig"; sourceTree = "<group>"; };
-		42C14DED490A074D0C462606 /* Pods_RecallLingo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RecallLingo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0AC65256C5D1978619E61C04 /* Pods_RecallLingo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RecallLingo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B664026F391B2FD7E05BB8B /* Pods-RecallLingo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecallLingo.debug.xcconfig"; path = "Target Support Files/Pods-RecallLingo/Pods-RecallLingo.debug.xcconfig"; sourceTree = "<group>"; };
 		6618605B29DC21AA00C5DFA5 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		66847BDB29DB3E8400CB3A8E /* RecallLingo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecallLingo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66847BDE29DB3E8400CB3A8E /* RecallLingoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecallLingoApp.swift; sourceTree = "<group>"; };
-		66847BE029DB3E8400CB3A8E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		66847BE029DB3E8400CB3A8E /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		66847BE229DB3E8600CB3A8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		66847BE529DB3E8600CB3A8E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		66847BEE29DB468400CB3A8E /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		66847BF029DB485F00CB3A8E /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
-		9E00A7C5683470A92F0DFB29 /* Pods-RecallLingo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecallLingo.release.xcconfig"; path = "Target Support Files/Pods-RecallLingo/Pods-RecallLingo.release.xcconfig"; sourceTree = "<group>"; };
+		66FA88C929E702D10077C159 /* TranslateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateView.swift; sourceTree = "<group>"; };
+		66FA88CB29E706C10077C159 /* DictionaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryView.swift; sourceTree = "<group>"; };
+		66FA88CF29E726A80077C159 /* StatisticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticView.swift; sourceTree = "<group>"; };
+		66FA88D429E726FA0077C159 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B44C5A20AFA33C65944DEBAD /* Pods-RecallLingo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecallLingo.release.xcconfig"; path = "Target Support Files/Pods-RecallLingo/Pods-RecallLingo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,21 +44,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D84D92468C5963AB630D797 /* Pods_RecallLingo.framework in Frameworks */,
+				0FDD6AF52F2781874D53860E /* Pods_RecallLingo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		407AE14EDCF47A403277A7D7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0AC65256C5D1978619E61C04 /* Pods_RecallLingo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		66847BD229DB3E8400CB3A8E = {
 			isa = PBXGroup;
 			children = (
 				6618605B29DC21AA00C5DFA5 /* .gitignore */,
 				66847BDD29DB3E8400CB3A8E /* RecallLingo */,
 				66847BDC29DB3E8400CB3A8E /* Products */,
-				AFD7866A5A372AC78D1024FA /* Pods */,
-				C0663A8FB99E8143E641EBF1 /* Frameworks */,
+				99C9B88302FD5A7B56BBE37E /* Pods */,
+				407AE14EDCF47A403277A7D7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -66,9 +82,13 @@
 			isa = PBXGroup;
 			children = (
 				66847BDE29DB3E8400CB3A8E /* RecallLingoApp.swift */,
-				66847BF029DB485F00CB3A8E /* ViewModel.swift */,
-				66847BE029DB3E8400CB3A8E /* MainView.swift */,
+				66847BE029DB3E8400CB3A8E /* MainScreen.swift */,
+				66FA88C929E702D10077C159 /* TranslateView.swift */,
+				66FA88CB29E706C10077C159 /* DictionaryView.swift */,
+				66FA88CF29E726A80077C159 /* StatisticView.swift */,
+				66FA88D429E726FA0077C159 /* SettingsView.swift */,
 				66847BEE29DB468400CB3A8E /* Word.swift */,
+				66847BF029DB485F00CB3A8E /* ViewModel.swift */,
 				66847BE229DB3E8600CB3A8E /* Assets.xcassets */,
 				66847BE429DB3E8600CB3A8E /* Preview Content */,
 			);
@@ -83,21 +103,13 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		AFD7866A5A372AC78D1024FA /* Pods */ = {
+		99C9B88302FD5A7B56BBE37E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				0660B24177A1A7EF25FDE922 /* Pods-RecallLingo.debug.xcconfig */,
-				9E00A7C5683470A92F0DFB29 /* Pods-RecallLingo.release.xcconfig */,
+				2B664026F391B2FD7E05BB8B /* Pods-RecallLingo.debug.xcconfig */,
+				B44C5A20AFA33C65944DEBAD /* Pods-RecallLingo.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		C0663A8FB99E8143E641EBF1 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				42C14DED490A074D0C462606 /* Pods_RecallLingo.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,9 +245,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66847BE129DB3E8400CB3A8E /* MainView.swift in Sources */,
+				66FA88D029E726A80077C159 /* StatisticView.swift in Sources */,
+				66FA88D529E726FA0077C159 /* SettingsView.swift in Sources */,
+				66FA88CA29E702D10077C159 /* TranslateView.swift in Sources */,
+				66847BE129DB3E8400CB3A8E /* MainScreen.swift in Sources */,
 				66847BDF29DB3E8400CB3A8E /* RecallLingoApp.swift in Sources */,
 				66847BF129DB485F00CB3A8E /* ViewModel.swift in Sources */,
+				66FA88CC29E706C10077C159 /* DictionaryView.swift in Sources */,
 				66847BEF29DB468400CB3A8E /* Word.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -359,7 +375,7 @@
 		};
 		66847BEA29DB3E8600CB3A8E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0660B24177A1A7EF25FDE922 /* Pods-RecallLingo.debug.xcconfig */;
+			baseConfigurationReference = 2B664026F391B2FD7E05BB8B /* Pods-RecallLingo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -374,6 +390,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -383,13 +400,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		66847BEB29DB3E8600CB3A8E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9E00A7C5683470A92F0DFB29 /* Pods-RecallLingo.release.xcconfig */;
+			baseConfigurationReference = B44C5A20AFA33C65944DEBAD /* Pods-RecallLingo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -404,6 +421,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -413,7 +431,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
