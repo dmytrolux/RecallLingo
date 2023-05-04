@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct StatisticView: View {
-    @ObservedObject var viewModel: WordsModel
+    @ObservedObject var vm: DictionaryViewModel
+    
     var body: some View {
-        Text("All words: \(viewModel.dict.count)")
+        Text("All words: \(vm.dict.count)")
     }
 }
 
 struct StatisticView_Previews: PreviewProvider {
     static var previews: some View {
-        StatisticView(viewModel: WordsModel())
+        StatisticView(vm: DictionaryViewModel(notificationsManager: LocalNotificationManager()))
     }
 }

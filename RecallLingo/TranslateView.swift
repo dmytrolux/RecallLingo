@@ -8,39 +8,36 @@
 import SwiftUI
 
 struct TranslateView: View {
-    @ObservedObject var viewModel: WordsModel
+    @ObservedObject var vm: DictionaryViewModel
     var body: some View {
         VStack {
             
             Spacer()
-            TextField("Enter text", text: $viewModel.inputEn)
+            TextField("Enter text", text: $vm.inputEn)
                 .textFieldStyle(.roundedBorder)
             Spacer()
             Button {
-                viewModel.translateText()
+                vm.translateText()
             } label: {
                 Text("Translate")
             }
             Spacer()
             
-            TextField("", text: $viewModel.outputUk)
+            TextField("", text: $vm.outputUk)
                 .textFieldStyle(.roundedBorder)
                 .accessibilityHint("Translated text")
             
-            if viewModel.isUniqueWord{
-                Button("Add to dictionary") { viewModel.addToDictionary() }
+            if vm.isUniqueWord{
+                Button("Add to dictionary") { vm.addToDictionary() }
             }
             
             Spacer()
         }
-        .onTapGesture {
-                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                }
     }
 }
 
 struct TranslateView_Previews: PreviewProvider {
     static var previews: some View {
-        TranslateView(viewModel: WordsModel())
+        TranslateView(vm: DictionaryViewModel(notificationsManager: LocalNotificationManager()))
     }
 }

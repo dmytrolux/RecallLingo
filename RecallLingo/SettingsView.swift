@@ -8,19 +8,34 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject var viewModel: WordsModel
+    @ObservedObject var vm: DictionaryViewModel
     var body: some View {
-        Button {
-            viewModel.dict.removeAll()
-        } label: {
-            Text("Clear dictionary")
+        VStack{
+            Button {
+                vm.dict.removeAll()
+            } label: {
+                Text("Clear dictionary")
+            }
+            
+            Button(action: {
+                vm.sendNotification()
+            }, label: {
+                Text("Send Notification")
+            })
+            
+            Toggle("Show notification", isOn: $vm.notificationsManager.isNotificationEnable)
+//
+            
+            Button("Print Notifications") {
+                vm.printNotification()
+            }
         }
 
     }
 }
 
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView(viewModel: WordsModel())
-    }
-}
+//struct SettingsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SettingsView(vm: DictionaryViewModel())
+//    }
+//}

@@ -9,10 +9,17 @@ import SwiftUI
 
 @main
 struct RecallLingoApp: App {
-    @StateObject var viewModel = WordsModel()
     var body: some Scene {
         WindowGroup {
-            MainScreen(viewModel: viewModel)
+            MainScreen()
+                .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
         }
     }
+    init() {
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+                if let error = error {
+                    print("Error: \(error.localizedDescription)")
+                }
+            }
+        }
 }
