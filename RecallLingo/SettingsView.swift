@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject var vm: DictionaryViewModel
+    @EnvironmentObject var vm: DictionaryViewModel
     var body: some View {
         VStack{
             Button {
@@ -17,13 +17,13 @@ struct SettingsView: View {
                 Text("Clear dictionary")
             }
             
-            Button(action: {
-                vm.sendNotification()
-            }, label: {
-                Text("Send Notification")
-            })
+//            Button(action: {
+//                vm.sendNotification()
+//            }, label: {
+//                Text("Send Notification")
+//            })
             
-            Toggle("Show notification", isOn: $vm.notificationsManager.isNotificationEnable)
+//            Toggle("Show notification", isOn: $vm.notificationsManager.isNotificationEnable)
 //
             
             Button("Print Notifications") {
@@ -34,8 +34,9 @@ struct SettingsView: View {
     }
 }
 
-//struct SettingsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SettingsView(vm: DictionaryViewModel())
-//    }
-//}
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingsView()
+            .environmentObject(DictionaryViewModel(dataController: DataController()))
+    }
+}

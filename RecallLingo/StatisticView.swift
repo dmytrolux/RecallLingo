@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StatisticView: View {
-    @ObservedObject var vm: DictionaryViewModel
+    @EnvironmentObject var vm: DictionaryViewModel
     
     var body: some View {
         Text("All words: \(vm.dict.count)")
@@ -17,6 +17,7 @@ struct StatisticView: View {
 
 struct StatisticView_Previews: PreviewProvider {
     static var previews: some View {
-        StatisticView(vm: DictionaryViewModel(notificationsManager: LocalNotificationManager()))
+        StatisticView()
+            .environmentObject(DictionaryViewModel(dataController: DataController()))
     }
 }

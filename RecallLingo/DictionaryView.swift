@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct DictionaryView: View {
-    @ObservedObject var vm: DictionaryViewModel
+    @EnvironmentObject var vm: DictionaryViewModel
     var body: some View {
         NavigationView {
             List(vm.dict.sorted(by: { $0.key < $1.key }), id: \.key) { key, word in
-                NavigationLink(destination: WordDetailView(viewModel: vm,
-                                                           word: word)) {
+                NavigationLink(destination: WordDetailView(word: word)) {
                     HStack{
                         Image(systemName: "\(word.popularity).square.fill")
                             .resizable()
@@ -35,12 +34,13 @@ struct DictionaryView: View {
 
 struct DictionaryView_Previews: PreviewProvider {
     static var previews: some View {
-        DictionaryView(vm: DictionaryViewModel(notificationsManager: LocalNotificationManager()))
+        DictionaryView()
+            .environmentObject(DictionaryViewModel(dataController: DataController()))
     }
 }
 
 struct WordDetailView: View {
-    @ObservedObject var viewModel: DictionaryViewModel
+    @EnvironmentObject var viewModel: DictionaryViewModel
     @State var word: Word
     var body: some View {
         VStack {

@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct TranslateView: View {
-    @ObservedObject var vm: DictionaryViewModel
+    @EnvironmentObject var vm: DictionaryViewModel
+    @Environment(\.managedObjectContext) var moc
     var body: some View {
         VStack {
             
@@ -38,6 +39,7 @@ struct TranslateView: View {
 
 struct TranslateView_Previews: PreviewProvider {
     static var previews: some View {
-        TranslateView(vm: DictionaryViewModel(notificationsManager: LocalNotificationManager()))
+        TranslateView()
+            .environmentObject(DictionaryViewModel(dataController: DataController()))
     }
 }

@@ -12,3 +12,24 @@ struct Word: Codable{
     var translate: String = ""
     var popularity: Int = 1
 }
+
+struct WordModel{
+    var id: String
+    var original: String
+    var translate: String
+    var popularity: Int16
+    var date: Date
+    
+//    init(id: String,
+//         original: String,
+//         translate: String,
+//         popularity: Int16,
+//         date: Date) {
+//        self.id = id
+//        self.original = original
+//        self.translate = translate
+//        self.popularity = popularity
+//        self.date = date
+//    }
+    
+}

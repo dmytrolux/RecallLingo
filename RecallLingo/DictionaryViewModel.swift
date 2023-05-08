@@ -8,7 +8,17 @@
 import MLKitTranslate
 import SwiftUI
 
+//struct WordModel{
+//    var id: String = "",
+//    var original: String = "",
+//    var translate: String = "",
+//    var popularity: Int = 1
+//}
+
 @MainActor class DictionaryViewModel: ObservableObject {
+    
+    @Published var dataController: DataController
+    
     @Published var dict: [String: Word] = UserDefaults.standard.dictionary(forKey: "Dict") as? [String: Word] ?? [:] {
         didSet{
             if let encoded = try? JSONEncoder().encode(dict){
@@ -21,7 +31,7 @@ import SwiftUI
     @Published var outputUk: String = ""
     @Published var isUniqueWord: Bool = false
     
-    @Published var notificationsManager: LocalNotificationManager
+//    @Published var notificationsManager: LocalNotificationManager
     
     var mostPopularWord: Word?{
         if !dict.isEmpty{
@@ -41,8 +51,18 @@ import SwiftUI
     private let conditions = ModelDownloadConditions(allowsCellularAccess: false,
                                                           allowsBackgroundDownloading: true)
     
-    init(notificationsManager: LocalNotificationManager){
-        self.notificationsManager = notificationsManager
+//    init(notificationsManager: LocalNotificationManager){
+//        self.notificationsManager = notificationsManager
+//        if let savedItems = UserDefaults.standard.data(forKey: "Dict"),
+//           let decodedItems = try? JSONDecoder().decode([String: Word].self, from: savedItems) {
+//            dict = decodedItems
+//        } else {
+//            dict = [String: Word]()
+//        }
+//    }
+    
+    init(dataController: DataController){
+        self.dataController = dataController
         if let savedItems = UserDefaults.standard.data(forKey: "Dict"),
            let decodedItems = try? JSONDecoder().decode([String: Word].self, from: savedItems) {
             dict = decodedItems
@@ -127,41 +147,41 @@ import SwiftUI
         return dict.values.max(by: { $0.popularity < $1.popularity })
     }
     
-    func registerNotificationCategory() {
-          let openAppAction = UNNotificationAction(identifier: "openAppAction", title: "Відкрити додаток", options: [.foreground])
-          let openWordAction = UNNotificationAction(identifier: "openWordAction", title: "Перейти до слова", options: [.foreground])
-          let closeAction = UNNotificationAction(identifier: "closeAction", title: "Закрити", options: [.destructive])
-          
-          let notificationCategory = UNNotificationCategory(identifier: "wordNotificationCategory", actions: [openAppAction, openWordAction, closeAction], intentIdentifiers: [], options: [])
-          
-          UNUserNotificationCenter.current().setNotificationCategories([notificationCategory])
-      }
+//    func registerNotificationCategory() {
+//          let openAppAction = UNNotificationAction(identifier: "openAppAction", title: "Відкрити додаток", options: [.foreground])
+//          let openWordAction = UNNotificationAction(identifier: "openWordAction", title: "Перейти до слова", options: [.foreground])
+//          let closeAction = UNNotificationAction(identifier: "closeAction", title: "Закрити", options: [.destructive])
+//
+//          let notificationCategory = UNNotificationCategory(identifier: "wordNotificationCategory", actions: [openAppAction, openWordAction, closeAction], intentIdentifiers: [], options: [])
+//
+//          UNUserNotificationCenter.current().setNotificationCategories([notificationCategory])
+//      }
       
-      func scheduleHourlyNotification() {
-          let center = UNUserNotificationCenter.current()
-          center.removeAllPendingNotificationRequests()
-          
-          for hour in 1...2 { // через це не працює
-              let content = UNMutableNotificationContent()
-              content.title = "Найпопулярніше слово"
-              content.sound = UNNotificationSound.default
-              
-//              let dict = self.dict
-//              let mostPopularWord = findMostPopularWord(dict: dict)
-              
-//              content.body = "Cлово '\(mostPopularWord.original)' має популярність \(mostPopularWord.popularity)"
-              content.body = "sss"
-//              content.categoryIdentifier = "wordNotificationCategory"
-              
-              let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(hour*600), repeats: true)
-              let request = UNNotificationRequest(identifier: "hourlyNotification", content: content, trigger: trigger)
-          center.add(request) { (error) in
-              if error != nil {
-                  print("Error scheduling notification: \(error!.localizedDescription)")
-              }
-          }
-          }
-      }
+//      func scheduleHourlyNotification() {
+//          let center = UNUserNotificationCenter.current()
+//          center.removeAllPendingNotificationRequests()
+//
+//          for hour in 1...2 { // через це не працює
+//              let content = UNMutableNotificationContent()
+//              content.title = "Найпопулярніше слово"
+//              content.sound = UNNotificationSound.default
+//
+////              let dict = self.dict
+////              let mostPopularWord = findMostPopularWord(dict: dict)
+//
+////              content.body = "Cлово '\(mostPopularWord.original)' має популярність \(mostPopularWord.popularity)"
+//              content.body = "sss"
+////              content.categoryIdentifier = "wordNotificationCategory"
+//
+//              let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(hour*600), repeats: true)
+//              let request = UNNotificationRequest(identifier: "hourlyNotification", content: content, trigger: trigger)
+//          center.add(request) { (error) in
+//              if error != nil {
+//                  print("Error scheduling notification: \(error!.localizedDescription)")
+//              }
+//          }
+//          }
+//      }
       
 //      private func findMostPopularWord(dict: [String: Word]) -> Word {
 //          var mostPopularWord = Word(original: "", translate: "", popularity: 0)
@@ -173,96 +193,96 @@ import SwiftUI
 //          return mostPopularWord
 //      }
     
-    func sendNotification() {
-        let center = UNUserNotificationCenter.current()
-        
-        let bestWord = dict.values.max { $0.popularity < $1.popularity }
-        let content = UNMutableNotificationContent()
-        content.title = "RecallLingo"
-        content.body = "\(bestWord?.original ?? "No word available") - \(bestWord?.translate ?? "No translation available")"
-        content.sound = .default
-        
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
-        let request = UNNotificationRequest(identifier: "Word of the Hour", content: content, trigger: trigger)
-        center.add(request) { (error) in
-            if error != nil {
-                print("Error scheduling notification: \(error!.localizedDescription)")
-            }
-        }
-    }
+//    func sendNotification() {
+//        let center = UNUserNotificationCenter.current()
+//
+//        let bestWord = dict.values.max { $0.popularity < $1.popularity }
+//        let content = UNMutableNotificationContent()
+//        content.title = "RecallLingo"
+//        content.body = "\(bestWord?.original ?? "No word available") - \(bestWord?.translate ?? "No translation available")"
+//        content.sound = .default
+//
+//
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+//        let request = UNNotificationRequest(identifier: "Word of the Hour", content: content, trigger: trigger)
+//        center.add(request) { (error) in
+//            if error != nil {
+//                print("Error scheduling notification: \(error!.localizedDescription)")
+//            }
+//        }
+//    }
     
-    func addNotificationSequence(){
-        guard let mostPopularWord else {return}
-        
-        let center = UNUserNotificationCenter.current()
-        
-        let addRequests = {
-            for time in 8..<22 {
-                self.addRequest(popWord: mostPopularWord,
-                                time: time,
-                                center: center)
-            }
-        }
-        
-        center.getNotificationSettings { setting in
-            if setting.authorizationStatus == .authorized{
-                addRequests()
-            } else {
-                center.requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
-                    if success{
-                        addRequests()
-                    } else {
-                        print("There will be no notification")
-                    }
-                }
-            }
-        }
-        
-        
-    }
+//    func addNotificationSequence(){
+//        guard let mostPopularWord else {return}
+//
+//        let center = UNUserNotificationCenter.current()
+//
+//        let addRequests = {
+//            for time in 8..<22 {
+//                self.addRequest(popWord: mostPopularWord,
+//                                time: time,
+//                                center: center)
+//            }
+//        }
+//
+//        center.getNotificationSettings { setting in
+//            if setting.authorizationStatus == .authorized{
+//                addRequests()
+//            } else {
+//                center.requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+//                    if success{
+//                        addRequests()
+//                    } else {
+//                        print("There will be no notification")
+//                    }
+//                }
+//            }
+//        }
+//
+//
+//    }
     
 
-    func addRequest(popWord: Word, time: Int, center:  UNUserNotificationCenter) -> Void{
-            let content = UNMutableNotificationContent()
-            content.title = popWord.original
-            content.subtitle = popWord.translate
-            content.sound = .default
-            var dateComponents = DateComponents()
-            dateComponents.hour = time
-            
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-            
-            let request = UNNotificationRequest(identifier: UUID().uuidString,
-                                                content: content,
-                                                trigger: trigger)
-            center.add(request)
-    }
+//    func addRequest(popWord: Word, time: Int, center:  UNUserNotificationCenter) -> Void{
+//            let content = UNMutableNotificationContent()
+//            content.title = popWord.original
+//            content.subtitle = popWord.translate
+//            content.sound = .default
+//            var dateComponents = DateComponents()
+//            dateComponents.hour = time
+//
+//            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+//
+//            let request = UNNotificationRequest(identifier: UUID().uuidString,
+//                                                content: content,
+//                                                trigger: trigger)
+//            center.add(request)
+//    }
    
-    func toggleNotificationPermission(isEnabled: Bool) {
-        let center = UNUserNotificationCenter.current()
-        center.getNotificationSettings { settings in
-            switch settings.authorizationStatus {
-            case .notDetermined:
-                // Запитати користувача про дозвіл на сповіщення
-                center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-                    if let error = error {
-                        print("Error: \(error.localizedDescription)")
-                    }
-                }
-            case .authorized:
-                // Встановити дозвіл на сповіщення
-                center.removeAllPendingNotificationRequests()
-                center.removeAllDeliveredNotifications()
-            case .denied:
-                // Вимкнути дозвіл на сповіщення
-                center.removeAllPendingNotificationRequests()
-                center.removeAllDeliveredNotifications()
-            default:
-                break
-            }
-        }
-    }
+//    func toggleNotificationPermission(isEnabled: Bool) {
+//        let center = UNUserNotificationCenter.current()
+//        center.getNotificationSettings { settings in
+//            switch settings.authorizationStatus {
+//            case .notDetermined:
+//                // Запитати користувача про дозвіл на сповіщення
+//                center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+//                    if let error = error {
+//                        print("Error: \(error.localizedDescription)")
+//                    }
+//                }
+//            case .authorized:
+//                // Встановити дозвіл на сповіщення
+//                center.removeAllPendingNotificationRequests()
+//                center.removeAllDeliveredNotifications()
+//            case .denied:
+//                // Вимкнути дозвіл на сповіщення
+//                center.removeAllPendingNotificationRequests()
+//                center.removeAllDeliveredNotifications()
+//            default:
+//                break
+//            }
+//        }
+//    }
 
     func printNotification(){
         let center = UNUserNotificationCenter.current()

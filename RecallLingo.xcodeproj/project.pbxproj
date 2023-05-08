@@ -16,6 +16,9 @@
 		66847BEF29DB468400CB3A8E /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BEE29DB468400CB3A8E /* Word.swift */; };
 		66847BF129DB485F00CB3A8E /* DictionaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BF029DB485F00CB3A8E /* DictionaryViewModel.swift */; };
 		66E273772A025A3600C44C60 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E273762A025A3600C44C60 /* LocalNotificationManager.swift */; };
+		66F8488E2A04706400ED071A /* DictionaryContainer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 66F8488C2A04706400ED071A /* DictionaryContainer.xcdatamodeld */; };
+		66F848902A0472B500ED071A /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F8488F2A0472B500ED071A /* DataController.swift */; };
+		66F848962A05AE8E00ED071A /* DictViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F848952A05AE8E00ED071A /* DictViewModel.swift */; };
 		66FA88CA29E702D10077C159 /* TranslateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FA88C929E702D10077C159 /* TranslateView.swift */; };
 		66FA88CC29E706C10077C159 /* DictionaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FA88CB29E706C10077C159 /* DictionaryView.swift */; };
 		66FA88D029E726A80077C159 /* StatisticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FA88CF29E726A80077C159 /* StatisticView.swift */; };
@@ -35,6 +38,9 @@
 		66847BEE29DB468400CB3A8E /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		66847BF029DB485F00CB3A8E /* DictionaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryViewModel.swift; sourceTree = "<group>"; };
 		66E273762A025A3600C44C60 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
+		66F8488D2A04706400ED071A /* Dictionary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Dictionary.xcdatamodel; sourceTree = "<group>"; };
+		66F8488F2A0472B500ED071A /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		66F848952A05AE8E00ED071A /* DictViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictViewModel.swift; sourceTree = "<group>"; };
 		66FA88C929E702D10077C159 /* TranslateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateView.swift; sourceTree = "<group>"; };
 		66FA88CB29E706C10077C159 /* DictionaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryView.swift; sourceTree = "<group>"; };
 		66FA88CF29E726A80077C159 /* StatisticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticView.swift; sourceTree = "<group>"; };
@@ -92,9 +98,12 @@
 				66FA88CB29E706C10077C159 /* DictionaryView.swift */,
 				66FA88CF29E726A80077C159 /* StatisticView.swift */,
 				66FA88D429E726FA0077C159 /* SettingsView.swift */,
+				66F848952A05AE8E00ED071A /* DictViewModel.swift */,
 				66847BEE29DB468400CB3A8E /* Word.swift */,
 				66847BF029DB485F00CB3A8E /* DictionaryViewModel.swift */,
 				66E273762A025A3600C44C60 /* LocalNotificationManager.swift */,
+				66F8488C2A04706400ED071A /* DictionaryContainer.xcdatamodeld */,
+				66F8488F2A0472B500ED071A /* DataController.swift */,
 				66847BE229DB3E8600CB3A8E /* Assets.xcassets */,
 				66847BE429DB3E8600CB3A8E /* Preview Content */,
 			);
@@ -260,13 +269,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				66FA88D829E766A50077C159 /* KeyboardHiden.swift in Sources */,
+				66F848902A0472B500ED071A /* DataController.swift in Sources */,
 				66FA88D029E726A80077C159 /* StatisticView.swift in Sources */,
 				66E273772A025A3600C44C60 /* LocalNotificationManager.swift in Sources */,
+				66F848962A05AE8E00ED071A /* DictViewModel.swift in Sources */,
 				66FA88D529E726FA0077C159 /* SettingsView.swift in Sources */,
 				66FA88CA29E702D10077C159 /* TranslateView.swift in Sources */,
 				66847BE129DB3E8400CB3A8E /* MainScreen.swift in Sources */,
 				66847BDF29DB3E8400CB3A8E /* RecallLingoApp.swift in Sources */,
 				66847BF129DB485F00CB3A8E /* DictionaryViewModel.swift in Sources */,
+				66F8488E2A04706400ED071A /* DictionaryContainer.xcdatamodeld in Sources */,
 				66FA88CC29E706C10077C159 /* DictionaryView.swift in Sources */,
 				66847BEF29DB468400CB3A8E /* Word.swift in Sources */,
 			);
@@ -473,6 +485,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		66F8488C2A04706400ED071A /* DictionaryContainer.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				66F8488D2A04706400ED071A /* Dictionary.xcdatamodel */,
+			);
+			currentVersion = 66F8488D2A04706400ED071A /* Dictionary.xcdatamodel */;
+			path = DictionaryContainer.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 66847BD329DB3E8400CB3A8E /* Project object */;
 }

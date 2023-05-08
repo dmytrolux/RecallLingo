@@ -8,35 +8,35 @@
 import SwiftUI
 
 struct MainScreen: View {
-    @StateObject var vm = DictionaryViewModel(notificationsManager: LocalNotificationManager())
+//    @StateObject var vm = DictionaryViewModel()
     @State private var selection = 0
     
     var body: some View {
         
         TabView(selection: $selection) {
             
-            TranslateView(vm: vm)
+            TranslateView()
                 .tabItem {
                     Image(systemName: "globe")
                     Text("Translate")
                 }
                 .tag(0)
             
-            DictionaryView(vm: vm)
+            DictionaryView()
                 .tabItem {
                     Image(systemName: "text.book.closed")
                     Text("Dictionary")
                 }
                 .tag(1)
             
-            StatisticView(vm: vm)
+            StatisticView()
                 .tabItem{
                     Image(systemName: "chart.line.uptrend.xyaxis")
                     Text("Statistic")
                 }
                 .tag(2)
             
-            SettingsView(vm: vm)
+            SettingsView()
                 .tabItem {
                     Image(systemName: "gearshape")
                     Text("Seting")
@@ -49,7 +49,7 @@ struct MainScreen: View {
         .onAppear(){
 //            viewModel.registerNotificationCategory()
 //            viewModel.scheduleHourlyNotification()
-            vm.addNotificationSequence()
+//            vm.addNotificationSequence()
         }
     }
 }
