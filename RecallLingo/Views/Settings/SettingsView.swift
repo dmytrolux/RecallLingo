@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject var vm: DictionaryViewModel
+    @EnvironmentObject var vm: DictViewModel
+    @EnvironmentObject var data: DataController
+    @EnvironmentObject var notificationController: LocalNotificationController
     var body: some View {
         VStack{
             Button {
-                vm.dict.removeAll()
+                data.clearAllDict()
             } label: {
                 Text("Clear dictionary")
             }
@@ -23,11 +25,11 @@ struct SettingsView: View {
 //                Text("Send Notification")
 //            })
             
-//            Toggle("Show notification", isOn: $vm.notificationsManager.isNotificationEnable)
-//
+            Toggle("Show notification", isOn: $notificationController.isNotificationEnable)
+            
             
             Button("Print Notifications") {
-                vm.printNotification()
+                
             }
         }
 
@@ -37,6 +39,5 @@ struct SettingsView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
-            .environmentObject(DictionaryViewModel(dataController: DataController()))
     }
 }

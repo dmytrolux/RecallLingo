@@ -8,48 +8,42 @@
 import SwiftUI
 
 struct MainScreen: View {
-//    @StateObject var vm = DictionaryViewModel()
+    @EnvironmentObject var vm: DictViewModel
     @State private var selection = 0
-    
     var body: some View {
         
         TabView(selection: $selection) {
-            
+
             TranslateView()
                 .tabItem {
                     Image(systemName: "globe")
                     Text("Translate")
                 }
                 .tag(0)
-            
+
             DictionaryView()
                 .tabItem {
                     Image(systemName: "text.book.closed")
                     Text("Dictionary")
                 }
                 .tag(1)
-            
+//
             StatisticView()
                 .tabItem{
                     Image(systemName: "chart.line.uptrend.xyaxis")
                     Text("Statistic")
                 }
                 .tag(2)
-            
+//
             SettingsView()
                 .tabItem {
                     Image(systemName: "gearshape")
                     Text("Seting")
                 }
                 .tag(3)
-            
-            
-            
-        }
-        .onAppear(){
-//            viewModel.registerNotificationCategory()
-//            viewModel.scheduleHourlyNotification()
-//            vm.addNotificationSequence()
+
+
+
         }
     }
 }

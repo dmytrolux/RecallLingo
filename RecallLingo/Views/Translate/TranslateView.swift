@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct TranslateView: View {
-    @EnvironmentObject var vm: DictionaryViewModel
-    @Environment(\.managedObjectContext) var moc
+    @EnvironmentObject var vm: DictViewModel
+    @EnvironmentObject var notificationController: LocalNotificationController
     var body: some View {
         VStack {
             
@@ -29,7 +29,13 @@ struct TranslateView: View {
                 .accessibilityHint("Translated text")
             
             if vm.isUniqueWord{
-                Button("Add to dictionary") { vm.addToDictionary() }
+                Button("Add to dictionary") {
+                    if notificationController.isNotificationEnable{
+                        notificationController.requestAuthorizationNotifications()
+                    }
+                    vm.addToDictionary()
+                    
+                }
             }
             
             Spacer()
@@ -40,6 +46,5 @@ struct TranslateView: View {
 struct TranslateView_Previews: PreviewProvider {
     static var previews: some View {
         TranslateView()
-            .environmentObject(DictionaryViewModel(dataController: DataController()))
     }
 }

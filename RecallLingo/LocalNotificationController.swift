@@ -1,5 +1,5 @@
 //
-//  LocalNotificationManager.swift
+//  LocalNotificationController.swift
 //  RecallLingo
 //
 //  Created by Pryshliak Dmytro on 03.05.2023.
@@ -10,7 +10,7 @@ import UserNotifications
 
 //в цьому класі прописати все, що стосується саме нотифікацій: від дозволу до їх планувальника
 @MainActor
-class LocalNotificationManager: ObservableObject {
+class LocalNotificationController: ObservableObject {
     
     let center = UNUserNotificationCenter.current()
     
@@ -28,17 +28,19 @@ class LocalNotificationManager: ObservableObject {
         isNotificationEnable = UserDefaults.standard.bool(forKey: isNotificationEnableKey)
     }
     
-
-    
-    func requestAuthorizationNotifications(){
-        self.center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-            if let error = error {
-                print("Error: \(error.localizedDescription)")
+    func requestAuthorizationNotifications() {
+        self.center.getNotificationSettings { settings in
+            if settings.authorizationStatus == .notDetermined {
+                self.center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+                    if let error = error {
+                        print("Error: \(error.localizedDescription)")
+                    }
+                }
             }
         }
     }
     #warning("change the @Word@ argument to a CoreData object")
-    func addNotification(for word: Word) {
+    func addNotification(for word: WordModel) {
         
         
         let addRequest = {

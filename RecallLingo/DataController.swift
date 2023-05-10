@@ -70,4 +70,11 @@ class DataController: ObservableObject {
         }
     }
     
+    func sortWordByDate() {
+        savedEntities.sort(by: { $0.date ?? Date() < $1.date ?? Date() })
+    }
+    func sortWordByAlphabet() {
+        savedEntities.sort(by: { $0.id ?? ""  < $1.id ?? ""})
+    }
+    
 }

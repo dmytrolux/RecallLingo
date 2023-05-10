@@ -46,17 +46,16 @@ class DictViewModel: ObservableObject {
     
     func translateText() {
         if isUnique(at: wordId) {
-            guard var word = getWordEntity(id: wordId) else {
+            prepareForTranslation()
+        }
+        else{
+            guard let word = getWordEntity(id: wordId) else {
                 print("Error: getWordEntity = nil")
                 return
             }
             recallTranslation(of: word)
             increasePopularity(word: word)
         }
-        else{
-            prepareForTranslation()
-        }
-
     }
     
     func recallTranslation(of word: WordEntity){ //або WordEntity
@@ -130,6 +129,10 @@ class DictViewModel: ObservableObject {
                 return
             }
         dataController.deleteWord(object: wordEntity)
+    }
+    
+    func removeAt(word: WordEntity){
+        dataController.deleteWord(object: word)
     }
     
     func removeAt(indexSet: IndexSet){

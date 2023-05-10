@@ -9,27 +9,37 @@ import SwiftUI
 
 @main
 struct RecallLingoApp: App {
-    let dataController = DataController()
-//    @StateObject var dataController = DataController()
-    @StateObject var vm = DictionaryViewModel(dataController: DataController())
+    static let dataController = DataController()
+    
+    @StateObject var vm = DictViewModel(dataController:  dataController)
+    @StateObject var notificationController = LocalNotificationController()
+    @Environment(\.scenePhase) private var phase
     var body: some Scene {
         WindowGroup {
             MainScreen()
-                .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
-//                .environment(\.managedObjectContext, dataController.container.viewContext)
                 .environmentObject(vm)
-        }
-    }
-    init() {
-        let center = UNUserNotificationCenter.current()
-        center.getNotificationSettings { settings in
-            if settings.authorizationStatus == .notDetermined {
-                center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-                    if let error = error {
-                        print("Error: \(error.localizedDescription)")
+                .environmentObject(Self.dataController)
+                .environmentObject(notificationController)
+                .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
+                .onChange(of: phase) { newPhase in
+                    switch phase{
+                        
+                    case .background:
+                        print("background")
+                    case .inactive:
+                        print("inactive")
+                    case .active:
+                        print("active")
+                    @unknown default:
+                        print("default")
                     }
                 }
-            }
+        }
+    }
+
+    init() {
+        if notificationController.isNotificationEnable{
+            notificationController.requestAuthorizationNotifications()
         }
     }
 }

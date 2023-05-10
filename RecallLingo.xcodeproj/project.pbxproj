@@ -14,8 +14,8 @@
 		66847BE329DB3E8600CB3A8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66847BE229DB3E8600CB3A8E /* Assets.xcassets */; };
 		66847BE629DB3E8600CB3A8E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66847BE529DB3E8600CB3A8E /* Preview Assets.xcassets */; };
 		66847BEF29DB468400CB3A8E /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BEE29DB468400CB3A8E /* Word.swift */; };
-		66847BF129DB485F00CB3A8E /* DictionaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BF029DB485F00CB3A8E /* DictionaryViewModel.swift */; };
-		66E273772A025A3600C44C60 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E273762A025A3600C44C60 /* LocalNotificationManager.swift */; };
+		669EE2292A0B08130056984E /* WordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669EE2282A0B08130056984E /* WordDetailView.swift */; };
+		66E273772A025A3600C44C60 /* LocalNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E273762A025A3600C44C60 /* LocalNotificationController.swift */; };
 		66F8488E2A04706400ED071A /* DictionaryContainer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 66F8488C2A04706400ED071A /* DictionaryContainer.xcdatamodeld */; };
 		66F848902A0472B500ED071A /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F8488F2A0472B500ED071A /* DataController.swift */; };
 		66F848962A05AE8E00ED071A /* DictViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F848952A05AE8E00ED071A /* DictViewModel.swift */; };
@@ -36,8 +36,8 @@
 		66847BE229DB3E8600CB3A8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		66847BE529DB3E8600CB3A8E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		66847BEE29DB468400CB3A8E /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
-		66847BF029DB485F00CB3A8E /* DictionaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryViewModel.swift; sourceTree = "<group>"; };
-		66E273762A025A3600C44C60 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
+		669EE2282A0B08130056984E /* WordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailView.swift; sourceTree = "<group>"; };
+		66E273762A025A3600C44C60 /* LocalNotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationController.swift; sourceTree = "<group>"; };
 		66F8488D2A04706400ED071A /* Dictionary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Dictionary.xcdatamodel; sourceTree = "<group>"; };
 		66F8488F2A0472B500ED071A /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		66F848952A05AE8E00ED071A /* DictViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictViewModel.swift; sourceTree = "<group>"; };
@@ -93,17 +93,12 @@
 			isa = PBXGroup;
 			children = (
 				66847BDE29DB3E8400CB3A8E /* RecallLingoApp.swift */,
-				66847BE029DB3E8400CB3A8E /* MainScreen.swift */,
-				66FA88C929E702D10077C159 /* TranslateView.swift */,
-				66FA88CB29E706C10077C159 /* DictionaryView.swift */,
-				66FA88CF29E726A80077C159 /* StatisticView.swift */,
-				66FA88D429E726FA0077C159 /* SettingsView.swift */,
+				669EE22A2A0B08360056984E /* Views */,
 				66F848952A05AE8E00ED071A /* DictViewModel.swift */,
-				66847BEE29DB468400CB3A8E /* Word.swift */,
-				66847BF029DB485F00CB3A8E /* DictionaryViewModel.swift */,
-				66E273762A025A3600C44C60 /* LocalNotificationManager.swift */,
-				66F8488C2A04706400ED071A /* DictionaryContainer.xcdatamodeld */,
 				66F8488F2A0472B500ED071A /* DataController.swift */,
+				66847BEE29DB468400CB3A8E /* Word.swift */,
+				66E273762A025A3600C44C60 /* LocalNotificationController.swift */,
+				66F8488C2A04706400ED071A /* DictionaryContainer.xcdatamodeld */,
 				66847BE229DB3E8600CB3A8E /* Assets.xcassets */,
 				66847BE429DB3E8600CB3A8E /* Preview Content */,
 			);
@@ -116,6 +111,51 @@
 				66847BE529DB3E8600CB3A8E /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		669EE22A2A0B08360056984E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				66847BE029DB3E8400CB3A8E /* MainScreen.swift */,
+				669EE22B2A0B08680056984E /* Translate */,
+				669EE22C2A0B088B0056984E /* Dictionary */,
+				669EE22F2A0B08BE0056984E /* Statistic */,
+				669EE2302A0B08D40056984E /* Settings */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		669EE22B2A0B08680056984E /* Translate */ = {
+			isa = PBXGroup;
+			children = (
+				66FA88C929E702D10077C159 /* TranslateView.swift */,
+			);
+			path = Translate;
+			sourceTree = "<group>";
+		};
+		669EE22C2A0B088B0056984E /* Dictionary */ = {
+			isa = PBXGroup;
+			children = (
+				66FA88CB29E706C10077C159 /* DictionaryView.swift */,
+				669EE2282A0B08130056984E /* WordDetailView.swift */,
+			);
+			path = Dictionary;
+			sourceTree = "<group>";
+		};
+		669EE22F2A0B08BE0056984E /* Statistic */ = {
+			isa = PBXGroup;
+			children = (
+				66FA88CF29E726A80077C159 /* StatisticView.swift */,
+			);
+			path = Statistic;
+			sourceTree = "<group>";
+		};
+		669EE2302A0B08D40056984E /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				66FA88D429E726FA0077C159 /* SettingsView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		66FA88D629E766450077C159 /* Extensions */ = {
@@ -271,13 +311,13 @@
 				66FA88D829E766A50077C159 /* KeyboardHiden.swift in Sources */,
 				66F848902A0472B500ED071A /* DataController.swift in Sources */,
 				66FA88D029E726A80077C159 /* StatisticView.swift in Sources */,
-				66E273772A025A3600C44C60 /* LocalNotificationManager.swift in Sources */,
+				66E273772A025A3600C44C60 /* LocalNotificationController.swift in Sources */,
 				66F848962A05AE8E00ED071A /* DictViewModel.swift in Sources */,
+				669EE2292A0B08130056984E /* WordDetailView.swift in Sources */,
 				66FA88D529E726FA0077C159 /* SettingsView.swift in Sources */,
 				66FA88CA29E702D10077C159 /* TranslateView.swift in Sources */,
 				66847BE129DB3E8400CB3A8E /* MainScreen.swift in Sources */,
 				66847BDF29DB3E8400CB3A8E /* RecallLingoApp.swift in Sources */,
-				66847BF129DB485F00CB3A8E /* DictionaryViewModel.swift in Sources */,
 				66F8488E2A04706400ED071A /* DictionaryContainer.xcdatamodeld in Sources */,
 				66FA88CC29E706C10077C159 /* DictionaryView.swift in Sources */,
 				66847BEF29DB468400CB3A8E /* Word.swift in Sources */,

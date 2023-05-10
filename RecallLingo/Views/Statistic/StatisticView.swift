@@ -8,16 +8,15 @@
 import SwiftUI
 
 struct StatisticView: View {
-    @EnvironmentObject var vm: DictionaryViewModel
-    
+    @EnvironmentObject var data: DataController
+    @EnvironmentObject var vm: DictViewModel
     var body: some View {
-        Text("All words: \(vm.dict.count)")
+        Text("All words: \(data.savedEntities.count)")
     }
 }
 
 struct StatisticView_Previews: PreviewProvider {
     static var previews: some View {
         StatisticView()
-            .environmentObject(DictionaryViewModel(dataController: DataController()))
     }
 }
