@@ -12,61 +12,84 @@ import UserNotifications
 @MainActor
 class LocalNotificationController: ObservableObject {
     
-    let center = UNUserNotificationCenter.current()
+    private let center = UNUserNotificationCenter.current()
     
-    let isNotificationEnableKey = "isNotificationEnable"
+    private let isNotificationEnableKey = "isNotificationEnable"
     
     var isNotificationEnable: Bool {
         didSet {
             UserDefaults.standard.set(isNotificationEnable, forKey: isNotificationEnableKey)
+            if !isNotificationEnable{
+                self.removeAllNotifications()
+            }
         }
     }
  
     
     init (){
-        UserDefaults.standard.register(defaults: [isNotificationEnableKey: true])
+        UserDefaults.standard.register(defaults: [isNotificationEnableKey: false])
         isNotificationEnable = UserDefaults.standard.bool(forKey: isNotificationEnableKey)
     }
     
     func requestAuthorizationNotifications() {
-        self.center.getNotificationSettings { settings in
-            if settings.authorizationStatus == .notDetermined {
-                self.center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-                    if let error = error {
-                        print("Error: \(error.localizedDescription)")
+        if !isNotificationEnable{
+            self.center.getNotificationSettings { settings in
+                if settings.authorizationStatus == .notDetermined{
+                    self.center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+                        if granted{
+                            self.isNotificationEnable = true
+                        }
+                        if let error = error {
+                            print("Error: \(error.localizedDescription)")
+                        }
                     }
                 }
             }
         }
     }
-    #warning("change the @Word@ argument to a CoreData object")
-    func addNotification(for word: WordModel) {
-        
-        
+    
+    
+    func addNotification(for word: WordEntity) {
+        guard isNotificationEnable, word.popularity > 0 else {return}
         let addRequest = {
             let content = UNMutableNotificationContent()
-            content.title = word.original
-            content.subtitle = word.translate
+            content.title = word.original ?? "Title: error"
+            content.subtitle = word.translate ?? "Subtitle: error"
             content.sound = UNNotificationSound.default
             
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
             
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        }
             
-            self.center.getNotificationSettings { settings in
-                    if settings.authorizationStatus == .authorized {
-                        addRequest()
-                    } else {
-                        self.center.requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
-                            if success {
-                                addRequest()
-                            } else if let error = error {
-                                print("Error: \(error.localizedDescription)")
-                            }
+            self.removeAllNotifications()
+            self.center.add(request)
+
+        }
+            requestNotificationAuthorization(completion: addRequest)
+        }
+    
+        private func requestNotificationAuthorization(completion: @escaping () -> Void) {
+        self.center.getNotificationSettings { settings in
+                if settings.authorizationStatus == .authorized {
+                    completion()
+                } else {
+                    self.center.requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+                        if success {
+                            self.isNotificationEnable = true
+                            completion()
+                        } else if let error = error {
+                            print("Error: \(error.localizedDescription)")
                         }
                     }
                 }
-        }
+            }
+        
+    }
+    
+    private func removeAllNotifications() {
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+    }
 }
+
 

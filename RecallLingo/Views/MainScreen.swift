@@ -9,7 +9,9 @@ import SwiftUI
 
 struct MainScreen: View {
     @EnvironmentObject var vm: DictViewModel
+    @EnvironmentObject var notificationController: LocalNotificationController
     @State private var selection = 0
+    @Binding var isPresented: Bool
     var body: some View {
         
         TabView(selection: $selection) {
@@ -45,6 +47,9 @@ struct MainScreen: View {
 
 
         }
+        .sheet(isPresented: $isPresented) {
+            WordRememberView(word: vm.mostPopularWord ?? WordEntity())
+                }
     }
 }
 
@@ -52,6 +57,6 @@ struct MainScreen: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        MainScreen()
+        MainScreen(isPresented: .constant(false))
     }
 }

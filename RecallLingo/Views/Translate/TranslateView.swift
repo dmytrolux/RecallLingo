@@ -9,7 +9,6 @@ import SwiftUI
 
 struct TranslateView: View {
     @EnvironmentObject var vm: DictViewModel
-    @EnvironmentObject var notificationController: LocalNotificationController
     var body: some View {
         VStack {
             
@@ -30,17 +29,16 @@ struct TranslateView: View {
             
             if vm.isUniqueWord{
                 Button("Add to dictionary") {
-                    if notificationController.isNotificationEnable{
-                        notificationController.requestAuthorizationNotifications()
-                    }
                     vm.addToDictionary()
-                    
                 }
             }
+            
             
             Spacer()
         }
     }
+    
+ 
 }
 
 struct TranslateView_Previews: PreviewProvider {
@@ -48,3 +46,5 @@ struct TranslateView_Previews: PreviewProvider {
         TranslateView()
     }
 }
+
+

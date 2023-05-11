@@ -11,10 +11,11 @@ struct DictionaryView: View {
     @EnvironmentObject var data: DataController
     @EnvironmentObject var vm: DictViewModel
     @State var sortByAlphabet: Bool = false
+    
     var body: some View {
         NavigationView {
             List{
-                ForEach(data.savedEntities, id: \.self) { word in
+                ForEach(data.savedEntities, id: \.id) { word in
                     NavigationLink(destination: WordDetailView(word: word)) {
                         HStack{
                             Image(systemName: "\(word.popularity).square.fill")
@@ -30,6 +31,7 @@ struct DictionaryView: View {
                 .onChange(of: sortByAlphabet) { newValue in
                     sortByAlphabet ? data.sortWordByAlphabet() : data.sortWordByDate()
                 }
+               
             }
             .navigationBarTitle("Dictionary")
         }
