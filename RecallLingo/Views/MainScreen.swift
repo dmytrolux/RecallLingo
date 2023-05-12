@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainScreen: View {
     @EnvironmentObject var vm: DictViewModel
-    @EnvironmentObject var notificationController: LocalNotificationController
+    @EnvironmentObject var lNManager: LocalNotificationManager
     @State private var selection = 0
     @Binding var isPresented: Bool
     var body: some View {
@@ -47,9 +47,12 @@ struct MainScreen: View {
 
 
         }
-        .sheet(isPresented: $isPresented) {
-            WordRememberView(word: vm.mostPopularWord ?? WordEntity())
-                }
+        .sheet(isPresented: $lNManager.isPresented) {
+            WordRememberView(vm: _vm,
+                             word: vm.mostPopularWord ?? WordEntity())
+       
+        }
+        
     }
 }
 

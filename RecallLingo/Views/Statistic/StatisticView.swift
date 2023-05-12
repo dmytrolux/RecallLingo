@@ -11,7 +11,10 @@ struct StatisticView: View {
     @EnvironmentObject var data: DataController
     @EnvironmentObject var vm: DictViewModel
     var body: some View {
-        Text("All words: \(data.savedEntities.count)")
+        VStack{
+            Text("All words: \(data.savedEntities.count)")
+            Text("Most Popular Word: \(vm.mostPopularWord?.original ?? "nil")")
+        }
     }
 }
 

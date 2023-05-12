@@ -17,9 +17,11 @@ class DictViewModel: ObservableObject {
     @Published var isUniqueWord: Bool = false
     
     var mostPopularWord: WordEntity?{
-        let sortedEntities = dataController.savedEntities.sorted{$0.popularity > $1.popularity}
-        return sortedEntities.first
+            let sortedEntities = dataController.savedEntities.sorted{$0.popularity > $1.popularity}
+            let result = sortedEntities.first
+            return result
     }
+
     
     var wordId: String{
         let formetedWord = inputEn.lowercased()
@@ -90,11 +92,7 @@ class DictViewModel: ObservableObject {
             print("add Error")
             return
         }
-        dataController.new(word: WordModel(id: wordId,
-                                           original: inputEn,
-                                           translate: outputUk,
-                                           popularity: 1,
-                                          date: Date()))
+        dataController.new(id: wordId, original: inputEn, translate: outputUk)
         clearTextFields()
         isUniqueWord = false
           
@@ -147,18 +145,7 @@ class DictViewModel: ObservableObject {
         inputEn = ""
         outputUk = ""
     }
-    
-//    func getMostPopularWord() -> WordModel? {
-//        let word = self.mostPopularWord
-//        return WordModel(id: word?.id ?? "error id",
-//                         original: word?.original ?? "error original",
-//                         translate: word?.translate ?? "error translate",
-//                         popularity: word?.popularity ?? 1)
-//    }
-    
-    
-    
-    
+
     init(dataController: DataController){
         self.dataController = dataController
     }

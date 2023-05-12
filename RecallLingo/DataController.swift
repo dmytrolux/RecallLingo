@@ -32,13 +32,13 @@ class DataController: ObservableObject {
         }
     }
     
-    func new(word: WordModel){
+    func new(id: String, original: String, translate: String){
         let newWord = WordEntity(context: container.viewContext)
-        newWord.id = word.id
-        newWord.original = word.original
-        newWord.popularity = word.popularity
-        newWord.translate = word.translate
-        newWord.date = word.date
+        newWord.id = id
+        newWord.original = original
+        newWord.popularity = Int16(1)
+        newWord.translate = translate
+        newWord.date = Date()
         
         saveData()
     }

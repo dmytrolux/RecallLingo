@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject var vm: DictViewModel
     @EnvironmentObject var data: DataController
-    @EnvironmentObject var notificationController: LocalNotificationController
+    @EnvironmentObject var notificationController: LocalNotificationManager
     var body: some View {
         VStack{
             Button {
@@ -24,8 +24,14 @@ struct SettingsView: View {
 //            }, label: {
 //                Text("Send Notification")
 //            })
-            
-            Toggle("Show notification", isOn: $notificationController.isNotificationEnable)
+            if notificationController.isGranted{
+                Toggle("Show notification", isOn: $notificationController.isNotificationEnable)
+            } else {
+                Button("Enable Notifications"){
+                    notificationController.openSetting()
+                }
+                .buttonStyle(.borderedProminent)
+            }
             
             
             Button("Print Notifications") {
