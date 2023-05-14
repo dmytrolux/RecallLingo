@@ -15,31 +15,45 @@ class LocalNotificationManager: NSObject, ObservableObject {
     private let center = UNUserNotificationCenter.current()
     private let options: UNAuthorizationOptions = [.alert, .badge, .sound]
     
-    private let isNotificationEnableKey = "isNotificationEnable"
-    
-    @Published var isGranted = false
-    
-    @Published var isNotificationEnable: Bool {
+    @Published var isGranted: Bool{
         didSet {
-            UserDefaults.standard.set(isNotificationEnable, forKey: isNotificationEnableKey)
-            if !isNotificationEnable{
+            print("isNotificationEnable4: \(UserDefaults.standard.bool(forKey: UDKey.isEnable))")
+            UserDefaults.standard.set(isGranted, forKey: UDKey.isGranted)
+            
+//            isEnable = isGranted
+            print("isNotificationEnable4: \(UserDefaults.standard.bool(forKey: UDKey.isEnable))")
+        }
+    }
+    
+    @Published var isEnable: Bool {
+        didSet {
+            print("isNotificationEnable3: \(UserDefaults.standard.bool(forKey: UDKey.isEnable))")
+            UserDefaults.standard.set(isEnable, forKey: UDKey.isEnable)
+            
+            if !isEnable{
                 self.removeAllNotifications()
                 
                 
             }
+            print("isNotificationEnable4: \(UserDefaults.standard.bool(forKey: UDKey.isEnable))")
         }
     }
     
     @Published var dataController: DataController
     @Published var isPresented = false
     
-    init (data: DataController){
+    init (data: DataController) {
+        print("05: \n isNotification: \(UserDefaults.standard.bool(forKey: UDKey.isEnable)) \n isGranted: \(UserDefaults.standard.bool(forKey: UDKey.isGranted))")
+        
         self.dataController = data
-        UserDefaults.standard.register(defaults: [isNotificationEnableKey: true])
-        isNotificationEnable = UserDefaults.standard.bool(forKey: isNotificationEnableKey)
+        
+        isEnable = UserDefaults.standard.bool(forKey: UDKey.isEnable)
+        isGranted = UserDefaults.standard.bool(forKey: UDKey.isGranted)
+        
+        print("06: \n isNotification: \(UserDefaults.standard.bool(forKey: UDKey.isEnable)) \n isGranted: \(UserDefaults.standard.bool(forKey: UDKey.isGranted))")
+        
         super.init()
         center.delegate = self
-        
     }
     
     var mostPopularWord: WordEntity?{
@@ -48,20 +62,18 @@ class LocalNotificationManager: NSObject, ObservableObject {
         return result
     }
     
-    
-    
-    
-    
     func requestAuthorization() async throws{
-        try await center.requestAuthorization(options: options)
-        try await getCurrentSetting()
-        self.isNotificationEnable = true
+        if !isGranted{
+            try await center.requestAuthorization(options: options)
+            try await getCurrentSetting()
+            print("07: \n isNotification: \(UserDefaults.standard.bool(forKey: UDKey.isEnable)) \n isGranted: \(UserDefaults.standard.bool(forKey: UDKey.isGranted))")
+        }
     }
     
     func getCurrentSetting() async throws{
         let curentSetting = await center.notificationSettings()
         isGranted = (curentSetting.authorizationStatus == .authorized)
-        print("isGranted: \(isGranted)")
+        print("08: \n isNotification: \(UserDefaults.standard.bool(forKey: UDKey.isEnable)) \n isGranted: \(UserDefaults.standard.bool(forKey: UDKey.isGranted))")
     }
     
     func openSetting(){
@@ -78,12 +90,11 @@ class LocalNotificationManager: NSObject, ObservableObject {
     func addNotification(for word: WordEntity){
         self.removeAllNotifications()
         
-        guard isNotificationEnable, word.popularity > 0 else {return}
-        
+        guard isEnable, word.popularity > 0 else {return}
         
         let content = UNMutableNotificationContent()
-        content.title = word.original ?? "Title: error"
-        content.subtitle = word.translate ?? "Subtitle: error"
+        content.title = "Remember the translation"
+        content.subtitle = word.original ?? "Subtitle: error"
         content.body = "\(word.popularity)"
         content.sound = UNNotificationSound.default
         content.badge = 1

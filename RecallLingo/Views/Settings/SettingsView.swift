@@ -25,7 +25,7 @@ struct SettingsView: View {
 //                Text("Send Notification")
 //            })
             if notificationController.isGranted{
-                Toggle("Show notification", isOn: $notificationController.isNotificationEnable)
+                Toggle("Show notification", isOn: $notificationController.isEnable)
             } else {
                 Button("Enable Notifications"){
                     notificationController.openSetting()

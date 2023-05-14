@@ -17,6 +17,7 @@ struct MainScreen: View {
         TabView(selection: $selection) {
 
             TranslateView()
+                .background(Color.myPurpleDark)
                 .tabItem {
                     Image(systemName: "globe")
                     Text("Translate")
@@ -61,5 +62,7 @@ struct MainScreen: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         MainScreen(isPresented: .constant(false))
+            .environmentObject(DictViewModel(dataController: DataController()))
+            .environmentObject(LocalNotificationManager(data: DataController()))
     }
 }
