@@ -18,22 +18,9 @@ struct SettingsView: View {
             } label: {
                 Text("Clear dictionary")
             }
-            
-//            Button(action: {
-//                vm.sendNotification()
-//            }, label: {
-//                Text("Send Notification")
-//            })
-            if notificationController.isGranted{
+
                 Toggle("Show notification", isOn: $notificationController.isEnable)
-            } else {
-                Button("Enable Notifications"){
-                    notificationController.openSetting()
-                }
-                .buttonStyle(.borderedProminent)
-            }
-            
-            
+
             Button("Print Notifications") {
                 
             }

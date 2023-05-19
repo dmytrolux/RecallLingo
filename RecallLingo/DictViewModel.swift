@@ -84,6 +84,7 @@ class DictViewModel: ObservableObject {
             }
             self.outputUk = translatedText ?? "No translation available"
             self.isInputUnique()
+            self.inputEn = ""
         }
     }
     

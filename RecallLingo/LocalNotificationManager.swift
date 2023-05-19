@@ -17,25 +17,31 @@ class LocalNotificationManager: NSObject, ObservableObject {
     
     @Published var isGranted: Bool{
         didSet {
-            print("isNotificationEnable4: \(UserDefaults.standard.bool(forKey: UDKey.isEnable))")
             UserDefaults.standard.set(isGranted, forKey: UDKey.isGranted)
-            
-//            isEnable = isGranted
-            print("isNotificationEnable4: \(UserDefaults.standard.bool(forKey: UDKey.isEnable))")
         }
     }
     
     @Published var isEnable: Bool {
         didSet {
-            print("isNotificationEnable3: \(UserDefaults.standard.bool(forKey: UDKey.isEnable))")
-            UserDefaults.standard.set(isEnable, forKey: UDKey.isEnable)
-            
-            if !isEnable{
+            if isEnable == true{
+                if !isGranted{
+                    requestAuthorization()
+                    toogleOff()
+                } else {
+                    print("Notifications are enabled")
+                }
+                
+            } else {
+                print("Notifications are disabled")
                 self.removeAllNotifications()
-                
-                
             }
-            print("isNotificationEnable4: \(UserDefaults.standard.bool(forKey: UDKey.isEnable))")
+            UserDefaults.standard.set(isEnable, forKey: UDKey.isEnable)
+
+            func toogleOff(){
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.isEnable = false
+                }
+            }
         }
     }
     
@@ -43,14 +49,10 @@ class LocalNotificationManager: NSObject, ObservableObject {
     @Published var isPresented = false
     
     init (data: DataController) {
-        print("05: \n isNotification: \(UserDefaults.standard.bool(forKey: UDKey.isEnable)) \n isGranted: \(UserDefaults.standard.bool(forKey: UDKey.isGranted))")
-        
         self.dataController = data
         
         isEnable = UserDefaults.standard.bool(forKey: UDKey.isEnable)
         isGranted = UserDefaults.standard.bool(forKey: UDKey.isGranted)
-        
-        print("06: \n isNotification: \(UserDefaults.standard.bool(forKey: UDKey.isEnable)) \n isGranted: \(UserDefaults.standard.bool(forKey: UDKey.isGranted))")
         
         super.init()
         center.delegate = self
@@ -62,18 +64,37 @@ class LocalNotificationManager: NSObject, ObservableObject {
         return result
     }
     
-    func requestAuthorization() async throws{
-        if !isGranted{
-            try await center.requestAuthorization(options: options)
-            try await getCurrentSetting()
-            print("07: \n isNotification: \(UserDefaults.standard.bool(forKey: UDKey.isEnable)) \n isGranted: \(UserDefaults.standard.bool(forKey: UDKey.isGranted))")
+//    func requestAuthorization() async throws{
+//        if !isGranted{
+//            try await center.requestAuthorization(options: options)
+//            try await getCurrentSetting()
+//        }
+//    }
+    
+    func requestAuthorization(){
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+            if success {
+                print("All set!")
+                self.center.getNotificationSettings { settings in
+                    self.isGranted = settings.authorizationStatus == .authorized
+                    if self.isGranted {
+                        self.isEnable = true
+                    }
+                }
+            } else {
+                self.openSetting()
+                if let error = error {
+                   print(error.localizedDescription)
+               }
+            }
         }
     }
+    
+    
     
     func getCurrentSetting() async throws{
         let curentSetting = await center.notificationSettings()
         isGranted = (curentSetting.authorizationStatus == .authorized)
-        print("08: \n isNotification: \(UserDefaults.standard.bool(forKey: UDKey.isEnable)) \n isGranted: \(UserDefaults.standard.bool(forKey: UDKey.isGranted))")
     }
     
     func openSetting(){

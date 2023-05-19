@@ -20,11 +20,14 @@ struct RecallLingoApp: App {
     var body: some Scene {
         WindowGroup {
             MainScreen(isPresented: $isPresented)
-                
                 .environmentObject(vm)
                 .environmentObject(lNManager)
                 .environmentObject(Self.dataController)
                 .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
+//                .onAppear(){
+//                    lNManager.requestAuthorization()
+//                }
+                
                 .onChange(of: phase, perform: { newValue in
                     if newValue == .active {
                         Task{
@@ -34,9 +37,9 @@ struct RecallLingoApp: App {
                     }
                 })
                 
-                .task{
-                    try? await lNManager.requestAuthorization()
-                }
+//                .task{
+//                    try? await lNManager.requestAuthorization()
+//                }
                 
                 .onChange(of: Self.dataController.savedEntities, perform: { newValue in
                     print("MostPopularWord: \(vm.mostPopularWord?.original ?? "") - \(vm.mostPopularWord?.popularity ?? 0)")
