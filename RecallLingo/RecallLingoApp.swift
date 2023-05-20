@@ -20,10 +20,11 @@ struct RecallLingoApp: App {
     var body: some Scene {
         WindowGroup {
             MainScreen(isPresented: $isPresented)
+                .preferredColorScheme(.dark)
                 .environmentObject(vm)
                 .environmentObject(lNManager)
                 .environmentObject(Self.dataController)
-                .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
+//                .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
 //                .onAppear(){
 //                    lNManager.requestAuthorization()
 //                }

@@ -7,99 +7,36 @@
 
 import SwiftUI
 
-//struct TranslateView: View {
-//    @EnvironmentObject var vm: DictViewModel
-//    var body: some View {
-//        NavigationView {
-//        VStack {
-//            TextField("", text: $vm.outputUk)
-//                .textFieldStyle(.roundedBorder)
-//                .accessibilityHint("Translated text")
-//            Spacer()
-//
-//            if vm.isUniqueWord{
-//                Button{
-//                    vm.addToDictionary()
-//                } label: {
-//                    Label("Add to dictionary", systemImage: "plus.square")
-//                        .padding(10)
-//                        .overlay(){
-//                            RoundedRectangle(cornerRadius: 20)
-//                                .stroke(Color.myPurpleLight, lineWidth: 1)
-//                        }
-//                        .padding(.bottom, 30)
-//                }
-//            }
-//
-//            HStack{
-//                ZStack{
-//                    if vm.outputUk.isEmpty{
-//                        HStack{
-//                            Text("Enter word")
-//                                .foregroundColor(.myPurpleLight)
-//                            Spacer()
-//                        }
-//
-//                    }
-//
-//                    TextField("", text: $vm.outputUk)
-//                }
-//                .foregroundColor(.myPurpleDark)
-//                .frame(height: 40)
-//                .padding(.horizontal, 20)
-//                .background(){
-//                    RoundedRectangle(cornerRadius: 20)
-//                }
-//                .overlay(){
-//                    RoundedRectangle(cornerRadius: 20)
-//                        .stroke(Color.myPurpleLight, lineWidth: 3)
-//                }
-//
-//                .padding(.horizontal, 15)
-//
-//
-//                Button {
-//                    vm.translateText()
-//                } label: {
-//                    Image(systemName: "paperplane")
-//                        .resizable()
-//                        .frame(width: 30, height: 30, alignment: .center)
-//                        .foregroundColor(.myPurpleLight)
-//                        .padding(.trailing, 15)
-//                }
-//            }
-//            .padding(.bottom, 20)
-//        }
-//        .background(Color.myPurpleDark)
-//        .navigationTitle("Translate")
-//
-//    }
-//
-//    }
-//
-//
-//}
-//
-//struct TranslateView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TranslateView()
-//    }
-//}
+struct TranslateView_Previews: PreviewProvider {
+    static var previews: some View {
+        TranslateView()
+            .preferredColorScheme(.dark)
+            .environmentObject(DictViewModel(dataController: DataController()))
+    }
+}
 
-
-
+struct ChatReplica: Identifiable{
+    var id: UUID
+    var userWord: String
+    var translate: String
+}
 
 struct TranslateView: View {
-    
-    
-    
     @EnvironmentObject var vm: DictViewModel
     
-    @State var messages: [ChatReplica] = []
+    @State var messages: [ChatReplica] = [
+        ChatReplica(id: UUID(), userWord: "Dog", translate: "Собака"),
+        ChatReplica(id: UUID(), userWord: "Car", translate: "Автомобіль"),
+        ChatReplica(id: UUID(), userWord: "Sky", translate: "Небо"),
+        ChatReplica(id: UUID(), userWord: "The Lord of the Rings", translate: "Володар перснів")
+    ]
+    
     @State var bufferID = UUID()
-    @State var tapppedIndex =  UUID()
+    @State var tapppedID : UUID?
     @State var isEditMode = false
     @State var isContainInDict = false //make logica
+    @State var bufferMessageTranslate = ""
+    
     
     var body: some View {
         NavigationView {
@@ -110,10 +47,11 @@ struct TranslateView: View {
                     ForEach(messages, id: \.id) { message in
                         
                         VStack{
-                            if !message.translate.isEmpty{
+                            if !message.translate.isEmpty || isEditMode{
                                 MessageTranslate(message: message,
-                                                 tappedIndex: $tapppedIndex,
-                                                 isEditMode: $isEditMode)
+                                                 tappedIndex: $tapppedID,
+                                                 isEditMode: $isEditMode,
+                                                 bufferMessageTranslate: $bufferMessageTranslate)
                                 
                             }
                             
@@ -143,6 +81,8 @@ struct TranslateView: View {
                     if isEditMode {
                         Button{
                             isEditMode = false
+                            tapppedID = nil
+
                         } label: {
                             Image(systemName: "pencil.slash")
                                 .resizable()
@@ -151,7 +91,7 @@ struct TranslateView: View {
                                 .padding(.leading, 15)
                         }
                     }
-                    
+                    //TextField
                     ZStack{
                         if vm.inputEn.isEmpty{
                             HStack{
@@ -161,9 +101,15 @@ struct TranslateView: View {
                             }
                         }
                         TextField("", text: $vm.inputEn)
+                            .disableAutocorrection(false)
+                            .textSelection(.enabled)
+                            .autocapitalization(.sentences)
+                            
+                            //onEditingChanged: { changed in
+                        
                     }
                     .foregroundColor(.myPurpleDark)
-                    .frame(height: 40)
+                    .padding(.vertical, 10)
                     .padding(.horizontal, 20)
                     .background(){
                         RoundedRectangle(cornerRadius: 20)
@@ -176,6 +122,13 @@ struct TranslateView: View {
                     
                     if isEditMode{
                         Button {
+
+                            
+                            guard let tapppedID else {print("error tapppedID") ; return}
+                            if let index = messages.firstIndex(where: {$0.id == tapppedID}){
+                                messages[index].translate = bufferMessageTranslate.capitalized
+                        }
+                            self.tapppedID = nil
                             isEditMode = false
                         } label: {
                             Image(systemName: "pencil")
@@ -191,7 +144,7 @@ struct TranslateView: View {
                             let newMessages = ChatReplica(id: id, userWord: vm.inputEn, translate: "")
                             self.messages.insert(newMessages, at: 0)
                             bufferID = id
-                            
+
                         } label: {
                             Image(systemName: "paperplane")
                                 .resizable()
@@ -200,6 +153,7 @@ struct TranslateView: View {
                                 .padding(.trailing, 15)
                         }
                     }
+                    
                 }
                 .padding(.bottom, 20)
             }
@@ -208,6 +162,7 @@ struct TranslateView: View {
             
             
         }
+        
         .onChange(of: vm.outputUk) { value in
             if !value.isEmpty{
                 print(value)
@@ -218,6 +173,12 @@ struct TranslateView: View {
                 }
             }
         }
+        .onChange(of: tapppedID) { value in
+            bufferMessageTranslate = ""
+        }
+        
+        
+        
     }
     
     
@@ -225,143 +186,6 @@ struct TranslateView: View {
 }
 
 
-struct AnimatedText: View {
-    let text: String
-    @State private var animatedText = ""
-    
-    var body: some View {
-        ZStack {
-            Text(text)
-                .opacity(0)
-            HStack{
-                Text(animatedText)
-                Spacer()
-            }
-        }
-        .onAppear {
-            animateText(text)
-        }
-    }
-    
-    func animateText(_ text: String) {
-        guard !text.isEmpty else { return }
-        
-        let firstCharacter = String(text.prefix(1))
-        let remainingText = String(text.dropFirst())
-        
-        animatedText += firstCharacter
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            animateText(remainingText)
-        }
-    }
-}
 
-struct MessageTranslate: View{
-    var message: ChatReplica
-    @Binding var tappedIndex: UUID
-    @Binding var isEditMode: Bool
-    @State private var animatedText = ""
-    @State var width: CGFloat = 0
-    
-    @State var countRan = 0
-    @State var isFirstOnApear = true
-    
-    var body: some View {
-        
-        HStack{
-            Spacer()
-            
-            HStack(){
-                Text(animatedText)
-                    .background(
-                        ZStack {
-                            Text(message.translate)
-                                .background(GeometryReader { fullGeo in
-                                    Color.clear.onAppear {
-                                        width = fullGeo.size.width
-                                    }
-                                }
-                                )
-                                .hidden()
-                        }
-                            .frame(width: .greatestFiniteMagnitude)
-                    )
-                Spacer(minLength: 0)
-            }
-            .frame(width: width)
-            
-            
-            
-            .foregroundColor(.myPurple)
-            
-            .padding()
-            .frame(minWidth: UIScreen.main.bounds.width*(1/4))
-            
-            .background(
-                tappedIndex == message.id ? Color.myPurpleLight : .myYellow
-            )
-            .cornerRadius(15)
-            .frame(maxWidth: UIScreen.main.bounds.width*(3/4), alignment: .trailing)
-            
-            .onTapGesture {
-                tappedIndex = message.id
-                isEditMode = false
-            }
-            .onAppear {
-                if isFirstOnApear{
-                    animateText(message.translate)
-                    isFirstOnApear = false
-                }
-            }
-            
-            if tappedIndex == message.id{
-                HStack{
-                    Button{
-                        //isContainInDict.toggle()
-                        
-                    } label: {
-                        Image(systemName: true ? "bookmark.fill" : "bookmark")
-                            .resizable()
-                            .frame(width: 20, height: 30, alignment: .center)
-                            .foregroundColor(.myPurpleLight)
-                    }
-                    .disabled(isEditMode)
-                    
-                    Button{
-                        isEditMode = true
-                    } label: {
-                        Image(systemName: isEditMode ? "pencil.circle.fill" : "pencil.circle")
-                            .resizable()
-                            .frame(width: 30, height: 30, alignment: .center)
-                            .foregroundColor(.myPurpleLight)
-                    }
-                    
-                }
-            }
-            
-        }
-        .rotationEffect(.degrees(180))
-        .scaleEffect(x: -1, y: 1, anchor: .center)
-    }
-    
-    func animateText(_ text: String) {
-        guard !text.isEmpty else { return }
-        
-        let firstCharacter = String(text.prefix(1))
-        let remainingText = String(text.dropFirst())
-        
-        animatedText += firstCharacter
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-            animateText(remainingText)
-        }
-    }
-    
-}
 
-struct ChatReplica: Identifiable{
-    var id: UUID
-    var userWord: String
-    var translate: String
-}
+

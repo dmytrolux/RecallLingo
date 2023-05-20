@@ -82,7 +82,7 @@ class DictViewModel: ObservableObject {
                 self.outputUk = "Error translating text"
                 return
             }
-            self.outputUk = translatedText ?? "No translation available"
+            self.outputUk = translatedText?.capitalized ?? "No translation available"
             self.isInputUnique()
             self.inputEn = ""
         }
