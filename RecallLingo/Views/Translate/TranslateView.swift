@@ -25,9 +25,10 @@ struct TranslateView: View {
     @EnvironmentObject var vm: DictViewModel
     
     @State var messages: [ChatReplica] = [
-        ChatReplica(id: UUID(), userWord: "Dog", translate: "Собака"),
+        ChatReplica(id: UUID(), userWord: "We must all face the choice between what is right and what is easy", translate: "Ми всі повинні обирати між тим, що правильно і тим, що просто "),
+        ChatReplica(id: UUID(), userWord: "The will to win the desire to succeed, the urge to reach your full potential… these are the keys that will unlock the door to personal excellence. Confucius", translate: "Воля до перемоги, бажання домогтися успіху, прагнення повністю розкрити свої можливості… ось ті ключі, які відкриють двері до особистої досконалості. Конфуцій"),
         ChatReplica(id: UUID(), userWord: "Car", translate: "Автомобіль"),
-        ChatReplica(id: UUID(), userWord: "Sky", translate: "Небо"),
+        ChatReplica(id: UUID(), userWord: "The truth was that she was a woman before she was a scientist.", translate: "Небо"),
         ChatReplica(id: UUID(), userWord: "The Lord of the Rings", translate: "Володар перснів")
     ]
     
@@ -36,122 +37,47 @@ struct TranslateView: View {
     @State var isEditMode = false
     @State var isContainInDict = false //make logica
     @State var bufferMessageTranslate = ""
-    
+    @State private var keyboardOffset: CGFloat = 0
     
     var body: some View {
         NavigationView {
             VStack{
-                Spacer()
-                
                 ScrollView(showsIndicators: true){
-                    ForEach(messages, id: \.id) { message in
-                        
-                        VStack{
-                            if !message.translate.isEmpty || isEditMode{
-                                MessageTranslate(message: message,
-                                                 tappedIndex: $tapppedID,
-                                                 isEditMode: $isEditMode,
-                                                 bufferMessageTranslate: $bufferMessageTranslate)
+                        ForEach(messages, id: \.id) { message in
+                            VStack{
+                                if !message.translate.isEmpty || isEditMode{
+                                    MessageTranslate(message: message,
+                                                     tappedIndex: $tapppedID,
+                                                     isEditMode: $isEditMode,
+                                                     bufferMessageTranslate: $bufferMessageTranslate)
+                                }
                                 
+                                MessageUser(message: message)
                             }
-                            
-                            HStack{
-                                Text(message.userWord)
-                                    .foregroundColor(.myYellow)
-                                    .padding()
-                                    .frame(minWidth: UIScreen.main.bounds.width*(1/4))
-                                    .background(Color.myPurple)
-                                    .cornerRadius(15)
-                                    .frame(maxWidth: UIScreen.main.bounds.width*(3/4), alignment: .leading)
-                                Spacer()
-                            }
-                            .rotationEffect(.degrees(180))
-                            .scaleEffect(x: -1, y: 1, anchor: .center)
+                            .padding(.horizontal, 15)
+                            .padding(.bottom, 10)
                         }
-                        .cornerRadius(15)
-                        .padding(.horizontal, 15)
-                        .padding(.bottom, 10)
-                        
-                    }
                 }
+               
                 .rotationEffect(.degrees(180))
                 .scaleEffect(x: -1, y: 1, anchor: .center)
+                .onTapGesture {
+                    hideKeyboard()
+                }
                 
+                //Chat Panel
                 HStack(alignment: .center){
+                    
                     if isEditMode {
-                        Button{
-                            isEditMode = false
-                            tapppedID = nil
-
-                        } label: {
-                            Image(systemName: "pencil.slash")
-                                .resizable()
-                                .frame(width: 30, height: 30, alignment: .center)
-                                .foregroundColor(.myPurpleLight)
-                                .padding(.leading, 15)
-                        }
+                       editCancelView
                     }
-                    //TextField
-                    ZStack{
-                        if vm.inputEn.isEmpty{
-                            HStack{
-                                Text("Enter word")
-                                    .foregroundColor(.myPurpleLight)
-                                Spacer()
-                            }
-                        }
-                        TextField("", text: $vm.inputEn)
-                            .disableAutocorrection(false)
-                            .textSelection(.enabled)
-                            .autocapitalization(.sentences)
-                            
-                            //onEditingChanged: { changed in
-                        
-                    }
-                    .foregroundColor(.myPurpleDark)
-                    .padding(.vertical, 10)
-                    .padding(.horizontal, 20)
-                    .background(){
-                        RoundedRectangle(cornerRadius: 20)
-                    }
-                    .overlay(){
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.myPurpleLight, lineWidth: 3)
-                    }
-                    .padding(.horizontal, 15)
+                    
+                    CustomTextField()
                     
                     if isEditMode{
-                        Button {
-
-                            
-                            guard let tapppedID else {print("error tapppedID") ; return}
-                            if let index = messages.firstIndex(where: {$0.id == tapppedID}){
-                                messages[index].translate = bufferMessageTranslate.capitalized
-                        }
-                            self.tapppedID = nil
-                            isEditMode = false
-                        } label: {
-                            Image(systemName: "pencil")
-                                .resizable()
-                                .frame(width: 30, height: 30, alignment: .center)
-                                .foregroundColor(.myPurpleLight)
-                                .padding(.trailing, 15)
-                        }
+                        editDoneView
                     } else {
-                        Button {
-                            vm.translateText()
-                            let id = UUID()
-                            let newMessages = ChatReplica(id: id, userWord: vm.inputEn, translate: "")
-                            self.messages.insert(newMessages, at: 0)
-                            bufferID = id
-
-                        } label: {
-                            Image(systemName: "paperplane")
-                                .resizable()
-                                .frame(width: 30, height: 30, alignment: .center)
-                                .foregroundColor(.myPurpleLight)
-                                .padding(.trailing, 15)
-                        }
+                        translationSendButtonView
                     }
                     
                 }
@@ -159,7 +85,11 @@ struct TranslateView: View {
             }
             .background(Color.myPurpleDark)
             .navigationTitle("Translate")
-            
+            .alert(item: $vm.isShowAlert){ show in
+                Alert(title: Text("Error"),
+                      message: Text(show.name),
+                      dismissButton: .cancel())
+            }
             
         }
         
@@ -170,6 +100,8 @@ struct TranslateView: View {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         messages[index].translate = value
                     }
+                } else {
+                    print("ereor index")
                 }
             }
         }
@@ -177,11 +109,59 @@ struct TranslateView: View {
             bufferMessageTranslate = ""
         }
         
-        
-        
     }
     
+    var editCancelView: some View{
+        Button{
+            isEditMode = false
+            tapppedID = nil
+            
+        } label: {
+            Image(systemName: "pencil.slash")
+                .resizable()
+                .frame(width: 30, height: 30, alignment: .center)
+                .foregroundColor(.myPurpleLight)
+                .padding(.leading, 15)
+        }
+    }
     
+    var editDoneView: some View{
+        Button {
+            guard let tapppedID else {print("error tapppedID") ; return}
+            if let index = messages.firstIndex(where: {$0.id == tapppedID}){
+                messages[index].translate = bufferMessageTranslate.capitalized
+            }
+            self.tapppedID = nil
+            isEditMode = false
+        } label: {
+            Image(systemName: "pencil")
+                .resizable()
+                .frame(width: 30, height: 30, alignment: .center)
+                .foregroundColor(.myPurpleLight)
+                .padding(.trailing, 15)
+        }
+    }
+    
+    var translationSendButtonView: some View{
+        Button {
+            vm.translateText()
+            let id = UUID()
+            let newMessages = ChatReplica(id: id, userWord: vm.inputEn, translate: "")
+            self.messages.insert(newMessages, at: 0)
+            bufferID = id
+            
+        } label: {
+            Image(systemName: "paperplane")
+                .resizable()
+                .frame(width: 30, height: 30, alignment: .center)
+                .foregroundColor(vm.networkMonitor.isConnected ? .myPurpleLight : .red )
+                .padding(.trailing, 15)
+        }
+    }
+    
+    private func hideKeyboard() {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
     
 }
 

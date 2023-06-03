@@ -15,7 +15,6 @@ struct MainScreen: View {
     var body: some View {
         
         TabView(selection: $selection) {
-
             TranslateView()
                 .background(Color.myPurpleDark)
                 .tabItem {

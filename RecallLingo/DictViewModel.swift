@@ -9,12 +9,21 @@
 import MLKitTranslate
 import SwiftUI
 
+struct ShowAlert: Identifiable {
+    var id: String { name }
+    let name: String
+}
+
 @MainActor
 class DictViewModel: ObservableObject {
     @Published var dataController: DataController
+    @Published var networkMonitor: NetworkMonitor
     @Published var inputEn: String = ""
     @Published var outputUk: String = ""
     @Published var isUniqueWord: Bool = false
+    @AppStorage("isLanguageModelDownloaded") var isLanguageModelDownloaded: Bool = false
+    @Published var textAlert = ""
+    @Published var isShowAlert: ShowAlert?
     
     var mostPopularWord: WordEntity?{
             let sortedEntities = dataController.savedEntities.sorted{$0.popularity > $1.popularity}
@@ -28,16 +37,17 @@ class DictViewModel: ObservableObject {
                         .trimmingCharacters(in: .whitespaces)
                         .replacingOccurrences(of: "'", with: "")
                         .replacingOccurrences(of: "’", with: "")
-                        .replacingOccurrences(of: " ", with: "_")
+                        .replacingOccurrences(of: ",", with: "")
+                        .replacingOccurrences(of: " ", with: "")
         return formetedWord
     }
     
-     let translator = Translator.translator(options: TranslatorOptions(sourceLanguage: .english,
-                                                                       targetLanguage: .ukrainian))
+    let translator = Translator.translator(options: TranslatorOptions(sourceLanguage: .english, targetLanguage: .ukrainian))
     
-     let conditions = ModelDownloadConditions(allowsCellularAccess: false,
-                                              allowsBackgroundDownloading: true)
+    let conditions = ModelDownloadConditions(allowsCellularAccess: false,
+                                             allowsBackgroundDownloading: true)
     
+
     func isUnique(at wordId: String) -> Bool {
         return !dataController.savedEntities.contains{$0.id == wordId}
     }
@@ -69,17 +79,26 @@ class DictViewModel: ObservableObject {
     }
     
      func prepareForTranslation(){
-        translator.downloadModelIfNeeded(with: conditions) { error in
-            guard error == nil else { return }
-            self.startTranslating()
-        }
+         if isLanguageModelDownloaded{
+             self.startTranslating()
+         } else if networkMonitor.isConnected{
+             translator.downloadModelIfNeeded(with: conditions) { error in
+                 if let error = error {
+                     self.isShowAlert = ShowAlert(name: "Error translating text: \(error.localizedDescription)")
+                 } else {
+                     self.startTranslating()
+                     self.isLanguageModelDownloaded = true
+                 }
+             }
+         } else {
+             self.isShowAlert = ShowAlert(name: "No internet connection. \n Please enable your internet connection to continue using our services.")
+         }
     }
     
     func startTranslating() {
         translator.translate(inputEn) { translatedText, error in
             if let error = error {
-                print("Error translating text: \(error)")
-                self.outputUk = "Error translating text"
+                self.isShowAlert = ShowAlert(name: "Error translating text: \(error.localizedDescription)")
                 return
             }
             self.outputUk = translatedText?.capitalized ?? "No translation available"
@@ -149,5 +168,8 @@ class DictViewModel: ObservableObject {
 
     init(dataController: DataController){
         self.dataController = dataController
+        self.networkMonitor = NetworkMonitor()
+//        self.translator = Translator.translator(options: TranslatorOptions(sourceLanguage: .english, targetLanguage: .ukrainian))
+        
     }
 }

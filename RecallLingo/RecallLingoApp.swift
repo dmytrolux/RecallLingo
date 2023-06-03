@@ -19,6 +19,7 @@ struct RecallLingoApp: App {
     @State private var isPresented = false
     var body: some Scene {
         WindowGroup {
+//            ContentView()
             MainScreen(isPresented: $isPresented)
                 .preferredColorScheme(.dark)
                 .environmentObject(vm)
@@ -87,5 +88,27 @@ struct RecallLingoApp: App {
         }
         print("07: \n isNotification: \(UserDefaults.standard.bool(forKey: UDKey.isEnable)) \n isGranted: \(UserDefaults.standard.bool(forKey: UDKey.isGranted))")
         
+    }
+}
+
+
+
+struct ContentView: View {
+    var body: some View {
+        NavigationView {
+            GeometryReader { geometry in
+                ScrollView {
+                    VStack(spacing: 70){
+                        Text("Text")
+                        Text("Text")
+                        Text("Text")
+                    }
+                }
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .background(Color.green.onTapGesture {
+                    print("Текст для відпринту")
+                })
+            }
+        }
     }
 }

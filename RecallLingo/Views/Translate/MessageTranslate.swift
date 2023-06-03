@@ -15,6 +15,7 @@ struct MessageTranslate: View{
     @Binding var isEditMode: Bool
     @State var animatedText = ""
     @State var width: CGFloat = 0
+//    @State var height: CGFloat = 0
     
     @State var countRan = 0
     @State var isFirstOnApear = true
@@ -29,31 +30,39 @@ struct MessageTranslate: View{
                 if isEditMessage{
                     Text(bufferMessageTranslate)
                 } else {
-                    HStack(){
-                        Text(animatedText)
-                        
-                        //hiden Text to get the width of this message
-                            .background(
-                                ZStack {
-                                    Text(message.translate)
-                                        .background(GeometryReader { fullGeo in
-                                            Color.clear.onAppear {
-                                                width = fullGeo.size.width
+                    VStack{
+                        HStack(){
+                            Text(animatedText)
+                            
+                            //hiden Text to get the width of this message
+                                .background(
+                                    ZStack {
+                                        Text(message.translate)
+                                            .background(GeometryReader { fullGeo in
+                                                Color.clear.onAppear {
+                                                    width = fullGeo.size.width
+//                                                    height = fullGeo.size.height
+                                                }
                                             }
-                                        }
-                                        )
-                                        .hidden()
-                                }
-                                    .frame(width: .greatestFiniteMagnitude)
-                            )
-                        Spacer(minLength: 0)
+                                            ).hidden()
+                                    }
+                                        .frame(maxWidth: UIScreen.main.bounds.width*(3/4)-30)
+                                        .frame(width: .greatestFiniteMagnitude)
+//                                        .frame(height: .greatestFiniteMagnitude)
+                                        
+                                )
+                            Spacer(minLength: 0)
+                        }
+                        Spacer(minLength: 0) 
                     }
                 }
             }
+            
             .frame(width: isEditMessage ?  nil : width)
+//            .frame(height: isEditMessage ?  nil : height )
             .foregroundColor(.myPurple)
-            .padding(.horizontal)
-            .frame(minWidth: UIScreen.main.bounds.width*(1/4), minHeight: 50)
+            .padding()
+            .frame(minWidth: UIScreen.main.bounds.width*(1/4))
             .background(
                 ZStack{
                     tappedIndex == message.id ? Color.myWhite : Color.myYellow
@@ -66,6 +75,7 @@ struct MessageTranslate: View{
             .cornerRadius(15)
             
             .frame(maxWidth: UIScreen.main.bounds.width*(3/4), alignment: .trailing)
+//            .frame(maxHeight: UIScreen.main.bounds.height*(1/2), alignment: .top)
 
             .onAppear {
                 if isFirstOnApear{
@@ -155,14 +165,14 @@ struct MessageTranslate: View{
     
 }
 
-struct MessageTranslate_Previews: PreviewProvider {
-    static var previews: some View {
-        MessageTranslate(message: ChatReplica(id: UUID(),
-                                              userWord: "Dog",
-                                              translate: "Собака"),
-                         tappedIndex: .constant(nil),
-                         isEditMode: .constant(false),
-                         bufferMessageTranslate: .constant("Hello"))
-            .environmentObject(DictViewModel(dataController: DataController()))
-    }
-}
+//struct MessageTranslate_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MessageTranslate(message: ChatReplica(id: UUID(),
+//                                              userWord: "Dog",
+//                                              translate: "Собака"),
+//                         tappedIndex: .constant(nil),
+//                         isEditMode: .constant(false),
+//                         bufferMessageTranslate: .constant("Hello"))
+//            .environmentObject(DictViewModel(dataController: DataController()))
+//    }
+//}
