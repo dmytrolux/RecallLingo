@@ -19,16 +19,11 @@ struct RecallLingoApp: App {
     @State private var isPresented = false
     var body: some Scene {
         WindowGroup {
-//            ContentView()
             MainScreen(isPresented: $isPresented)
                 .preferredColorScheme(.dark)
                 .environmentObject(vm)
                 .environmentObject(lNManager)
                 .environmentObject(Self.dataController)
-//                .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
-//                .onAppear(){
-//                    lNManager.requestAuthorization()
-//                }
                 
                 .onChange(of: phase, perform: { newValue in
                     if newValue == .active {

@@ -25,10 +25,10 @@ struct TranslateView: View {
     @EnvironmentObject var vm: DictViewModel
     
     @State var messages: [ChatReplica] = [
-        ChatReplica(id: UUID(), userWord: "We must all face the choice between what is right and what is easy", translate: "Ми всі повинні обирати між тим, що правильно і тим, що просто "),
-        ChatReplica(id: UUID(), userWord: "The will to win the desire to succeed, the urge to reach your full potential… these are the keys that will unlock the door to personal excellence. Confucius", translate: "Воля до перемоги, бажання домогтися успіху, прагнення повністю розкрити свої можливості… ось ті ключі, які відкриють двері до особистої досконалості. Конфуцій"),
-        ChatReplica(id: UUID(), userWord: "Car", translate: "Автомобіль"),
-        ChatReplica(id: UUID(), userWord: "The truth was that she was a woman before she was a scientist.", translate: "Небо"),
+//        ChatReplica(id: UUID(), userWord: "We must all face the choice between what is right and what is easy", translate: "Ми всі повинні обирати між тим, що правильно і тим, що просто "),
+//        ChatReplica(id: UUID(), userWord: "The will to win the desire to succeed, the urge to reach your full potential… these are the keys that will unlock the door to personal excellence. Confucius", translate: "Воля до перемоги, бажання домогтися успіху, прагнення повністю розкрити свої можливості… ось ті ключі, які відкриють двері до особистої досконалості. Конфуцій"),
+//        ChatReplica(id: UUID(), userWord: "Car", translate: "Автомобіль"),
+//        ChatReplica(id: UUID(), userWord: "The truth was that she was a woman before she was a scientist.", translate: "Небо"),
         ChatReplica(id: UUID(), userWord: "The Lord of the Rings", translate: "Володар перснів")
     ]
     
@@ -95,10 +95,11 @@ struct TranslateView: View {
         
         .onChange(of: vm.outputUk) { value in
             if !value.isEmpty{
-                print(value)
+                print("Переклад: \(value)")
                 if let index = messages.firstIndex(where: {$0.id == bufferID}){
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         messages[index].translate = value
+                        vm.clearTextFields()
                     }
                 } else {
                     print("ereor index")

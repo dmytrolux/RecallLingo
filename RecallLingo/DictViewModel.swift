@@ -56,6 +56,7 @@ class DictViewModel: ObservableObject {
         return dataController.savedEntities.first { $0.id == id }
     }
     
+    ///Якщо слово відсутнє в БД, то перекладаємо через MLKitTranslate, інакше дістаємо переклад з БД
     func translateText() {
         if isUnique(at: wordId) {
             prepareForTranslation()
@@ -65,12 +66,14 @@ class DictViewModel: ObservableObject {
                 print("Error: getWordEntity = nil")
                 return
             }
+            
             recallTranslation(of: word)
             increasePopularity(word: word)
         }
     }
     
-    func recallTranslation(of word: WordEntity){ //або WordEntity
+    ///
+    func recallTranslation(of word: WordEntity){
         guard let translate = word.translate else {
             print("Error: WordEntity.translate = nil")
             return
@@ -78,6 +81,7 @@ class DictViewModel: ObservableObject {
         outputUk = translate
     }
     
+    ///Перекладаємо у випадку наявності мовної моделі, або завантажуємо її і перекладаємо, якщо не вдається завантажити її через відсутність інтернету то просимо користувача увімкнути інтернет
      func prepareForTranslation(){
          if isLanguageModelDownloaded{
              self.startTranslating()
@@ -95,32 +99,35 @@ class DictViewModel: ObservableObject {
          }
     }
     
+        ///Перекладаємо потрібне слово, відображаємо його в чаті, зберігаємо його в БД
     func startTranslating() {
         translator.translate(inputEn) { translatedText, error in
             if let error = error {
                 self.isShowAlert = ShowAlert(name: "Error translating text: \(error.localizedDescription)")
                 return
             }
-            self.outputUk = translatedText?.capitalized ?? "No translation available"
-            self.isInputUnique()
-            self.inputEn = ""
+            
+            self.outputUk = translatedText ?? "No translation available"
+            self.addToDictionary()
+//            self.isInputUnique()
+            
         }
     }
     
     func addToDictionary(){
-        guard !inputEn.isEmpty, isUnique(at: wordId) else {
+        guard !inputEn.isEmpty else {
             print("add Error")
             return
         }
+        print("id: \(wordId), original: \(inputEn), translate: \(outputUk)")
         dataController.new(id: wordId, original: inputEn, translate: outputUk)
-        clearTextFields()
-        isUniqueWord = false
-          
+//        clearTextFields()
+//        isUniqueWord = false
     }
     
-    func isInputUnique(){
-        isUniqueWord = !dataController.savedEntities.contains{$0.id == wordId}
-    }
+//    func isInputUnique(){
+//        isUniqueWord = !dataController.savedEntities.contains{$0.id == wordId}
+//    }
     
     func increasePopularity(word: WordEntity) {
         guard dataController.savedEntities.contains(word) else {

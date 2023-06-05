@@ -5,6 +5,7 @@
 //  Created by Pryshliak Dmytro on 12.04.2023.
 //
 
+import HidableTabView
 import SwiftUI
 
 struct DictionaryView: View {
@@ -24,23 +25,29 @@ struct DictionaryView: View {
                                 .foregroundColor(.gray)
                             Spacer()
                                 .frame(width: 20)
-                            Text("\(word.original?.capitalized ?? "")")
+                            Text("\(word.original ?? "")")
                         }
                     }
                 }
                 .onChange(of: sortByAlphabet) { newValue in
                     sortByAlphabet ? data.sortWordByAlphabet() : data.sortWordByDate()
                 }
-               
             }
             .navigationBarTitle("Dictionary")
+            .onAppear(){
+                UITabBar.showTabBar(animated: true)
+            }
         }
+        
     }
 }
 
 struct DictionaryView_Previews: PreviewProvider {
     static var previews: some View {
         DictionaryView()
+            .preferredColorScheme(.dark)
+            .environmentObject(DictViewModel(dataController: DataController()))
+            .environmentObject(DataController())
     }
 }
 
