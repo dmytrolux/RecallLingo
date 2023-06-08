@@ -10,8 +10,10 @@ import Combine
 import UserNotifications
 
 
+
 @main
 struct RecallLingoApp: App {
+    
     static let dataController = DataController()
     @StateObject var vm = DictViewModel(dataController:  dataController)
     @StateObject var lNManager = LocalNotificationManager(data:  dataController)

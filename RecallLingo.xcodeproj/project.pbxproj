@@ -10,6 +10,7 @@
 		0FDD6AF52F2781874D53860E /* Pods_RecallLingo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC65256C5D1978619E61C04 /* Pods_RecallLingo.framework */; };
 		6618605C29DC21AA00C5DFA5 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6618605B29DC21AA00C5DFA5 /* .gitignore */; };
 		662D853D2A117A1C0065DCF6 /* UDKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662D853C2A117A1C0065DCF6 /* UDKey.swift */; };
+		662DBD412A32300B00CCE93F /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662DBD402A32300B00CCE93F /* ChatViewModel.swift */; };
 		664BE1B62A25FCA000E1B577 /* MessageUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BE1B52A25FCA000E1B577 /* MessageUser.swift */; };
 		664BE1B82A26117200E1B577 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BE1B72A26117200E1B577 /* CustomTextField.swift */; };
 		664BE1BA2A267E2D00E1B577 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BE1B92A267E2D00E1B577 /* NetworkMonitor.swift */; };
@@ -38,6 +39,7 @@
 		2B664026F391B2FD7E05BB8B /* Pods-RecallLingo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecallLingo.debug.xcconfig"; path = "Target Support Files/Pods-RecallLingo/Pods-RecallLingo.debug.xcconfig"; sourceTree = "<group>"; };
 		6618605B29DC21AA00C5DFA5 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		662D853C2A117A1C0065DCF6 /* UDKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UDKey.swift; sourceTree = "<group>"; };
+		662DBD402A32300B00CCE93F /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		664BE1B52A25FCA000E1B577 /* MessageUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageUser.swift; sourceTree = "<group>"; };
 		664BE1B72A26117200E1B577 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		664BE1B92A267E2D00E1B577 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				66F8488C2A04706400ED071A /* DictionaryContainer.xcdatamodeld */,
 				66847BE229DB3E8600CB3A8E /* Assets.xcassets */,
 				66847BE429DB3E8600CB3A8E /* Preview Content */,
+				662DBD402A32300B00CCE93F /* ChatViewModel.swift */,
 			);
 			path = RecallLingo;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				662D853D2A117A1C0065DCF6 /* UDKey.swift in Sources */,
 				664BE1BA2A267E2D00E1B577 /* NetworkMonitor.swift in Sources */,
 				669EE2332A0C5EF60056984E /* WordRememberView.swift in Sources */,
+				662DBD412A32300B00CCE93F /* ChatViewModel.swift in Sources */,
 				66FA88CC29E706C10077C159 /* DictionaryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

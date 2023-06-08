@@ -10,9 +10,11 @@ import Foundation
 
 class DataController: ObservableObject {
     let container = NSPersistentContainer(name: "DictionaryContainer")
-    @Published var savedEntities: [WordEntity] = []
-    
-    init() {
+    @Published var savedEntities: [WordEntity]
+    init(savedEntities: [WordEntity] = []) {
+        
+        self.savedEntities = savedEntities
+        
         container.loadPersistentStores { description, error in
             if let error {
                 print("Core Data failed to load: \(error.localizedDescription)")

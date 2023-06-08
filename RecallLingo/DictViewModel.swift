@@ -18,12 +18,20 @@ struct ShowAlert: Identifiable {
 class DictViewModel: ObservableObject {
     @Published var dataController: DataController
     @Published var networkMonitor: NetworkMonitor
-    @Published var inputEn: String = ""
-    @Published var outputUk: String = ""
+    @Published var translateRequest: String = ""
+    @Published var translateResponse: String = ""
     @Published var isUniqueWord: Bool = false
     @AppStorage("isLanguageModelDownloaded") var isLanguageModelDownloaded: Bool = false
     @Published var textAlert = ""
     @Published var isShowAlert: ShowAlert?
+    
+    @Published var messages: [ChatReplica] = [
+        //        ChatReplica(id: UUID(), userWord: "We must all face the choice between what is right and what is easy", translate: "Ми всі повинні обирати між тим, що правильно і тим, що просто "),
+        //        ChatReplica(id: UUID(), userWord: "The will to win the desire to succeed, the urge to reach your full potential… these are the keys that will unlock the door to personal excellence. Confucius", translate: "Воля до перемоги, бажання домогтися успіху, прагнення повністю розкрити свої можливості… ось ті ключі, які відкриють двері до особистої досконалості. Конфуцій"),
+        //        ChatReplica(id: UUID(), userWord: "Car", translate: "Автомобіль"),
+        //        ChatReplica(id: UUID(), userWord: "The truth was that she was a woman before she was a scientist.", translate: "Небо"),
+                ChatReplica(id: UUID(), userWord: "The Lord of the Rings", translate: "Володар перснів")
+            ]
     
     var mostPopularWord: WordEntity?{
             let sortedEntities = dataController.savedEntities.sorted{$0.popularity > $1.popularity}
@@ -33,7 +41,7 @@ class DictViewModel: ObservableObject {
 
     
     var wordId: String{
-        let formetedWord = inputEn.lowercased()
+        let formetedWord = translateRequest.lowercased()
                         .trimmingCharacters(in: .whitespaces)
                         .replacingOccurrences(of: "'", with: "")
                         .replacingOccurrences(of: "’", with: "")
@@ -78,7 +86,7 @@ class DictViewModel: ObservableObject {
             print("Error: WordEntity.translate = nil")
             return
         }
-        outputUk = translate
+        translateResponse = translate
     }
     
     ///Перекладаємо у випадку наявності мовної моделі, або завантажуємо її і перекладаємо, якщо не вдається завантажити її через відсутність інтернету то просимо користувача увімкнути інтернет
@@ -101,13 +109,13 @@ class DictViewModel: ObservableObject {
     
         ///Перекладаємо потрібне слово, відображаємо його в чаті, зберігаємо його в БД
     func startTranslating() {
-        translator.translate(inputEn) { translatedText, error in
+        translator.translate(translateRequest) { translatedText, error in
             if let error = error {
                 self.isShowAlert = ShowAlert(name: "Error translating text: \(error.localizedDescription)")
                 return
             }
             
-            self.outputUk = translatedText ?? "No translation available"
+            self.translateResponse = translatedText ?? "No translation available"
             self.addToDictionary()
 //            self.isInputUnique()
             
@@ -115,14 +123,23 @@ class DictViewModel: ObservableObject {
     }
     
     func addToDictionary(){
-        guard !inputEn.isEmpty else {
+        guard !translateRequest.isEmpty else {
             print("add Error")
             return
         }
-        print("id: \(wordId), original: \(inputEn), translate: \(outputUk)")
-        dataController.new(id: wordId, original: inputEn, translate: outputUk)
+        print("id: \(wordId), original: \(translateRequest), translate: \(translateResponse)")
+        dataController.new(id: wordId, original: translateRequest, translate: translateResponse)
 //        clearTextFields()
 //        isUniqueWord = false
+    }
+    
+    func editTranslationThisWord(to translate: String){
+        guard let word = getWordEntity(id: wordId) else {
+            print("Error: getWordEntity = nil")
+            return
+        }
+        word.translate = translate
+        dataController.saveData()
     }
     
 //    func isInputUnique(){
@@ -169,8 +186,8 @@ class DictViewModel: ObservableObject {
     
     
     func clearTextFields(){
-        inputEn = ""
-        outputUk = ""
+        translateRequest = ""
+        translateResponse = ""
     }
 
     init(dataController: DataController){

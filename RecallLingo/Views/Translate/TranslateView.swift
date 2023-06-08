@@ -24,26 +24,18 @@ struct ChatReplica: Identifiable{
 struct TranslateView: View {
     @EnvironmentObject var vm: DictViewModel
     
-    @State var messages: [ChatReplica] = [
-//        ChatReplica(id: UUID(), userWord: "We must all face the choice between what is right and what is easy", translate: "Ми всі повинні обирати між тим, що правильно і тим, що просто "),
-//        ChatReplica(id: UUID(), userWord: "The will to win the desire to succeed, the urge to reach your full potential… these are the keys that will unlock the door to personal excellence. Confucius", translate: "Воля до перемоги, бажання домогтися успіху, прагнення повністю розкрити свої можливості… ось ті ключі, які відкриють двері до особистої досконалості. Конфуцій"),
-//        ChatReplica(id: UUID(), userWord: "Car", translate: "Автомобіль"),
-//        ChatReplica(id: UUID(), userWord: "The truth was that she was a woman before she was a scientist.", translate: "Небо"),
-        ChatReplica(id: UUID(), userWord: "The Lord of the Rings", translate: "Володар перснів")
-    ]
-    
     @State var bufferID = UUID()
     @State var tapppedID : UUID?
     @State var isEditMode = false
     @State var isContainInDict = false //make logica
     @State var bufferMessageTranslate = ""
-    @State private var keyboardOffset: CGFloat = 0
+//    @State private var keyboardOffset: CGFloat = 0
     
     var body: some View {
         NavigationView {
             VStack{
                 ScrollView(showsIndicators: true){
-                        ForEach(messages, id: \.id) { message in
+                    ForEach(vm.messages, id: \.id) { message in
                             VStack{
                                 if !message.translate.isEmpty || isEditMode{
                                     MessageTranslate(message: message,
@@ -93,12 +85,13 @@ struct TranslateView: View {
             
         }
         
-        .onChange(of: vm.outputUk) { value in
-            if !value.isEmpty{
-                print("Переклад: \(value)")
-                if let index = messages.firstIndex(where: {$0.id == bufferID}){
+//        if we received a response, we display it in the chat window on the user's message
+        .onChange(of: vm.translateResponse) { response in
+            if !response.isEmpty{
+                print("Переклад: \(response)")
+                if let index = vm.messages.firstIndex(where: {$0.id == bufferID}){
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        messages[index].translate = value
+                        vm.messages[index].translate = response
                         vm.clearTextFields()
                     }
                 } else {
@@ -109,6 +102,9 @@ struct TranslateView: View {
         .onChange(of: tapppedID) { value in
             bufferMessageTranslate = ""
         }
+//        .onChange(of: vm.inputEn) { value in
+//            print("inputEn: \(value)")
+//        }
         
     }
     
@@ -129,11 +125,14 @@ struct TranslateView: View {
     var editDoneView: some View{
         Button {
             guard let tapppedID else {print("error tapppedID") ; return}
-            if let index = messages.firstIndex(where: {$0.id == tapppedID}){
-                messages[index].translate = bufferMessageTranslate.capitalized
+            if let index = vm.messages.firstIndex(where: {$0.id == tapppedID}){
+                vm.messages[index].translate = bufferMessageTranslate.capitalized
+                vm.editTranslationThisWord(to: bufferMessageTranslate)
+                
             }
             self.tapppedID = nil
             isEditMode = false
+            
         } label: {
             Image(systemName: "pencil")
                 .resizable()
@@ -147,8 +146,8 @@ struct TranslateView: View {
         Button {
             vm.translateText()
             let id = UUID()
-            let newMessages = ChatReplica(id: id, userWord: vm.inputEn, translate: "")
-            self.messages.insert(newMessages, at: 0)
+            let newMessages = ChatReplica(id: id, userWord: vm.translateRequest, translate: "")
+            vm.messages.insert(newMessages, at: 0)
             bufferID = id
             
         } label: {

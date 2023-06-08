@@ -7,6 +7,7 @@
 
 import HidableTabView
 import SwiftUI
+import CoreData
 
 struct DictionaryView: View {
     @EnvironmentObject var data: DataController
@@ -33,21 +34,41 @@ struct DictionaryView: View {
                     sortByAlphabet ? data.sortWordByAlphabet() : data.sortWordByDate()
                 }
             }
+            .background(Color.myPurpleDark)
             .navigationBarTitle("Dictionary")
             .onAppear(){
                 UITabBar.showTabBar(animated: true)
             }
         }
+        .background(Color.myPurpleDark)
         
     }
 }
 
 struct DictionaryView_Previews: PreviewProvider {
+    
+    static let word: WordEntity = {
+        let word = WordEntity(context: CoreDataStack.shared.context)
+        word.date = Date()
+        word.id = "thelordoftherings"
+        word.original = "The Lord of the Rings"
+        word.translate = "Володар перснів"
+        word.popularity = Int16(1)
+        return word
+    }()
+           
+    static let dataController: DataController = {
+        let data = DataController()
+        data.savedEntities = [word]
+        return data
+    }()
+          
     static var previews: some View {
-        DictionaryView()
+         DictionaryView()
             .preferredColorScheme(.dark)
             .environmentObject(DictViewModel(dataController: DataController()))
-            .environmentObject(DataController())
+            .environmentObject(dataController)
+            
     }
 }
 
@@ -67,3 +88,22 @@ struct DictionaryView_Previews: PreviewProvider {
 //        }
 //    }
 //}
+
+
+class CoreDataStack {
+    static let shared = CoreDataStack()
+    
+    lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "DictionaryContainer")
+        container.loadPersistentStores { _, error in
+            if let error = error {
+                fatalError("Failed to load persistent stores: \(error)")
+            }
+        }
+        return container
+    }()
+    
+    var context: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+}

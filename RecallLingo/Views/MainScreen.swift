@@ -24,6 +24,7 @@ struct MainScreen: View {
                 .tag(Tab.translate)
 
             DictionaryView()
+                .background(Color.myPurpleDark)
                 .tabItem {
                     Image(systemName: "text.book.closed")
                     Text("Dictionary")
@@ -45,6 +46,7 @@ struct MainScreen: View {
                 .tag(Tab.setting)
 
         }
+        .background(Color.myPurpleDark)
         .navigationViewStyle(.stack)
         .sheet(isPresented: $lNManager.isPresented) {
             WordRememberView(vm: _vm,
