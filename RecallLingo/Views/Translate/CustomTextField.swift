@@ -12,14 +12,14 @@ struct CustomTextField: View {
     
     var body: some View {
         ZStack{
-            if vm.translateRequest.isEmpty{
+            if vm.wordRequest.isEmpty{
                 HStack{
                     Text("Enter word")
                         .foregroundColor(.myPurpleLight)
                     Spacer()
                 }
             }
-            TextField("", text: $vm.translateRequest)
+            TextField("", text: $vm.wordRequest)
                 .disableAutocorrection(false)
                 .textSelection(.enabled)
                 .autocapitalization(.sentences)

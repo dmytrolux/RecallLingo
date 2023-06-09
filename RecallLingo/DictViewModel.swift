@@ -16,10 +16,10 @@ struct ShowAlert: Identifiable {
 
 @MainActor
 class DictViewModel: ObservableObject {
-    @Published var dataController: DataController
+//    @Published var dataController: DataController
     @Published var networkMonitor: NetworkMonitor
-    @Published var translateRequest: String = ""
-    @Published var translateResponse: String = ""
+    @Published var wordRequest: String = ""
+    @Published var wordResponse: String = ""
     @Published var isUniqueWord: Bool = false
     @AppStorage("isLanguageModelDownloaded") var isLanguageModelDownloaded: Bool = false
     @Published var textAlert = ""
@@ -33,15 +33,22 @@ class DictViewModel: ObservableObject {
                 ChatReplica(id: UUID(), userWord: "The Lord of the Rings", translate: "Володар перснів")
             ]
     
+    
+    @Published var bufferID = UUID()
+    @Published var tapppedID : UUID?
+    @Published var isEditMode = false
+    @Published var isContainInDict = false //make logica
+    @Published var bufferMessageTranslate = ""
+    
     var mostPopularWord: WordEntity?{
-            let sortedEntities = dataController.savedEntities.sorted{$0.popularity > $1.popularity}
+        let sortedEntities = RecallLingoApp.dataController.savedEntities.sorted{$0.popularity > $1.popularity}
             let result = sortedEntities.first
             return result
     }
 
     
     var wordId: String{
-        let formetedWord = translateRequest.lowercased()
+        let formetedWord = wordRequest.lowercased()
                         .trimmingCharacters(in: .whitespaces)
                         .replacingOccurrences(of: "'", with: "")
                         .replacingOccurrences(of: "’", with: "")
@@ -57,11 +64,11 @@ class DictViewModel: ObservableObject {
     
 
     func isUnique(at wordId: String) -> Bool {
-        return !dataController.savedEntities.contains{$0.id == wordId}
+        return !RecallLingoApp.dataController.savedEntities.contains{$0.id == wordId}
     }
     
     func getWordEntity(id: String) -> WordEntity? {
-        return dataController.savedEntities.first { $0.id == id }
+        return RecallLingoApp.dataController.savedEntities.first { $0.id == id }
     }
     
     ///Якщо слово відсутнє в БД, то перекладаємо через MLKitTranslate, інакше дістаємо переклад з БД
@@ -86,7 +93,7 @@ class DictViewModel: ObservableObject {
             print("Error: WordEntity.translate = nil")
             return
         }
-        translateResponse = translate
+        wordResponse = translate
     }
     
     ///Перекладаємо у випадку наявності мовної моделі, або завантажуємо її і перекладаємо, якщо не вдається завантажити її через відсутність інтернету то просимо користувача увімкнути інтернет
@@ -109,13 +116,13 @@ class DictViewModel: ObservableObject {
     
         ///Перекладаємо потрібне слово, відображаємо його в чаті, зберігаємо його в БД
     func startTranslating() {
-        translator.translate(translateRequest) { translatedText, error in
+        translator.translate(wordRequest) { translatedText, error in
             if let error = error {
                 self.isShowAlert = ShowAlert(name: "Error translating text: \(error.localizedDescription)")
                 return
             }
             
-            self.translateResponse = translatedText ?? "No translation available"
+            self.wordResponse = translatedText ?? "No translation available"
             self.addToDictionary()
 //            self.isInputUnique()
             
@@ -123,12 +130,12 @@ class DictViewModel: ObservableObject {
     }
     
     func addToDictionary(){
-        guard !translateRequest.isEmpty else {
+        guard !wordRequest.isEmpty else {
             print("add Error")
             return
         }
-        print("id: \(wordId), original: \(translateRequest), translate: \(translateResponse)")
-        dataController.new(id: wordId, original: translateRequest, translate: translateResponse)
+        print("id: \(wordId), original: \(wordRequest), translate: \(wordResponse)")
+        RecallLingoApp.dataController.new(id: wordId, original: wordRequest, translate: wordResponse)
 //        clearTextFields()
 //        isUniqueWord = false
     }
@@ -139,61 +146,71 @@ class DictViewModel: ObservableObject {
             return
         }
         word.translate = translate
-        dataController.saveData()
+        RecallLingoApp.dataController.saveData()
     }
-    
-//    func isInputUnique(){
-//        isUniqueWord = !dataController.savedEntities.contains{$0.id == wordId}
-//    }
+
     
     func increasePopularity(word: WordEntity) {
-        guard dataController.savedEntities.contains(word) else {
+        guard RecallLingoApp.dataController.savedEntities.contains(word) else {
                 print("Word not found in savedEntities")
                 return
             }
         word.popularity += 1
-        dataController.saveData()
+        RecallLingoApp.dataController.saveData()
     }
     
     func decreasePopularity(word: WordEntity){
-        guard dataController.savedEntities.contains(word) else {
+        guard RecallLingoApp.dataController.savedEntities.contains(word) else {
                 print("Word not found in savedEntities")
                 return
             }
         word.popularity -= 1
-        dataController.saveData()
+        RecallLingoApp.dataController.saveData()
         
     }
     
     func removeAt(idWord: String){
-        guard let wordEntity = dataController.savedEntities.first(where: {$0.id == idWord}) else {
+        guard let wordEntity = RecallLingoApp.dataController.savedEntities.first(where: {$0.id == idWord}) else {
                 print("No WordEntity found with id \(idWord)")
                 return
             }
-        dataController.deleteWord(object: wordEntity)
+        RecallLingoApp.dataController.deleteWord(object: wordEntity)
     }
     
     func removeAt(word: WordEntity){
-        dataController.deleteWord(object: word)
+        RecallLingoApp.dataController.deleteWord(object: word)
     }
     
     func removeAt(indexSet: IndexSet){
         guard let index = indexSet.first else {return}
-        let wordEntity = dataController.savedEntities[index]
-        dataController.deleteWord(object: wordEntity)
+        let wordEntity = RecallLingoApp.dataController.savedEntities[index]
+        RecallLingoApp.dataController.deleteWord(object: wordEntity)
     }
     
+    func sendTranslatedMessage(response: String){
+        if !response.isEmpty{
+            print("Переклад: \(response)")
+            if let index = messages.firstIndex(where: {$0.id == bufferID}){
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.messages[index].translate = response
+                    self.clearTranslateData()
+                }
+            } else {
+                print("ereor index")
+            }
+        }
+    }
     
-    
-    func clearTextFields(){
-        translateRequest = ""
-        translateResponse = ""
+    func clearTranslateData(){
+        wordRequest = ""
+        wordResponse = ""
+        isEditMode = false
+        tapppedID = nil
     }
 
-    init(dataController: DataController){
-        self.dataController = dataController
+    init(){
+//        self.dataController = dataController
         self.networkMonitor = NetworkMonitor()
-//        self.translator = Translator.translator(options: TranslatorOptions(sourceLanguage: .english, targetLanguage: .ukrainian))
         
     }
 }

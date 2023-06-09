@@ -15,8 +15,8 @@ import UserNotifications
 struct RecallLingoApp: App {
     
     static let dataController = DataController()
-    @StateObject var vm = DictViewModel(dataController:  dataController)
-    @StateObject var lNManager = LocalNotificationManager(data:  dataController)
+    @StateObject var vm = DictViewModel()//
+    @StateObject var lNManager = LocalNotificationManager()//
     @Environment(\.scenePhase) private var phase
     @State private var isPresented = false
     var body: some Scene {

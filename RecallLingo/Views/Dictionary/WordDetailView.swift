@@ -128,25 +128,25 @@ struct WordDetailView: View {
     
 }
 
-struct WordDetailView_Previews: PreviewProvider {
-    static let dataController = DataController()
-    static let word: WordEntity = {
-        let newWord = WordEntity(context: dataController.container.viewContext)
-        newWord.date = Date()
-        newWord.id = "thelordoftherings"
-        newWord.original = "The Lord of the Rings"
-        newWord.popularity = Int16(15)
-        newWord.translate = "Володар перснів"
-        return newWord
-    }()
-    static var previews: some View {
-        WordDetailView(word: word)
-            .preferredColorScheme(.dark)
-            .environmentObject(DictViewModel(dataController: DataController()))
-        
-        
-    }
-}
+//struct WordDetailView_Previews: PreviewProvider {
+//    static let dataController = DataController()
+//    static let word: WordEntity = {
+//        let newWord = WordEntity(context: dataController.container.viewContext)
+//        newWord.date = Date()
+//        newWord.id = "thelordoftherings"
+//        newWord.original = "The Lord of the Rings"
+//        newWord.popularity = Int16(15)
+//        newWord.translate = "Володар перснів"
+//        return newWord
+//    }()
+//    static var previews: some View {
+//        WordDetailView(word: word)
+//            .preferredColorScheme(.dark)
+//            .environmentObject(DictViewModel(dataController: DataController()))
+//
+//
+//    }
+//}
 
 
 

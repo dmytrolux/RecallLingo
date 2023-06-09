@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct TranslateView_Previews: PreviewProvider {
-    static var previews: some View {
-        TranslateView()
-            .preferredColorScheme(.dark)
-            .environmentObject(DictViewModel(dataController: DataController()))
-    }
-}
+//struct TranslateView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TranslateView()
+//            .preferredColorScheme(.dark)
+//            .environmentObject(DictViewModel(dataController: DataController()))
+//    }
+//}
 
 struct ChatReplica: Identifiable{
     var id: UUID
@@ -24,24 +24,17 @@ struct ChatReplica: Identifiable{
 struct TranslateView: View {
     @EnvironmentObject var vm: DictViewModel
     
-    @State var bufferID = UUID()
-    @State var tapppedID : UUID?
-    @State var isEditMode = false
-    @State var isContainInDict = false //make logica
-    @State var bufferMessageTranslate = ""
-//    @State private var keyboardOffset: CGFloat = 0
-    
     var body: some View {
         NavigationView {
             VStack{
                 ScrollView(showsIndicators: true){
                     ForEach(vm.messages, id: \.id) { message in
                             VStack{
-                                if !message.translate.isEmpty || isEditMode{
+                                if !message.translate.isEmpty || vm.isEditMode{
                                     MessageTranslate(message: message,
-                                                     tappedIndex: $tapppedID,
-                                                     isEditMode: $isEditMode,
-                                                     bufferMessageTranslate: $bufferMessageTranslate)
+                                                     tappedIndex: $vm.tapppedID,
+                                                     isEditMode: $vm.isEditMode,
+                                                     bufferMessageTranslate: $vm.bufferMessageTranslate)
                                 }
                                 
                                 MessageUser(message: message)
@@ -60,13 +53,13 @@ struct TranslateView: View {
                 //Chat Panel
                 HStack(alignment: .center){
                     
-                    if isEditMode {
+                    if vm.isEditMode {
                        editCancelView
                     }
                     
                     CustomTextField()
                     
-                    if isEditMode{
+                    if vm.isEditMode{
                         editDoneView
                     } else {
                         translationSendButtonView
@@ -86,32 +79,20 @@ struct TranslateView: View {
         }
         
 //        if we received a response, we display it in the chat window on the user's message
-        .onChange(of: vm.translateResponse) { response in
-            if !response.isEmpty{
-                print("Переклад: \(response)")
-                if let index = vm.messages.firstIndex(where: {$0.id == bufferID}){
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        vm.messages[index].translate = response
-                        vm.clearTextFields()
-                    }
-                } else {
-                    print("ereor index")
-                }
-            }
+        .onChange(of: vm.wordResponse) { response in
+            vm.sendTranslatedMessage(response: response)
         }
-        .onChange(of: tapppedID) { value in
-            bufferMessageTranslate = ""
+        .onChange(of: vm.tapppedID) { value in
+            vm.bufferMessageTranslate = ""
         }
-//        .onChange(of: vm.inputEn) { value in
-//            print("inputEn: \(value)")
-//        }
         
     }
     
     var editCancelView: some View{
         Button{
-            isEditMode = false
-            tapppedID = nil
+            vm.clearTranslateData()
+            vm.isEditMode = false
+            vm.tapppedID = nil
             
         } label: {
             Image(systemName: "pencil.slash")
@@ -124,14 +105,15 @@ struct TranslateView: View {
     
     var editDoneView: some View{
         Button {
-            guard let tapppedID else {print("error tapppedID") ; return}
-            if let index = vm.messages.firstIndex(where: {$0.id == tapppedID}){
-                vm.messages[index].translate = bufferMessageTranslate.capitalized
-                vm.editTranslationThisWord(to: bufferMessageTranslate)
+            guard let tapppedID = vm.tapppedID else {print("error tapppedID") ; return}
+            if let index = vm.messages.firstIndex(where: {$0.id == vm.tapppedID}){
+                vm.messages[index].translate = vm.bufferMessageTranslate.capitalized
+                vm.editTranslationThisWord(to: vm.bufferMessageTranslate)
+                //продовження є, звязати їх
                 
             }
-            self.tapppedID = nil
-            isEditMode = false
+            vm.tapppedID = nil
+            vm.isEditMode = false
             
         } label: {
             Image(systemName: "pencil")
@@ -146,9 +128,9 @@ struct TranslateView: View {
         Button {
             vm.translateText()
             let id = UUID()
-            let newMessages = ChatReplica(id: id, userWord: vm.translateRequest, translate: "")
+            let newMessages = ChatReplica(id: id, userWord: vm.wordRequest, translate: "")
             vm.messages.insert(newMessages, at: 0)
-            bufferID = id
+            vm.bufferID = id
             
         } label: {
             Image(systemName: "paperplane")

@@ -67,10 +67,10 @@ enum Tab {
 
 
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainScreen(isPresented: .constant(false))
-            .environmentObject(DictViewModel(dataController: DataController()))
-            .environmentObject(LocalNotificationManager(data: DataController()))
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MainScreen(isPresented: .constant(false))
+//            .environmentObject(DictViewModel(dataController: DataController()))
+//            .environmentObject(LocalNotificationManager(data: DataController()))
+//    }
+//}

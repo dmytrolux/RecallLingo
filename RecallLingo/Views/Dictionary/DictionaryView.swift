@@ -45,32 +45,32 @@ struct DictionaryView: View {
     }
 }
 
-struct DictionaryView_Previews: PreviewProvider {
-    
-    static let word: WordEntity = {
-        let word = WordEntity(context: CoreDataStack.shared.context)
-        word.date = Date()
-        word.id = "thelordoftherings"
-        word.original = "The Lord of the Rings"
-        word.translate = "Володар перснів"
-        word.popularity = Int16(1)
-        return word
-    }()
-           
-    static let dataController: DataController = {
-        let data = DataController()
-        data.savedEntities = [word]
-        return data
-    }()
-          
-    static var previews: some View {
-         DictionaryView()
-            .preferredColorScheme(.dark)
-            .environmentObject(DictViewModel(dataController: DataController()))
-            .environmentObject(dataController)
-            
-    }
-}
+//struct DictionaryView_Previews: PreviewProvider {
+//
+//    static let word: WordEntity = {
+//        let word = WordEntity(context: CoreDataStack.shared.context)
+//        word.date = Date()
+//        word.id = "thelordoftherings"
+//        word.original = "The Lord of the Rings"
+//        word.translate = "Володар перснів"
+//        word.popularity = Int16(1)
+//        return word
+//    }()
+//
+//    static let dataController: DataController = {
+//        let data = DataController()
+//        data.savedEntities = [word]
+//        return data
+//    }()
+//
+//    static var previews: some View {
+//         DictionaryView()
+//            .preferredColorScheme(.dark)
+//            .environmentObject(DictViewModel(dataController: DataController()))
+//            .environmentObject(dataController)
+//
+//    }
+//}
 
 
 

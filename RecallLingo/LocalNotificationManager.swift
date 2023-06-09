@@ -45,11 +45,11 @@ class LocalNotificationManager: NSObject, ObservableObject {
         }
     }
     
-    @Published var dataController: DataController
+//    @Published var dataController: DataController
     @Published var isPresented = false
     
-    init (data: DataController) {
-        self.dataController = data
+    override init () {
+//        self.dataController = data
         
         isEnable = UserDefaults.standard.bool(forKey: UDKey.isEnable)
         isGranted = UserDefaults.standard.bool(forKey: UDKey.isGranted)
@@ -59,7 +59,7 @@ class LocalNotificationManager: NSObject, ObservableObject {
     }
     
     var mostPopularWord: WordEntity?{
-        let sortedEntities = dataController.savedEntities.sorted{$0.popularity > $1.popularity}
+        let sortedEntities = RecallLingoApp.dataController.savedEntities.sorted{$0.popularity > $1.popularity}
         let result = sortedEntities.first
         return result
     }

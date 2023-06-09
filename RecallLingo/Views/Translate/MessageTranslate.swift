@@ -119,11 +119,11 @@ struct MessageTranslate: View{
                     tappedIndex = message.id
                     isEditMode = true
                     isEditMessage = true
-                    vm.translateRequest = message.translate
+                    vm.wordRequest = message.translate
                 }
             }
         }
-        .onChange(of: vm.translateRequest) { value in
+        .onChange(of: vm.wordRequest) { value in
             if isEditMode{
                 bufferMessageTranslate = value
             }
@@ -131,7 +131,7 @@ struct MessageTranslate: View{
         .onChange(of: isEditMode, perform: { newValue in
             if !newValue{
                 isEditMessage = false
-                vm.translateRequest = ""
+                vm.wordRequest = ""
             }
         })
         .onChange(of: isEditMessage, perform: { newValue in
