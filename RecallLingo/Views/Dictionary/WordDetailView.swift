@@ -18,7 +18,7 @@ enum Voice: String {
 }
 
 struct WordDetailView: View {
-    @EnvironmentObject var vm: DictViewModel
+    @EnvironmentObject var vm: TranslateViewModel
     @State var word: WordEntity
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -72,7 +72,7 @@ struct WordDetailView: View {
         }
         .background(Color.myPurpleDark)
         .onAppear(){
-            vm.increasePopularity(word: word)
+            MyApp.dataController.increasePopularity(word: word)
             UITabBar.hideTabBar(animated: false)
         }
         .navigationBarBackButtonHidden()

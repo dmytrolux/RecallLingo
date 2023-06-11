@@ -8,22 +8,22 @@
 import SwiftUI
 
 struct WordRememberView: View {
-    @EnvironmentObject var vm: DictViewModel
+//    @EnvironmentObject var vm: TranslateViewModel
     @Environment(\.dismiss) var dismiss
-    @State var word: WordEntity
+    @State var word: WordEntity?
     @State var translationUser: String = ""
     @State var isChecked = false
     @State var isCorrected: Bool?
     var translationCorrect: String{
-        self.word.translate ?? ""
+        self.word?.translate ?? ""
     }
     var body: some View {
         NavigationView {
             VStack {
-                Text(word.original ?? "")
+                Text(word?.original ?? "")
                     .font(.title)
                     .foregroundColor(.yellow)
-                Text(word.translate ?? "")
+                Text(word?.translate ?? "")
                     .font(.title)
                     .foregroundColor(.blue)
                     .blur(radius: isChecked ? 0 : 3)

@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct CustomTextField: View {
-    @EnvironmentObject var vm: DictViewModel
+    
+    @StateObject var vm: TranslateViewModel
     
     var body: some View {
         ZStack{

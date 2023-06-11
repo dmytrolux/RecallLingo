@@ -58,11 +58,9 @@ class LocalNotificationManager: NSObject, ObservableObject {
         center.delegate = self
     }
     
-    var mostPopularWord: WordEntity?{
-        let sortedEntities = RecallLingoApp.dataController.savedEntities.sorted{$0.popularity > $1.popularity}
-        let result = sortedEntities.first
-        return result
-    }
+//    var mostPopularWord: WordEntity?{
+//        return MyApp.dataController.mostPopularWord()
+//    }
     
 //    func requestAuthorization() async throws{
 //        if !isGranted{
@@ -158,7 +156,7 @@ extension LocalNotificationManager: UNUserNotificationCenterDelegate{
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         if let _ = response.notification.request.content.userInfo["reminder"] as? String{
-//            "Value: WordRememberView"
+            #warning("Додати перевірку наявність слів з популярністтю")
             self.isPresented = true
             
         }

@@ -11,7 +11,7 @@ import CoreData
 
 struct DictionaryView: View {
     @EnvironmentObject var data: DataController
-    @EnvironmentObject var vm: DictViewModel
+    @EnvironmentObject var vm: TranslateViewModel
     @State var sortByAlphabet: Bool = false
     
     var body: some View {

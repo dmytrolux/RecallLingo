@@ -34,9 +34,9 @@ class DataController: ObservableObject {
         }
     }
     
-    func new(id: String, original: String, translate: String){
+    func new(key: String, original: String, translate: String){
         let newWord = WordEntity(context: container.viewContext)
-        newWord.id = id
+        newWord.id = key
         newWord.original = original
         newWord.popularity = Int16(1)
         newWord.translate = translate
@@ -47,6 +47,18 @@ class DataController: ObservableObject {
     
     func deleteWord(object: NSManagedObject){
         container.viewContext.delete(object)
+        saveData()
+    }
+    
+    func increasePopularity(word: WordEntity){
+        guard savedEntities.contains(word) else { print("Word not found in CoreData"); return}
+        word.popularity += 1
+        saveData()
+    }
+    
+    func decreasePopularity(word: WordEntity){
+        guard savedEntities.contains(word) else { print("Word not found in CoreData"); return}
+        word.popularity -= 1
         saveData()
     }
     
@@ -72,11 +84,24 @@ class DataController: ObservableObject {
         }
     }
     
+    func isUnique(at key: String) -> Bool {
+        return !savedEntities.contains{$0.id == key}
+    }
+    
+    func getWordEntity(key: String) -> WordEntity? {
+        return savedEntities.first { $0.id == key }
+    }
+    
     func sortWordByDate() {
         savedEntities.sort(by: { $0.date ?? Date() < $1.date ?? Date() })
     }
     func sortWordByAlphabet() {
         savedEntities.sort(by: { $0.id ?? ""  < $1.id ?? ""})
+    }
+    
+    func mostPopularWord()-> WordEntity?{
+        let sortedEntities = savedEntities.sorted{$0.popularity > $1.popularity}
+        return sortedEntities.first
     }
     
 }

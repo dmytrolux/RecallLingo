@@ -22,28 +22,26 @@ struct ChatReplica: Identifiable{
 }
 
 struct TranslateView: View {
-    @EnvironmentObject var vm: DictViewModel
+    @StateObject var viewModel = TranslateViewModel()
     
     var body: some View {
         NavigationView {
             VStack{
                 ScrollView(showsIndicators: true){
-                    ForEach(vm.messages, id: \.id) { message in
-                            VStack{
-                                if !message.translate.isEmpty || vm.isEditMode{
-                                    MessageTranslate(message: message,
-                                                     tappedIndex: $vm.tapppedID,
-                                                     isEditMode: $vm.isEditMode,
-                                                     bufferMessageTranslate: $vm.bufferMessageTranslate)
-                                }
-                                
-                                MessageUser(message: message)
+                    ForEach(viewModel.messages, id: \.id) { message in
+                        VStack{
+                            if !message.translate.isEmpty || viewModel.isEditMode{
+                                MessageTranslateView(viewModel: viewModel,
+                                                 message: message)
                             }
-                            .padding(.horizontal, 15)
-                            .padding(.bottom, 10)
+                            
+                            MessageUser(message: message)
                         }
+                        .padding(.horizontal, 15)
+                        .padding(.bottom, 10)
+                    }
                 }
-               
+                
                 .rotationEffect(.degrees(180))
                 .scaleEffect(x: -1, y: 1, anchor: .center)
                 .onTapGesture {
@@ -53,13 +51,13 @@ struct TranslateView: View {
                 //Chat Panel
                 HStack(alignment: .center){
                     
-                    if vm.isEditMode {
-                       editCancelView
+                    if viewModel.isEditMode {
+                        editCancelView
                     }
                     
-                    CustomTextField()
+                    CustomTextField(vm: viewModel)
                     
-                    if vm.isEditMode{
+                    if viewModel.isEditMode{
                         editDoneView
                     } else {
                         translationSendButtonView
@@ -70,7 +68,7 @@ struct TranslateView: View {
             }
             .background(Color.myPurpleDark)
             .navigationTitle("Translate")
-            .alert(item: $vm.isShowAlert){ show in
+            .alert(item: $viewModel.isShowAlert){ show in
                 Alert(title: Text("Error"),
                       message: Text(show.name),
                       dismissButton: .cancel())
@@ -78,21 +76,21 @@ struct TranslateView: View {
             
         }
         
-//        if we received a response, we display it in the chat window on the user's message
-        .onChange(of: vm.wordResponse) { response in
-            vm.sendTranslatedMessage(response: response)
+        //        if we received a response, we display it in the chat window on the user's message
+        .onChange(of: viewModel.wordResponse) { response in
+            viewModel.sendTranslatedMessage(response: response)
         }
-        .onChange(of: vm.tapppedID) { value in
-            vm.bufferMessageTranslate = ""
+        .onChange(of: viewModel.tapppedID) { value in
+            viewModel.bufferMessageTranslate = ""
         }
         
     }
     
     var editCancelView: some View{
         Button{
-            vm.clearTranslateData()
-            vm.isEditMode = false
-            vm.tapppedID = nil
+            viewModel.clearTranslateData()
+            viewModel.isEditMode = false
+            viewModel.tapppedID = nil
             
         } label: {
             Image(systemName: "pencil.slash")
@@ -105,15 +103,19 @@ struct TranslateView: View {
     
     var editDoneView: some View{
         Button {
-            guard let tapppedID = vm.tapppedID else {print("error tapppedID") ; return}
-            if let index = vm.messages.firstIndex(where: {$0.id == vm.tapppedID}){
-                vm.messages[index].translate = vm.bufferMessageTranslate.capitalized
-                vm.editTranslationThisWord(to: vm.bufferMessageTranslate)
-                //продовження є, звязати їх
+            if let tapID = viewModel.tapppedID{
+                if let index = viewModel.messages.firstIndex(where: {$0.id == tapID}){
+                    viewModel.messages[index].translate = viewModel.bufferMessageTranslate.capitalized
+                    viewModel.editTranslationThisWord(to: viewModel.bufferMessageTranslate)
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    viewModel.tapppedID = nil
+                    viewModel.isEditMode = false
+                }
                 
+            } else {
+                print("error tapppedID")
             }
-            vm.tapppedID = nil
-            vm.isEditMode = false
             
         } label: {
             Image(systemName: "pencil")
@@ -126,24 +128,24 @@ struct TranslateView: View {
     
     var translationSendButtonView: some View{
         Button {
-            vm.translateText()
+            viewModel.translateText()
             let id = UUID()
-            let newMessages = ChatReplica(id: id, userWord: vm.wordRequest, translate: "")
-            vm.messages.insert(newMessages, at: 0)
-            vm.bufferID = id
+            let newMessages = ChatReplica(id: id, userWord: viewModel.wordRequest, translate: "")
+            viewModel.messages.insert(newMessages, at: 0)
+            viewModel.bufferID = id
             
         } label: {
             Image(systemName: "paperplane")
                 .resizable()
                 .frame(width: 30, height: 30, alignment: .center)
-                .foregroundColor(vm.networkMonitor.isConnected ? .myPurpleLight : .red )
+                .foregroundColor(viewModel.networkMonitor.isConnected ? .myPurpleLight : .red )
                 .padding(.trailing, 15)
         }
     }
     
     private func hideKeyboard() {
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-        }
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
     
 }
 

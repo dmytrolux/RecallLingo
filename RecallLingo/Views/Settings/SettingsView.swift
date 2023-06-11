@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject var vm: DictViewModel
-    @EnvironmentObject var data: DataController
+//    @EnvironmentObject var vm: DictViewModel
+//    @EnvironmentObject var data: DataController
     @EnvironmentObject var notificationController: LocalNotificationManager
     var body: some View {
         VStack{
             Button {
-                data.clearAllDict()
+                MyApp.dataController.clearAllDict()
             } label: {
                 Text("Clear dictionary")
             }

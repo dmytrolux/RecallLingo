@@ -7,20 +7,14 @@
 
 import SwiftUI
 
-struct MessageTranslate: View{
-    @EnvironmentObject var vm: DictViewModel
-    
+struct MessageTranslateView: View{
+    @StateObject var viewModel: TranslateViewModel
     var message: ChatReplica
-    @Binding var tappedIndex: UUID?
-    @Binding var isEditMode: Bool
     @State var animatedText = ""
     @State var width: CGFloat = 0
-//    @State var height: CGFloat = 0
-    
     @State var countRan = 0
-    @State var isFirstOnApear = true
+    @State var isFirstApear = true
     @State var isEditMessage = false
-    @Binding var bufferMessageTranslate: String
     
     var body: some View {
         
@@ -28,7 +22,7 @@ struct MessageTranslate: View{
             Spacer()
             Group{
                 if isEditMessage{
-                    Text(bufferMessageTranslate)
+                    Text(viewModel.bufferMessageTranslate)
                 } else {
                     VStack{
                         HStack(){
@@ -41,14 +35,12 @@ struct MessageTranslate: View{
                                             .background(GeometryReader { fullGeo in
                                                 Color.clear.onAppear {
                                                     width = fullGeo.size.width
-//                                                    height = fullGeo.size.height
                                                 }
                                             }
                                             ).hidden()
                                     }
                                         .frame(maxWidth: UIScreen.main.bounds.width*(3/4)-30)
                                         .frame(width: .greatestFiniteMagnitude)
-//                                        .frame(height: .greatestFiniteMagnitude)
                                         
                                 )
                             Spacer(minLength: 0)
@@ -59,15 +51,14 @@ struct MessageTranslate: View{
             }
             
             .frame(width: isEditMessage ?  nil : width)
-//            .frame(height: isEditMessage ?  nil : height )
             .foregroundColor(.myPurple)
             .padding()
             .frame(minWidth: UIScreen.main.bounds.width*(1/4))
             .background(
                 ZStack{
-                    tappedIndex == message.id ? Color.myWhite : Color.myYellow
+                    viewModel.tapppedID == message.id ? Color.myWhite : Color.myYellow
                     
-                    if tappedIndex == message.id {
+                    if viewModel.tapppedID == message.id {
                             RoundedRectangle(cornerRadius: 15).stroke(Color.myPurpleLight, lineWidth: 4)
                         }
                 }
@@ -75,12 +66,11 @@ struct MessageTranslate: View{
             .cornerRadius(15)
             
             .frame(maxWidth: UIScreen.main.bounds.width*(3/4), alignment: .trailing)
-//            .frame(maxHeight: UIScreen.main.bounds.height*(1/2), alignment: .top)
 
             .onAppear {
-                if isFirstOnApear{
+                if isFirstApear{
                     animateText(message.translate)
-                    isFirstOnApear = false
+                    isFirstApear = false
                 }
             }
             
@@ -112,26 +102,25 @@ struct MessageTranslate: View{
             
         }
         .onLongPressGesture(minimumDuration: 0.3){
-            if !isEditMode {
+            if !viewModel.isEditMode {
                 resettingPropertiesEditing()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    tappedIndex = message.id
-                    isEditMode = true
+                    viewModel.editing(this: message)
+                    
                     isEditMessage = true
-                    vm.wordRequest = message.translate
                 }
             }
         }
-        .onChange(of: vm.wordRequest) { value in
-            if isEditMode{
-                bufferMessageTranslate = value
+        .onChange(of: viewModel.wordRequest) { value in
+            if viewModel.isEditMode{
+                viewModel.bufferMessageTranslate = value
             }
         }
-        .onChange(of: isEditMode, perform: { newValue in
+        .onChange(of: viewModel.isEditMode, perform: { newValue in
             if !newValue{
                 isEditMessage = false
-                vm.wordRequest = ""
+                viewModel.wordRequest = ""
             }
         })
         .onChange(of: isEditMessage, perform: { newValue in
@@ -144,10 +133,8 @@ struct MessageTranslate: View{
     }
     
     func resettingPropertiesEditing(){
-        isEditMode = false
+        viewModel.clearTranslateData()
         isEditMessage = false
-        bufferMessageTranslate = ""
-        tappedIndex = nil
     }
     
     func animateText(_ text: String) {
@@ -165,14 +152,12 @@ struct MessageTranslate: View{
     
 }
 
-//struct MessageTranslate_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MessageTranslate(message: ChatReplica(id: UUID(),
-//                                              userWord: "Dog",
-//                                              translate: "Собака"),
-//                         tappedIndex: .constant(nil),
-//                         isEditMode: .constant(false),
-//                         bufferMessageTranslate: .constant("Hello"))
-//            .environmentObject(DictViewModel(dataController: DataController()))
-//    }
-//}
+struct MessageTranslate_Previews: PreviewProvider {
+    static var previews: some View {
+        MessageTranslateView(viewModel: TranslateViewModel(),
+                         message: ChatReplica(id: UUID(),
+                                              userWord: "Dog",
+                                              translate: "Собака")
+                         )
+    }
+}

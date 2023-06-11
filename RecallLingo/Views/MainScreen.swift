@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainScreen: View {
-    @EnvironmentObject var vm: DictViewModel
+//    @EnvironmentObject var vm: TranslateViewModel
     @EnvironmentObject var lNManager: LocalNotificationManager
     @State private var selection: Tab = .translate
     @Binding var isPresented: Bool
@@ -49,8 +49,7 @@ struct MainScreen: View {
         .background(Color.myPurpleDark)
         .navigationViewStyle(.stack)
         .sheet(isPresented: $lNManager.isPresented) {
-            WordRememberView(vm: _vm,
-                             word: vm.mostPopularWord ?? WordEntity())
+            WordRememberView(word: MyApp.dataController.mostPopularWord())
        
         }
 //        .onChange(of: selection) { newValue in

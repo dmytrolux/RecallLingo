@@ -9,13 +9,11 @@ import SwiftUI
 import Combine
 import UserNotifications
 
-
-
 @main
-struct RecallLingoApp: App {
+struct MyApp: App {
     
     static let dataController = DataController()
-    @StateObject var vm = DictViewModel()//
+//    @StateObject var viewModel = DictViewModel()//
     @StateObject var lNManager = LocalNotificationManager()//
     @Environment(\.scenePhase) private var phase
     @State private var isPresented = false
@@ -23,7 +21,7 @@ struct RecallLingoApp: App {
         WindowGroup {
             MainScreen(isPresented: $isPresented)
                 .preferredColorScheme(.dark)
-                .environmentObject(vm)
+//                .environmentObject(viewModel)
                 .environmentObject(lNManager)
                 .environmentObject(Self.dataController)
                 
@@ -40,9 +38,9 @@ struct RecallLingoApp: App {
 //                    try? await lNManager.requestAuthorization()
 //                }
                 
-                .onChange(of: Self.dataController.savedEntities, perform: { newValue in
-                    print("MostPopularWord: \(vm.mostPopularWord?.original ?? "") - \(vm.mostPopularWord?.popularity ?? 0)")
-                })
+//                .onChange(of: Self.dataController.savedEntities, perform: { newValue in
+//                    print("MostPopularWord: \(viewModel.mostPopularWord?.original ?? "") - \(viewModel.mostPopularWord?.popularity ?? 0)")
+//                })
             
             // Запускає нотифікацію після закриття додатку
             //                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification)) { _ in
@@ -51,7 +49,7 @@ struct RecallLingoApp: App {
             
                 
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
-                    lNManager.addNotification(for: vm.mostPopularWord ?? WordEntity())
+                    lNManager.addNotification(for: Self.dataController.mostPopularWord() ?? WordEntity())
                         }
             
             //                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
@@ -88,24 +86,3 @@ struct RecallLingoApp: App {
     }
 }
 
-
-
-struct ContentView: View {
-    var body: some View {
-        NavigationView {
-            GeometryReader { geometry in
-                ScrollView {
-                    VStack(spacing: 70){
-                        Text("Text")
-                        Text("Text")
-                        Text("Text")
-                    }
-                }
-                .frame(width: geometry.size.width, height: geometry.size.height)
-                .background(Color.green.onTapGesture {
-                    print("Текст для відпринту")
-                })
-            }
-        }
-    }
-}
