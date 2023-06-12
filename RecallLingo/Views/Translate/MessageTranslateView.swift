@@ -8,20 +8,20 @@
 import SwiftUI
 
 struct MessageTranslateView: View{
-    @StateObject var viewModel: TranslateViewModel
+    @ObservedObject var viewModel: TranslateViewModel
     var message: ChatReplica
     @State var animatedText = ""
     @State var width: CGFloat = 0
     @State var countRan = 0
     @State var isFirstApear = true
-    @State var isEditMessage = false
+    @State var isEditingMessage = false
     
     var body: some View {
         
         HStack{
             Spacer()
             Group{
-                if isEditMessage{
+                if isEditingMessage{
                     Text(viewModel.bufferMessageTranslate)
                 } else {
                     VStack{
@@ -50,7 +50,7 @@ struct MessageTranslateView: View{
                 }
             }
             
-            .frame(width: isEditMessage ?  nil : width)
+            .frame(width: isEditingMessage ?  nil : width)
             .foregroundColor(.myPurple)
             .padding()
             .frame(minWidth: UIScreen.main.bounds.width*(1/4))
@@ -101,29 +101,27 @@ struct MessageTranslateView: View{
 //            }
             
         }
+        
         .onLongPressGesture(minimumDuration: 0.3){
-            if !viewModel.isEditMode {
-                resettingPropertiesEditing()
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    viewModel.editing(this: message)
-                    
-                    isEditMessage = true
-                }
-            }
+            viewModel.editing(this: message,
+                              updateMessageStatus: {isEditingMessage = true})
         }
+        
+        
+        
         .onChange(of: viewModel.wordRequest) { value in
             if viewModel.isEditMode{
                 viewModel.bufferMessageTranslate = value
             }
         }
-        .onChange(of: viewModel.isEditMode, perform: { newValue in
+        .onChange(of: viewModel.isEditMode) { newValue in
             if !newValue{
-                isEditMessage = false
+                isEditingMessage = false
                 viewModel.wordRequest = ""
+                UITabBar.showTabBar()
             }
-        })
-        .onChange(of: isEditMessage, perform: { newValue in
+        }
+        .onChange(of: isEditingMessage, perform: { newValue in
             if !newValue{
                 animatedText = message.translate
             }
@@ -134,7 +132,7 @@ struct MessageTranslateView: View{
     
     func resettingPropertiesEditing(){
         viewModel.clearTranslateData()
-        isEditMessage = false
+        isEditingMessage = false
     }
     
     func animateText(_ text: String) {

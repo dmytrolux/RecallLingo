@@ -60,7 +60,7 @@ struct TranslateView: View {
                     if viewModel.isEditMode{
                         editDoneView
                     } else {
-                        translationSendButtonView
+                        sendMessageForTranslationButtonView
                     }
                     
                 }
@@ -80,9 +80,7 @@ struct TranslateView: View {
         .onChange(of: viewModel.wordResponse) { response in
             viewModel.sendTranslatedMessage(response: response)
         }
-        .onChange(of: viewModel.tapppedID) { value in
-            viewModel.bufferMessageTranslate = ""
-        }
+
         
     }
     
@@ -103,19 +101,7 @@ struct TranslateView: View {
     
     var editDoneView: some View{
         Button {
-            if let tapID = viewModel.tapppedID{
-                if let index = viewModel.messages.firstIndex(where: {$0.id == tapID}){
-                    viewModel.messages[index].translate = viewModel.bufferMessageTranslate.capitalized
-                    viewModel.editTranslationThisWord(to: viewModel.bufferMessageTranslate)
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    viewModel.tapppedID = nil
-                    viewModel.isEditMode = false
-                }
-                
-            } else {
-                print("error tapppedID")
-            }
+            viewModel.editTranslationThisWord()
             
         } label: {
             Image(systemName: "pencil")
@@ -126,14 +112,9 @@ struct TranslateView: View {
         }
     }
     
-    var translationSendButtonView: some View{
+    var sendMessageForTranslationButtonView: some View{
         Button {
-            viewModel.translateText()
-            let id = UUID()
-            let newMessages = ChatReplica(id: id, userWord: viewModel.wordRequest, translate: "")
-            viewModel.messages.insert(newMessages, at: 0)
-            viewModel.bufferID = id
-            
+            viewModel.sendMessageForTranslation()
         } label: {
             Image(systemName: "paperplane")
                 .resizable()
@@ -141,6 +122,7 @@ struct TranslateView: View {
                 .foregroundColor(viewModel.networkMonitor.isConnected ? .myPurpleLight : .red )
                 .padding(.trailing, 15)
         }
+        .disabled(viewModel.sendMessageForTranslationButtonIsDisabled)
     }
     
     private func hideKeyboard() {

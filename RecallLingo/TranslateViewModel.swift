@@ -33,6 +33,9 @@ class TranslateViewModel: ObservableObject {
     @Published var isEditMode = false
     @Published var isContainInDict = false //make logica
     @Published var bufferMessageTranslate = ""
+    @Published var sendMessageForTranslationButtonIsDisabled = false
+    
+    @Published var isTextFieldFocused = false
     
     let translator = Translator.translator(options: TranslatorOptions(sourceLanguage: .english, targetLanguage: .ukrainian))
     
@@ -48,9 +51,18 @@ class TranslateViewModel: ObservableObject {
         return MyApp.dataController.getWordEntity(key: key)
     }
     
+    func sendMessageForTranslation(){
+        translateText()
+        let id = UUID()
+        let newMessages = ChatReplica(id: id, userWord: wordRequest, translate: "")
+        messages.insert(newMessages, at: 0)
+        bufferID = id
+    }
+    
     ///Якщо слово відсутнє в БД, то перекладаємо через MLKitTranslate, інакше дістаємо переклад з БД
     func translateText() {
         let key = wordRequest.toKey()
+        sendMessageForTranslationButtonIsDisabled = true
         
         if isUnique(at: key) {
             prepareForTranslation()
@@ -63,7 +75,10 @@ class TranslateViewModel: ObservableObject {
             
             recallTranslation(of: word)
             MyApp.dataController.increasePopularity(word: word)
+            sendMessageForTranslationButtonIsDisabled = false
         }
+        
+        
     }
     
     ///
@@ -95,18 +110,38 @@ class TranslateViewModel: ObservableObject {
     
         ///Перекладаємо потрібне слово, відображаємо його в чаті, зберігаємо його в БД
     func startTranslating() {
-        translator.translate(wordRequest) { translatedText, error in
-            if let error = error {
+        translator.translate(wordRequest) {translation, error in
+            
+            if let error {
                 self.isShowAlert = ShowAlert(name: "Error translating text: \(error.localizedDescription)")
                 return
             }
             
-            self.wordResponse = translatedText ?? "No translation available"
-            self.addToDictionary()
-//            self.isInputUnique()
-            
+            if let translation {
+                if translation.toKey() == self.wordRequest.toKey(){
+                    self.removeInvalidRequest()
+                } else {
+                    self.getTranslation(translation)
+                }
+            }
         }
     }
+    
+    func removeInvalidRequest(){
+        if let index = self.messages.firstIndex(where: {$0.id == self.bufferID}),
+           self.messages[index].translate == "" {
+            self.messages.remove(at: index)
+            self.sendMessageForTranslationButtonIsDisabled = false
+            self.isShowAlert = ShowAlert(name: "Invalid Input/nPlease enter a valid word for translation.")
+        }
+    }
+    
+    func getTranslation(_ translation: String){
+        self.wordResponse = translation
+        self.addToDictionary()
+        self.sendMessageForTranslationButtonIsDisabled = false
+    }
+    
     
     func addToDictionary(){
         guard !wordRequest.isEmpty else {
@@ -118,20 +153,45 @@ class TranslateViewModel: ObservableObject {
                                  original: wordRequest,
                                  translate: wordResponse)
     }
-    
-    func editTranslationThisWord(to translate: String){
-        guard let word = getWordEntity(key: wordRequest.toKey()) else {
-            print("Error: getWordEntity = nil")
-            return
+
+    func editing(this message: ChatReplica,
+                 updateMessageStatus: @escaping () -> Void){
+        if !isEditMode {
+            clearTranslateData()
+            isTextFieldFocused = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.tapppedID = message.id
+                self.isEditMode = true
+                self.wordRequest = message.translate
+                print(message.translate)
+                UITabBar.hideTabBar()
+                updateMessageStatus()
+            }
         }
-        word.translate = translate
-        MyApp.dataController.saveData()
     }
     
-    func editing(this message: ChatReplica){
-        tapppedID = message.id
-        isEditMode = true
-        wordRequest = message.translate
+    func editTranslationThisWord(){
+        
+        if let tapID = tapppedID{
+            if let index = messages.firstIndex(where: {$0.id == tapID}){
+                
+                messages[index].translate = bufferMessageTranslate.capitalized
+                
+                guard let word = getWordEntity(key: messages[index].userWord.toKey()) else {
+                    print("Error: getWordEntity = nil"); return }
+                word.translate = bufferMessageTranslate
+                MyApp.dataController.saveData()
+            } else {
+                print("id message error")
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.tapppedID = nil
+                self.isEditMode = false
+            }
+        } else {
+            print("tapped error")
+        }
     }
     
     func removeAt(word: WordEntity){
@@ -172,6 +232,7 @@ extension String{
             .replacingOccurrences(of: "’", with: "")
             .replacingOccurrences(of: ",", with: "")
             .replacingOccurrences(of: " ", with: "")
+            .replacingOccurrences(of: ".", with: "")
         return key
     }
 }

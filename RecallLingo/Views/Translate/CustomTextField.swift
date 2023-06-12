@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CustomTextField: View {
     
-    @StateObject var vm: TranslateViewModel
+    @ObservedObject var vm: TranslateViewModel
+    @FocusState private var isFocused: Bool
     
     var body: some View {
         ZStack{
@@ -24,6 +25,14 @@ struct CustomTextField: View {
                 .disableAutocorrection(false)
                 .textSelection(.enabled)
                 .autocapitalization(.sentences)
+//                .keyboardType(.alphabet)
+                .focused($isFocused)
+                .onReceive(vm.$isTextFieldFocused) { focused in
+                    isFocused = focused
+                }
+                .onSubmit{
+                    vm.sendMessageForTranslation()
+                }
                 
             
         }
