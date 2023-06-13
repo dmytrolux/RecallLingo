@@ -101,7 +101,7 @@ struct TranslateView: View {
     
     var editDoneView: some View{
         Button {
-            viewModel.editTranslationThisWord()
+            viewModel.finishEditingTranslationThisWord()
             
         } label: {
             Image(systemName: "pencil")

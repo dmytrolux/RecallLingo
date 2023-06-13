@@ -18,7 +18,8 @@ enum Voice: String {
 }
 
 struct WordDetailView: View {
-    @EnvironmentObject var vm: TranslateViewModel
+//    @EnvironmentObject var vm: TranslateViewModel
+    
     @State var word: WordEntity
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -93,7 +94,11 @@ struct WordDetailView: View {
         .toolbar(){
             ToolbarItem(placement: .destructiveAction) {
                 Button() {
-                    vm.removeAt(word: word)
+                    self.presentationMode.wrappedValue.dismiss()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        MyApp.dataController.deleteWordAt(object: word)
+//
+                    }
                 } label: {
                     Label("Delete", systemImage: "trash")
                         .font(.title3)
@@ -103,7 +108,6 @@ struct WordDetailView: View {
                         .overlay(){
                             RoundedRectangle(cornerRadius: 15).stroke(Color.red, lineWidth: 1)
                         }
-                    
                 }
             }
         }

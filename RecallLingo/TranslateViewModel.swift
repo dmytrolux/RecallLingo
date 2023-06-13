@@ -43,8 +43,8 @@ class TranslateViewModel: ObservableObject {
                                              allowsBackgroundDownloading: true)
     
 
-    func isUnique(at key: String) -> Bool {
-        return MyApp.dataController.isUnique(at: key)
+    func isWordEntityStored(at key: String) -> Bool {
+        return MyApp.dataController.isWordEntityStored(at: key)
     }
     
     func getWordEntity(key: String) -> WordEntity? {
@@ -64,10 +64,7 @@ class TranslateViewModel: ObservableObject {
         let key = wordRequest.toKey()
         sendMessageForTranslationButtonIsDisabled = true
         
-        if isUnique(at: key) {
-            prepareForTranslation()
-        }
-        else{
+        if isWordEntityStored(at: key) {
             guard let word = getWordEntity(key: key) else {
                 print("Error: getWordEntity = nil")
                 return
@@ -76,6 +73,9 @@ class TranslateViewModel: ObservableObject {
             recallTranslation(of: word)
             MyApp.dataController.increasePopularity(word: word)
             sendMessageForTranslationButtonIsDisabled = false
+        }
+        else{
+            handleMLKitTranslate()
         }
         
         
@@ -91,15 +91,15 @@ class TranslateViewModel: ObservableObject {
     }
     
     ///Перекладаємо у випадку наявності мовної моделі, або завантажуємо її і перекладаємо, якщо не вдається завантажити її через відсутність інтернету то просимо користувача увімкнути інтернет
-     func prepareForTranslation(){
+     func handleMLKitTranslate(){
          if isLanguageModelDownloaded{
-             self.startTranslating()
+             self.translatingWithMLKitTranslate()
          } else if networkMonitor.isConnected{
              translator.downloadModelIfNeeded(with: conditions) { error in
                  if let error = error {
                      self.isShowAlert = ShowAlert(name: "Error translating text: \(error.localizedDescription)")
                  } else {
-                     self.startTranslating()
+                     self.translatingWithMLKitTranslate()
                      self.isLanguageModelDownloaded = true
                  }
              }
@@ -109,7 +109,7 @@ class TranslateViewModel: ObservableObject {
     }
     
         ///Перекладаємо потрібне слово, відображаємо його в чаті, зберігаємо його в БД
-    func startTranslating() {
+    func translatingWithMLKitTranslate() {
         translator.translate(wordRequest) {translation, error in
             
             if let error {
@@ -142,6 +142,19 @@ class TranslateViewModel: ObservableObject {
         self.sendMessageForTranslationButtonIsDisabled = false
     }
     
+    //при натисканні на прапорець додавати або видаляти слово із словника
+    func toggleWordDictionaryStatus(this message: ChatReplica) -> Bool{
+        let key = message.userWord.toKey()
+        
+        if isWordEntityStored(at: key) {
+            MyApp.dataController.deleteWordAt(key: key)
+            return false
+        } else {
+            addToDictionary(this: message)
+            return true
+        }
+    }
+    
     
     func addToDictionary(){
         guard !wordRequest.isEmpty else {
@@ -152,6 +165,12 @@ class TranslateViewModel: ObservableObject {
         MyApp.dataController.new(key: wordRequest.toKey(),
                                  original: wordRequest,
                                  translate: wordResponse)
+    }
+    
+    func addToDictionary(this message: ChatReplica){
+        MyApp.dataController.new(key: message.userWord.toKey(),
+                                 original: message.userWord,
+                                 translate: message.translate)
     }
 
     func editing(this message: ChatReplica,
@@ -171,17 +190,19 @@ class TranslateViewModel: ObservableObject {
         }
     }
     
-    func editTranslationThisWord(){
+    func finishEditingTranslationThisWord(){
         
         if let tapID = tapppedID{
             if let index = messages.firstIndex(where: {$0.id == tapID}){
                 
                 messages[index].translate = bufferMessageTranslate.capitalized
                 
-                guard let word = getWordEntity(key: messages[index].userWord.toKey()) else {
-                    print("Error: getWordEntity = nil"); return }
-                word.translate = bufferMessageTranslate
-                MyApp.dataController.saveData()
+                if let word = getWordEntity(key: messages[index].userWord.toKey()) {
+                    word.translate = bufferMessageTranslate
+                    MyApp.dataController.saveData()
+                } else {
+                    print("This wordEntity is not stored in the dictionary")
+                }
             } else {
                 print("id message error")
             }
@@ -193,10 +214,9 @@ class TranslateViewModel: ObservableObject {
             print("tapped error")
         }
     }
+
     
-    func removeAt(word: WordEntity){
-        MyApp.dataController.deleteWord(object: word)
-    }
+    
     
     func sendTranslatedMessage(response: String){
         if !response.isEmpty{
@@ -247,8 +267,4 @@ extension String{
 //    }
     
     
-//    func removeAt(indexSet: IndexSet){
-//        guard let index = indexSet.first else {return}
-//        let wordEntity = MyApp.dataController.savedEntities[index]
-//        MyApp.dataController.deleteWord(object: wordEntity)
-//    }
+

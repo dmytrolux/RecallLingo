@@ -10,14 +10,13 @@ import SwiftUI
 import CoreData
 
 struct DictionaryView: View {
-    @EnvironmentObject var data: DataController
-    @EnvironmentObject var vm: TranslateViewModel
+    var data = MyApp.dataController
     @State var sortByAlphabet: Bool = false
     
     var body: some View {
         NavigationView {
             List{
-                ForEach(data.savedEntities, id: \.id) { word in
+                ForEach(MyApp.dataController.savedEntities, id: \.id) { word in
                     NavigationLink(destination: WordDetailView(word: word)) {
                         HStack{
                             Image(systemName: "\(word.popularity).square.fill")
@@ -30,6 +29,7 @@ struct DictionaryView: View {
                         }
                     }
                 }
+                .onDelete(perform: deleteItem)
                 .onChange(of: sortByAlphabet) { newValue in
                     sortByAlphabet ? data.sortWordByAlphabet() : data.sortWordByDate()
                 }
@@ -43,6 +43,13 @@ struct DictionaryView: View {
         .background(Color.myPurpleDark)
         
     }
+    
+    func deleteItem(at offsets: IndexSet) {
+        data.savedEntities.remove(atOffsets: offsets)
+//        guard let index = indexSet.first else {return}
+//        let wordEntity = MyApp.dataController.savedEntities[index]
+//        MyApp.dataController.deleteWordAt(object: wordEntity)
+        }
 }
 
 //struct DictionaryView_Previews: PreviewProvider {

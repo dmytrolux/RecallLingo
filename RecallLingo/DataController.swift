@@ -45,10 +45,21 @@ class DataController: ObservableObject {
         saveData()
     }
     
-    func deleteWord(object: NSManagedObject){
+    func deleteWordAt(object: NSManagedObject){
         container.viewContext.delete(object)
         saveData()
     }
+    
+    func deleteWordAt(key: String){
+        guard let wordEntity = savedEntities.first(where: {$0.id == key}) else {
+                print("No WordEntity found with id \(key)")
+                return
+            }
+        container.viewContext.delete(wordEntity)
+        saveData()
+    }
+    
+        
     
     func increasePopularity(word: WordEntity){
         guard savedEntities.contains(word) else { print("Word not found in CoreData"); return}
@@ -84,8 +95,8 @@ class DataController: ObservableObject {
         }
     }
     
-    func isUnique(at key: String) -> Bool {
-        return !savedEntities.contains{$0.id == key}
+    func isWordEntityStored(at key: String) -> Bool {
+        return savedEntities.contains{$0.id == key}
     }
     
     func getWordEntity(key: String) -> WordEntity? {

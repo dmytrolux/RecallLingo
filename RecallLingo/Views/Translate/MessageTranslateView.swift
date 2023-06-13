@@ -16,6 +16,14 @@ struct MessageTranslateView: View{
     @State var isFirstApear = true
     @State var isEditingMessage = false
     
+    var key: String{
+        message.userWord.toKey()
+    }
+    
+    @State var isStored = false
+    
+    
+    
     var body: some View {
         
         HStack{
@@ -49,7 +57,6 @@ struct MessageTranslateView: View{
                     }
                 }
             }
-            
             .frame(width: isEditingMessage ?  nil : width)
             .foregroundColor(.myPurple)
             .padding()
@@ -72,33 +79,18 @@ struct MessageTranslateView: View{
                     animateText(message.translate)
                     isFirstApear = false
                 }
+                isStored = viewModel.isWordEntityStored(at: key)
             }
             
-//            if tappedIndex == message.id{
-//                HStack{
-//                    Button{
-//                        //isContainInDict.toggle()
-//
-//                    } label: {
-//                        Image(systemName: true ? "bookmark.fill" : "bookmark")
-//                            .resizable()
-//                            .frame(width: 20, height: 30, alignment: .center)
-//                            .foregroundColor(.myPurpleLight)
-//                    }
-//                    .disabled(isEditMode)
-//
-//                    Button{
-//                        isEditMode = true
-//                        isEditMessage = true
-//                    } label: {
-//                        Image(systemName: isEditMode ? "pencil.circle.fill" : "pencil.circle")
-//                            .resizable()
-//                            .frame(width: 30, height: 30, alignment: .center)
-//                            .foregroundColor(.myPurpleLight)
-//                    }
-//
-//                }
-//            }
+            if !viewModel.isEditMode{
+                    Image(systemName: isStored ? "bookmark.fill" : "bookmark")
+                            .resizable()
+                            .frame(width: 20, height: 30, alignment: .center)
+                            .foregroundColor(.myPurpleLight)
+                            .onTapGesture {
+                                isStored = viewModel.toggleWordDictionaryStatus(this: message)
+                            }
+            }
             
         }
         
@@ -150,12 +142,12 @@ struct MessageTranslateView: View{
     
 }
 
-struct MessageTranslate_Previews: PreviewProvider {
-    static var previews: some View {
-        MessageTranslateView(viewModel: TranslateViewModel(),
-                         message: ChatReplica(id: UUID(),
-                                              userWord: "Dog",
-                                              translate: "Собака")
-                         )
-    }
-}
+//struct MessageTranslate_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MessageTranslateView(viewModel: TranslateViewModel(),
+//                         message: ChatReplica(id: UUID(),
+//                                              userWord: "Dog",
+//                                              translate: "Собака")
+//                         )
+//    }
+//}
