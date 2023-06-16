@@ -50,6 +50,8 @@ class DataController: ObservableObject {
         saveData()
     }
     
+    
+    
     func deleteWordAt(key: String){
         guard let wordEntity = savedEntities.first(where: {$0.id == key}) else {
                 print("No WordEntity found with id \(key)")
@@ -59,11 +61,26 @@ class DataController: ObservableObject {
         saveData()
     }
     
+    func deleteItem(at offsets: IndexSet) {
+        for index in Array(offsets) {
+            guard index < savedEntities.count else { return }
+            let wordEntity = savedEntities[index]
+            container.viewContext.delete(wordEntity)
+        }
+        saveData()
+    }
+    
         
     
     func increasePopularity(word: WordEntity){
         guard savedEntities.contains(word) else { print("Word not found in CoreData"); return}
         word.popularity += 1
+        saveData()
+    }
+    
+    func resetPopularity(word: WordEntity){
+        guard savedEntities.contains(word) else { print("Word not found in CoreData"); return}
+        word.popularity = 1
         saveData()
     }
     

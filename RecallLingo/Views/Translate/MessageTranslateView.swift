@@ -9,97 +9,55 @@ import SwiftUI
 
 struct MessageTranslateView: View{
     @ObservedObject var viewModel: TranslateViewModel
-    var message: ChatReplica
+    var chatUnit: ChatUnit
     @State var animatedText = ""
-    @State var width: CGFloat = 0
+    @State var widthText: CGFloat = 0
     @State var countRan = 0
     @State var isFirstApear = true
     @State var isEditingMessage = false
     
+    var padding: CGFloat = 15
+    var minWidth = UIScreen.main.bounds.width*(1/4)
+    var maxWidth = UIScreen.main.bounds.width*(3/4)
+    
+    var widthSubstrate: CGFloat{
+        if widthText < minWidth - 30{
+            return minWidth + 10
+        } else {
+            return widthText + (2 * padding) + 10
+        }
+    }
+    
     var key: String{
-        message.userWord.toKey()
+        chatUnit.wordUser.toKey()
     }
     
     @State var isStored = false
     
-    
-    
     var body: some View {
-        
-        HStack{
-            Spacer()
-            Group{
-                if isEditingMessage{
-                    Text(viewModel.bufferMessageTranslate)
-                } else {
-                    VStack{
-                        HStack(){
-                            Text(animatedText)
-                            
-                            //hiden Text to get the width of this message
-                                .background(
-                                    ZStack {
-                                        Text(message.translate)
-                                            .background(GeometryReader { fullGeo in
-                                                Color.clear.onAppear {
-                                                    width = fullGeo.size.width
-                                                }
-                                            }
-                                            ).hidden()
-                                    }
-                                        .frame(maxWidth: UIScreen.main.bounds.width*(3/4)-30)
-                                        .frame(width: .greatestFiniteMagnitude)
-                                        
-                                )
-                            Spacer(minLength: 0)
-                        }
-                        Spacer(minLength: 0) 
-                    }
-                }
-            }
-            .frame(width: isEditingMessage ?  nil : width)
-            .foregroundColor(.myPurple)
-            .padding()
-            .frame(minWidth: UIScreen.main.bounds.width*(1/4))
-            .background(
-                ZStack{
-                    viewModel.tapppedID == message.id ? Color.myWhite : Color.myYellow
-                    
-                    if viewModel.tapppedID == message.id {
-                            RoundedRectangle(cornerRadius: 15).stroke(Color.myPurpleLight, lineWidth: 4)
-                        }
-                }
-            )
-            .cornerRadius(15)
+        ZStack{
             
-            .frame(maxWidth: UIScreen.main.bounds.width*(3/4), alignment: .trailing)
-
-            .onAppear {
-                if isFirstApear{
-                    animateText(message.translate)
-                    isFirstApear = false
-                }
-                isStored = viewModel.isWordEntityStored(at: key)
+            HStack{
+                Spacer()
+                
+                messageView
             }
             
             if !viewModel.isEditMode{
-                    Image(systemName: isStored ? "bookmark.fill" : "bookmark")
-                            .resizable()
-                            .frame(width: 20, height: 30, alignment: .center)
-                            .foregroundColor(.myPurpleLight)
-                            .onTapGesture {
-                                isStored = viewModel.toggleWordDictionaryStatus(this: message)
-                            }
+                bookmarkView
             }
             
         }
+        .rotationEffect(.degrees(180))
+        .scaleEffect(x: -1, y: 1, anchor: .center)
         
-        .onLongPressGesture(minimumDuration: 0.3){
-            viewModel.editing(this: message,
-                              updateMessageStatus: {isEditingMessage = true})
+        .onAppear {
+            if isFirstApear{
+                animateText(chatUnit.wordTranslate)
+                isFirstApear = false
+            }
+            isStored = viewModel.isWordEntityStored(at: key)
         }
-        
-        
         
         .onChange(of: viewModel.wordRequest) { value in
             if viewModel.isEditMode{
@@ -115,11 +73,78 @@ struct MessageTranslateView: View{
         }
         .onChange(of: isEditingMessage, perform: { newValue in
             if !newValue{
-                animatedText = message.translate
+                animatedText = chatUnit.wordTranslate
             }
         })
-        .rotationEffect(.degrees(180))
-        .scaleEffect(x: -1, y: 1, anchor: .center)
+    
+        
+    }
+    
+    var messageView: some View{
+        Group{
+            if isEditingMessage{
+                Text(viewModel.bufferMessageTranslate)
+            } else {
+                HStack(){
+                    Text(animatedText)
+                    //hiden Text to get the width of this message
+                        .background(
+                            ZStack {
+                                Text(chatUnit.wordTranslate)
+                                    .background(GeometryReader { width in
+                                        Color.clear.onAppear {
+                                            widthText = width.size.width
+                                        }
+                                    }
+                                    )
+                                    .hidden()
+                            }
+                                .frame(maxWidth: maxWidth - 30)
+                                .frame(width: .greatestFiniteMagnitude)
+                        )
+                    
+                    Spacer(minLength: 0)
+                }
+            }
+        }
+        .frame(width: isEditingMessage ?  nil : widthText)
+        .foregroundColor(.myPurple)
+        .padding(padding)
+        .frame(minWidth: minWidth)
+        .background(
+            ZStack{
+                if viewModel.tapppedID == chatUnit.id {
+                    Color.myWhite
+                    RoundedRectangle(cornerRadius: 15).stroke(Color.myPurpleLight, lineWidth: 4)
+                } else {
+                    Color.myYellow
+                }
+            }
+        )
+        .cornerRadius(15)
+        .frame(maxWidth: maxWidth, alignment: .trailing)
+        
+        .onLongPressGesture(minimumDuration: 0.3){
+            viewModel.editing(this: chatUnit,
+                              updateMessageStatus: {isEditingMessage = true})
+        }
+    }
+    
+    var bookmarkView: some View{
+        HStack{
+            Spacer()
+
+            Button{
+                isStored = viewModel.toggleWordDictionaryStatus(this: chatUnit)
+            } label: {
+                Image(systemName: isStored ? "bookmark.fill" : "bookmark")
+                        .resizable()
+                        .frame(width: 20, height: 30, alignment: .center)
+                        .foregroundColor(.myPurpleLight)
+            }
+            Spacer().frame(width: widthSubstrate)
+        }
+        
     }
     
     func resettingPropertiesEditing(){
@@ -142,12 +167,3 @@ struct MessageTranslateView: View{
     
 }
 
-//struct MessageTranslate_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MessageTranslateView(viewModel: TranslateViewModel(),
-//                         message: ChatReplica(id: UUID(),
-//                                              userWord: "Dog",
-//                                              translate: "Собака")
-//                         )
-//    }
-//}

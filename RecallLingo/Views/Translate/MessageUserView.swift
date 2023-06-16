@@ -1,0 +1,90 @@
+//
+//  MessageUser.swift
+//  RecallLingo
+//
+//  Created by Pryshliak Dmytro on 30.05.2023.
+//
+
+import SwiftUI
+
+struct MessageUserView: View {
+    var message: ChatUnit
+    @State var widthText: CGFloat = 0
+    @State var isVoiced = false
+    var padding: CGFloat = 15
+    var minWidth = UIScreen.main.bounds.width*(1/4)
+    var maxWidth = UIScreen.main.bounds.width*(3/4)
+    
+    var widthSubstrate: CGFloat{
+        if widthText < minWidth - 30{
+            return minWidth + 10
+        } else {
+            return widthText + (2 * padding) + 10
+        }
+    }
+    
+    var body: some View {
+        ZStack{
+            
+            HStack{
+                messageView
+                Spacer()
+            }
+            
+            voiceView.opacity(isVoiced ? 1 : 0)
+        }
+        .rotationEffect(.degrees(180))
+        .scaleEffect(x: -1, y: 1, anchor: .center)
+    }
+    
+    var messageView: some View{
+        HStack{
+            Text(message.wordUser)
+                .background(
+                    ZStack {
+                        Text(message.wordUser)
+                            .background(GeometryReader { width in
+                                Color.clear.onAppear {
+                                    widthText = width.size.width
+                                }
+                            }
+                            )
+                            .hidden()
+                    }
+                        .frame(maxWidth: maxWidth - 30)
+                        .frame(width: .greatestFiniteMagnitude)
+                )
+            
+            Spacer(minLength: 0)
+        }
+        .frame(width:  widthText)
+        .foregroundColor(.myYellow)
+        .padding(padding)
+        .frame(minWidth: minWidth)
+        .background(Color.myPurple)
+        .cornerRadius(15)
+        .frame(maxWidth: maxWidth, alignment: .leading)
+        
+        .onTapGesture {
+            self.isVoiced = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.isVoiced = false
+            }
+            
+        }
+    }
+    
+    var voiceView: some View{
+        HStack{
+            Spacer().frame(width: widthSubstrate )
+
+            
+                Image(systemName: "speaker.zzz")
+                    .resizable()
+                    .frame(width: 30, height: 25)
+                        .foregroundColor(.myPurpleLight)
+            Spacer()
+        }
+        
+    }
+}

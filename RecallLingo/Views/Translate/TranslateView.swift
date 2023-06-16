@@ -7,19 +7,13 @@
 
 import SwiftUI
 
-//struct TranslateView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TranslateView()
-//            .preferredColorScheme(.dark)
-//            .environmentObject(DictViewModel(dataController: DataController()))
-//    }
-//}
-
-struct ChatReplica: Identifiable{
-    var id: UUID
-    var userWord: String
-    var translate: String
+struct TranslateView_Previews: PreviewProvider {
+    static var previews: some View {
+        TranslateView()
+            .preferredColorScheme(.dark)
+    }
 }
+
 
 struct TranslateView: View {
     @StateObject var viewModel = TranslateViewModel()
@@ -28,20 +22,10 @@ struct TranslateView: View {
         NavigationView {
             VStack{
                 ScrollView(showsIndicators: true){
-                    ForEach(viewModel.messages, id: \.id) { message in
-                        VStack{
-                            if !message.translate.isEmpty || viewModel.isEditMode{
-                                MessageTranslateView(viewModel: viewModel,
-                                                 message: message)
-                            }
-                            
-                            MessageUser(message: message)
-                        }
-                        .padding(.horizontal, 15)
-                        .padding(.bottom, 10)
+                    ForEach(viewModel.chat, id: \.id) { chatUnit in
+                        ChatUnitView(viewModel: viewModel, chatUnit: chatUnit)
                     }
                 }
-                
                 .rotationEffect(.degrees(180))
                 .scaleEffect(x: -1, y: 1, anchor: .center)
                 .onTapGesture {
@@ -73,8 +57,20 @@ struct TranslateView: View {
                       message: Text(show.name),
                       dismissButton: .cancel())
             }
-            
+            .toolbar{
+    //
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "speaker.slash.fill" )
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundColor(.myPurpleLight)
+                    }
+                    
+                }
         }
+        
         
         //        if we received a response, we display it in the chat window on the user's message
         .onChange(of: viewModel.wordResponse) { response in

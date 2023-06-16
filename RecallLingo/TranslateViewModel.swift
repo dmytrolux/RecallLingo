@@ -24,8 +24,20 @@ class TranslateViewModel: ObservableObject {
     @Published var textAlert = ""
     @Published var isShowAlert: ShowAlert?
     
-    @Published var messages: [ChatReplica] = [
-                ChatReplica(id: UUID(), userWord: "The Lord of the Rings", translate: "Володар перснів")
+    @Published var chat: [ChatUnit] = [
+                ChatUnit(id: UUID(), wordUser: "The Lord of the Rings", wordTranslate: "Володар перснів"),
+                ChatUnit(id: UUID(), wordUser: "time", wordTranslate: "час"),
+                ChatUnit(id: UUID(), wordUser: "information", wordTranslate: "інформація"),
+                ChatUnit(id: UUID(), wordUser: "people", wordTranslate: "люди"),
+                ChatUnit(id: UUID(), wordUser: "state", wordTranslate: "держава"),
+                ChatUnit(id: UUID(), wordUser: "kind", wordTranslate: "доброзичливий"),
+                ChatUnit(id: UUID(), wordUser: "rain cats and dogs", wordTranslate: "лити як з відра"),
+                ChatUnit(id: UUID(), wordUser: "lightning-fast", wordTranslate: "блискавичний"),
+                ChatUnit(id: UUID(), wordUser: "under а cloud", wordTranslate: "під підозрою"),
+                ChatUnit(id: UUID(), wordUser: "on cloud nine", wordTranslate: "на сьомому небі від щастя"),
+                ChatUnit(id: UUID(), wordUser: "for a rainy day", wordTranslate: "на чорний день"),
+                ChatUnit(id: UUID(), wordUser: "as right as rain", wordTranslate: "у повному порядку")
+                
             ]
 
     @Published var bufferID = UUID()
@@ -54,8 +66,8 @@ class TranslateViewModel: ObservableObject {
     func sendMessageForTranslation(){
         translateText()
         let id = UUID()
-        let newMessages = ChatReplica(id: id, userWord: wordRequest, translate: "")
-        messages.insert(newMessages, at: 0)
+        let newMessages = ChatUnit(id: id, wordUser: wordRequest, wordTranslate: "")
+        chat.insert(newMessages, at: 0)
         bufferID = id
     }
     
@@ -128,9 +140,9 @@ class TranslateViewModel: ObservableObject {
     }
     
     func removeInvalidRequest(){
-        if let index = self.messages.firstIndex(where: {$0.id == self.bufferID}),
-           self.messages[index].translate == "" {
-            self.messages.remove(at: index)
+        if let index = self.chat.firstIndex(where: {$0.id == self.bufferID}),
+           self.chat[index].wordTranslate == "" {
+            self.chat.remove(at: index)
             self.sendMessageForTranslationButtonIsDisabled = false
             self.isShowAlert = ShowAlert(name: "Invalid Input/nPlease enter a valid word for translation.")
         }
@@ -143,8 +155,8 @@ class TranslateViewModel: ObservableObject {
     }
     
     //при натисканні на прапорець додавати або видаляти слово із словника
-    func toggleWordDictionaryStatus(this message: ChatReplica) -> Bool{
-        let key = message.userWord.toKey()
+    func toggleWordDictionaryStatus(this message: ChatUnit) -> Bool{
+        let key = message.wordUser.toKey()
         
         if isWordEntityStored(at: key) {
             MyApp.dataController.deleteWordAt(key: key)
@@ -167,13 +179,13 @@ class TranslateViewModel: ObservableObject {
                                  translate: wordResponse)
     }
     
-    func addToDictionary(this message: ChatReplica){
-        MyApp.dataController.new(key: message.userWord.toKey(),
-                                 original: message.userWord,
-                                 translate: message.translate)
+    func addToDictionary(this message: ChatUnit){
+        MyApp.dataController.new(key: message.wordUser.toKey(),
+                                 original: message.wordUser,
+                                 translate: message.wordTranslate)
     }
 
-    func editing(this message: ChatReplica,
+    func editing(this message: ChatUnit,
                  updateMessageStatus: @escaping () -> Void){
         if !isEditMode {
             clearTranslateData()
@@ -182,8 +194,8 @@ class TranslateViewModel: ObservableObject {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.tapppedID = message.id
                 self.isEditMode = true
-                self.wordRequest = message.translate
-                print(message.translate)
+                self.wordRequest = message.wordTranslate
+                print(message.wordTranslate)
                 UITabBar.hideTabBar()
                 updateMessageStatus()
             }
@@ -193,11 +205,11 @@ class TranslateViewModel: ObservableObject {
     func finishEditingTranslationThisWord(){
         
         if let tapID = tapppedID{
-            if let index = messages.firstIndex(where: {$0.id == tapID}){
+            if let index = chat.firstIndex(where: {$0.id == tapID}){
                 
-                messages[index].translate = bufferMessageTranslate.capitalized
+                chat[index].wordTranslate = bufferMessageTranslate.capitalized
                 
-                if let word = getWordEntity(key: messages[index].userWord.toKey()) {
+                if let word = getWordEntity(key: chat[index].wordUser.toKey()) {
                     word.translate = bufferMessageTranslate
                     MyApp.dataController.saveData()
                 } else {
@@ -221,9 +233,9 @@ class TranslateViewModel: ObservableObject {
     func sendTranslatedMessage(response: String){
         if !response.isEmpty{
             print("Переклад: \(response)")
-            if let index = messages.firstIndex(where: {$0.id == bufferID}){
+            if let index = chat.firstIndex(where: {$0.id == bufferID}){
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.messages[index].translate = response
+                    self.chat[index].wordTranslate = response
                     self.clearTranslateData()
                 }
             } else {

@@ -52,11 +52,6 @@ struct MainScreen: View {
             WordRememberView(word: MyApp.dataController.mostPopularWord())
        
         }
-//        .onChange(of: selection) { newValue in
-//
-//                    print("TabSelection in Main: \(newValue)")
-//
-//        }
     }
 }
 

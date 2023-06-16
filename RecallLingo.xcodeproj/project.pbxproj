@@ -10,7 +10,9 @@
 		0FDD6AF52F2781874D53860E /* Pods_RecallLingo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC65256C5D1978619E61C04 /* Pods_RecallLingo.framework */; };
 		6618605C29DC21AA00C5DFA5 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6618605B29DC21AA00C5DFA5 /* .gitignore */; };
 		662D853D2A117A1C0065DCF6 /* UDKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662D853C2A117A1C0065DCF6 /* UDKey.swift */; };
-		664BE1B62A25FCA000E1B577 /* MessageUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BE1B52A25FCA000E1B577 /* MessageUser.swift */; };
+		663A46F82A3B67B70038DEEB /* ChatUnitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A46F72A3B67B70038DEEB /* ChatUnitView.swift */; };
+		663A46FA2A3B68950038DEEB /* ChatUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A46F92A3B68950038DEEB /* ChatUnit.swift */; };
+		664BE1B62A25FCA000E1B577 /* MessageUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BE1B52A25FCA000E1B577 /* MessageUserView.swift */; };
 		664BE1B82A26117200E1B577 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BE1B72A26117200E1B577 /* CustomTextField.swift */; };
 		664BE1BA2A267E2D00E1B577 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BE1B92A267E2D00E1B577 /* NetworkMonitor.swift */; };
 		6679C3B02A17CD1700C97213 /* MessageTranslateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6679C3AF2A17CD1700C97213 /* MessageTranslateView.swift */; };
@@ -38,7 +40,9 @@
 		2B664026F391B2FD7E05BB8B /* Pods-RecallLingo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecallLingo.debug.xcconfig"; path = "Target Support Files/Pods-RecallLingo/Pods-RecallLingo.debug.xcconfig"; sourceTree = "<group>"; };
 		6618605B29DC21AA00C5DFA5 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		662D853C2A117A1C0065DCF6 /* UDKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UDKey.swift; sourceTree = "<group>"; };
-		664BE1B52A25FCA000E1B577 /* MessageUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageUser.swift; sourceTree = "<group>"; };
+		663A46F72A3B67B70038DEEB /* ChatUnitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUnitView.swift; sourceTree = "<group>"; };
+		663A46F92A3B68950038DEEB /* ChatUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUnit.swift; sourceTree = "<group>"; };
+		664BE1B52A25FCA000E1B577 /* MessageUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageUserView.swift; sourceTree = "<group>"; };
 		664BE1B72A26117200E1B577 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		664BE1B92A267E2D00E1B577 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		6679C3AF2A17CD1700C97213 /* MessageTranslateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTranslateView.swift; sourceTree = "<group>"; };
@@ -111,6 +115,7 @@
 				66847BDE29DB3E8400CB3A8E /* MyApp.swift */,
 				669EE22A2A0B08360056984E /* Views */,
 				66F848952A05AE8E00ED071A /* TranslateViewModel.swift */,
+				663A46F92A3B68950038DEEB /* ChatUnit.swift */,
 				664BE1B92A267E2D00E1B577 /* NetworkMonitor.swift */,
 				669EE2372A1039A20056984E /* Color+Extension.swift */,
 				662D853C2A117A1C0065DCF6 /* UDKey.swift */,
@@ -149,7 +154,8 @@
 				66FA88C929E702D10077C159 /* TranslateView.swift */,
 				664BE1B72A26117200E1B577 /* CustomTextField.swift */,
 				6679C3AF2A17CD1700C97213 /* MessageTranslateView.swift */,
-				664BE1B52A25FCA000E1B577 /* MessageUser.swift */,
+				664BE1B52A25FCA000E1B577 /* MessageUserView.swift */,
+				663A46F72A3B67B70038DEEB /* ChatUnitView.swift */,
 			);
 			path = Translate;
 			sourceTree = "<group>";
@@ -338,16 +344,18 @@
 			files = (
 				66FA88D829E766A50077C159 /* KeyboardHiden.swift in Sources */,
 				669EE2382A1039A20056984E /* Color+Extension.swift in Sources */,
-				664BE1B62A25FCA000E1B577 /* MessageUser.swift in Sources */,
+				664BE1B62A25FCA000E1B577 /* MessageUserView.swift in Sources */,
 				66F848902A0472B500ED071A /* DataController.swift in Sources */,
 				66FA88D029E726A80077C159 /* StatisticView.swift in Sources */,
 				6679C3B02A17CD1700C97213 /* MessageTranslateView.swift in Sources */,
 				66E273772A025A3600C44C60 /* LocalNotificationManager.swift in Sources */,
 				66F848962A05AE8E00ED071A /* TranslateViewModel.swift in Sources */,
+				663A46FA2A3B68950038DEEB /* ChatUnit.swift in Sources */,
 				664BE1B82A26117200E1B577 /* CustomTextField.swift in Sources */,
 				669EE2292A0B08130056984E /* WordDetailView.swift in Sources */,
 				66FA88D529E726FA0077C159 /* SettingsView.swift in Sources */,
 				66FA88CA29E702D10077C159 /* TranslateView.swift in Sources */,
+				663A46F82A3B67B70038DEEB /* ChatUnitView.swift in Sources */,
 				66847BE129DB3E8400CB3A8E /* MainScreen.swift in Sources */,
 				66847BDF29DB3E8400CB3A8E /* MyApp.swift in Sources */,
 				66F8488E2A04706400ED071A /* DictionaryContainer.xcdatamodeld in Sources */,
