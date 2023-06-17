@@ -13,7 +13,6 @@ import UserNotifications
 struct MyApp: App {
 //    @StateObject var data = DataController()
     static var dataController = DataController()
-//    @StateObject var viewModel = DictViewModel()//
     @StateObject var lNManager = LocalNotificationManager()//
     @Environment(\.scenePhase) private var phase
     @State private var isPresented = false

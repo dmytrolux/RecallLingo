@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChatUnitView: View{
     @ObservedObject var viewModel: TranslateViewModel
+    
     var chatUnit: ChatUnit
     
     var body: some View{

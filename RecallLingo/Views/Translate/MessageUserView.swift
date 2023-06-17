@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct MessageUserView: View {
+    @ObservedObject var audioManager = AudioManager.shared
     var message: ChatUnit
     @State var widthText: CGFloat = 0
-    @State var isVoiced = false
+    @State var isSpeaking = false
     var padding: CGFloat = 15
     var minWidth = UIScreen.main.bounds.width*(1/4)
     var maxWidth = UIScreen.main.bounds.width*(3/4)
@@ -23,6 +24,7 @@ struct MessageUserView: View {
         }
     }
     
+    
     var body: some View {
         ZStack{
             
@@ -31,7 +33,7 @@ struct MessageUserView: View {
                 Spacer()
             }
             
-            voiceView.opacity(isVoiced ? 1 : 0)
+            voiceView.opacity(isSpeaking ? 1 : 0)
         }
         .rotationEffect(.degrees(180))
         .scaleEffect(x: -1, y: 1, anchor: .center)
@@ -66,12 +68,20 @@ struct MessageUserView: View {
         .frame(maxWidth: maxWidth, alignment: .leading)
         
         .onTapGesture {
-            self.isVoiced = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.isVoiced = false
+            if !isSpeaking {
+                audioManager.speak(text: message.wordUser)
+                self.isSpeaking = true
             }
-            
         }
+        
+        .onChange(of: audioManager.synthesizer.isSpeaking) { isSpeaking in
+            print("isSpeaking: \(isSpeaking)")
+            if !isSpeaking {
+                self.isSpeaking = false
+            }
+        }
+        
+        
     }
     
     var voiceView: some View{
@@ -84,6 +94,9 @@ struct MessageUserView: View {
                     .frame(width: 30, height: 25)
                         .foregroundColor(.myPurpleLight)
             Spacer()
+        }
+        .onTapGesture {
+            audioManager.stopSpeaking()
         }
         
     }

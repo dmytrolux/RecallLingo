@@ -17,6 +17,7 @@ struct TranslateView_Previews: PreviewProvider {
 
 struct TranslateView: View {
     @StateObject var viewModel = TranslateViewModel()
+
     
     var body: some View {
         NavigationView {

@@ -16,7 +16,8 @@ struct ShowAlert: Identifiable {
 
 @MainActor
 class TranslateViewModel: ObservableObject {
-    @Published var networkMonitor: NetworkMonitor
+    @Published var networkMonitor = NetworkMonitor()
+    var audioManager = AudioManager.shared
     @Published var wordRequest: String = ""
     @Published var wordResponse: String = ""
     @Published var isUniqueWord: Bool = false
@@ -64,6 +65,7 @@ class TranslateViewModel: ObservableObject {
     }
     
     func sendMessageForTranslation(){
+        audioManager.speak(text: wordRequest)
         translateText()
         let id = UUID()
         let newMessages = ChatUnit(id: id, wordUser: wordRequest, wordTranslate: "")
@@ -251,9 +253,6 @@ class TranslateViewModel: ObservableObject {
         tapppedID = nil
     }
 
-    init(){
-        self.networkMonitor = NetworkMonitor()
-    }
 }
 
 extension String{

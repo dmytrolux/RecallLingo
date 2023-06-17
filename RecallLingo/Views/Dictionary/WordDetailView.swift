@@ -9,13 +9,7 @@ import AVFoundation
 import HidableTabView
 import SwiftUI
 
-enum Voice: String {
-    case gordon = "com.apple.ttsbundle.siri_male_en-AU_compact"
-    case karen = "us-female"
-    case catherine = "uk-male"
-    case ukFemale = "uk-female"
-    case australian = "australian"
-}
+
 
 struct WordDetailView: View {
 //    @EnvironmentObject var vm: TranslateViewModel
