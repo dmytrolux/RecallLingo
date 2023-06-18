@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MessageUserView: View {
-    @ObservedObject var audioManager = AudioManager.shared
+    @StateObject var audioManager = AudioManager.shared
     var message: ChatUnit
     @State var widthText: CGFloat = 0
     @State var isSpeaking = false
@@ -33,7 +33,7 @@ struct MessageUserView: View {
                 Spacer()
             }
             
-            voiceView.opacity(isSpeaking ? 1 : 0)
+            voiceView
         }
         .rotationEffect(.degrees(180))
         .scaleEffect(x: -1, y: 1, anchor: .center)
@@ -68,18 +68,9 @@ struct MessageUserView: View {
         .frame(maxWidth: maxWidth, alignment: .leading)
         
         .onTapGesture {
-            if !isSpeaking {
-                audioManager.speak(text: message.wordUser)
-                self.isSpeaking = true
-            }
+            isSpeaking = audioManager.speak(text: message.wordUser)
         }
         
-        .onChange(of: audioManager.synthesizer.isSpeaking) { isSpeaking in
-            print("isSpeaking: \(isSpeaking)")
-            if !isSpeaking {
-                self.isSpeaking = false
-            }
-        }
         
         
     }
@@ -95,6 +86,12 @@ struct MessageUserView: View {
                         .foregroundColor(.myPurpleLight)
             Spacer()
         }
+        .opacity(isSpeaking ? 1 : 0)
+        .onChange(of: audioManager.isSpeaking, perform: { newValue in
+            if !newValue{
+                isSpeaking = newValue
+            }
+        })
         .onTapGesture {
             audioManager.stopSpeaking()
         }

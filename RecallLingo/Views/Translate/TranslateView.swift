@@ -14,10 +14,9 @@ struct TranslateView_Previews: PreviewProvider {
     }
 }
 
-
 struct TranslateView: View {
     @StateObject var viewModel = TranslateViewModel()
-
+    @StateObject var audioManager = AudioManager.shared
     
     var body: some View {
         NavigationView {

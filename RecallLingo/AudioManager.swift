@@ -11,37 +11,55 @@ import SwiftUI
 
 
 
-class AudioManager: NSObject, AVSpeechSynthesizerDelegate, ObservableObject{
+class AudioManager: NSObject, AVSpeechSynthesizerDelegate, ObservableObject {
+    
     static let shared = AudioManager()
-    private override init() {}
     
     let synthesizer = AVSpeechSynthesizer()
+    
+    private  override init() {
+        super.init()
+        synthesizer.delegate = self
+    }
+    
+    
     @AppStorage("selectedVoice") var voice: Voice = .gordon
-    @AppStorage("isMute") var isMute: Bool = false
-    private var isSpeaking: Bool = false
-    
-    override func awakeFromNib() {
-            super.awakeFromNib()
-            synthesizer.delegate = self
+    @AppStorage("isMute") var isMute: Bool = false{
+        didSet{
+            self.objectWillChange.send()
         }
+    }
     
-    func speak(text: String){
-        if !isMute{
+    var isSpeaking: Bool {
+        return synthesizer.isSpeaking
+    }
+    
+    
+    func speak(text: String) -> Bool{
+        if !isMute && !isSpeaking{
             let utterance = AVSpeechUtterance(string: text)
             utterance.voice = AVSpeechSynthesisVoice(identifier: voice.rawValue)
             utterance.volume = 1
             utterance.rate = 0.4
             synthesizer.speak(utterance)
+            
+            return true
         }
+        return false
     }
     
     func stopSpeaking() {
-            synthesizer.stopSpeaking(at: .immediate)
-        }
+        synthesizer.stopSpeaking(at: .immediate)
+    }
+    
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
+        self.objectWillChange.send()
+    }
     
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-            isSpeaking = false
-        }
+        self.objectWillChange.send()
+    }
+    
     
     
     enum Voice: String {

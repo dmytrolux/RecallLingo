@@ -11,7 +11,6 @@ import UserNotifications
 
 @main
 struct MyApp: App {
-//    @StateObject var data = DataController()
     static var dataController = DataController()
     @StateObject var lNManager = LocalNotificationManager()//
     @Environment(\.scenePhase) private var phase
@@ -19,6 +18,7 @@ struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             MainScreen(isPresented: $isPresented)
+//            ContentView()
                 .preferredColorScheme(.dark)
 //                .environmentObject(viewModel)
                 .environmentObject(lNManager)
