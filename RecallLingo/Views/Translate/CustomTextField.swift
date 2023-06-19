@@ -5,7 +5,9 @@
 //  Created by Pryshliak Dmytro on 30.05.2023.
 //
 
+import Combine
 import SwiftUI
+
 
 struct CustomTextField: View {
     
@@ -25,13 +27,18 @@ struct CustomTextField: View {
                 .disableAutocorrection(false)
                 .textSelection(.enabled)
                 .autocapitalization(.sentences)
-//                .keyboardType(.alphabet)
                 .focused($isFocused)
                 .onReceive(vm.$isTextFieldFocused) { focused in
                     isFocused = focused
                 }
                 .onSubmit{
                     vm.sendMessageForTranslation()
+                }
+                .onReceive(Just(vm.wordRequest)) { newValue in
+                    let filteredText = filterText(newValue)
+                    if filteredText != newValue {
+                        vm.wordRequest = filteredText
+                    }
                 }
                 
             
@@ -62,10 +69,18 @@ struct CustomTextField: View {
     private func hideKeyboard() {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
+    
+    func filterText(_ input: String) -> String {
+        input.components(separatedBy: CharacterSets.allowedCharacterSet.inverted).joined()
+        }
 }
 
-//struct CustomTextField_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CustomTextField()
-//    }
-//}
+struct CharacterSets{
+    static let englishSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    static let numberSet = CharacterSet(charactersIn: "0123456789")
+    static let symbolSet = CharacterSet(charactersIn: "!? \n\"'’.,-—")
+    
+    static var allowedCharacterSet: CharacterSet{
+        englishSet.union(numberSet).union(symbolSet)
+    }
+}

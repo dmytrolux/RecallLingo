@@ -5,13 +5,16 @@
 //  Created by Pryshliak Dmytro on 30.05.2023.
 //
 
+import Combine
 import SwiftUI
 
 struct MessageUserView: View {
     @StateObject var audioManager = AudioManager.shared
+    @StateObject var viewModel: TranslateViewModel
     var message: ChatUnit
     @State var widthText: CGFloat = 0
     @State var isSpeaking = false
+    
     var padding: CGFloat = 15
     var minWidth = UIScreen.main.bounds.width*(1/4)
     var maxWidth = UIScreen.main.bounds.width*(3/4)
@@ -24,6 +27,8 @@ struct MessageUserView: View {
         }
     }
     
+    private let newMessage = NotificationCenter.default.publisher(for: Notifications.newMessage)
+    
     
     var body: some View {
         ZStack{
@@ -33,11 +38,16 @@ struct MessageUserView: View {
                 Spacer()
             }
             
-            voiceView
+            speakerView
         }
         .rotationEffect(.degrees(180))
         .scaleEffect(x: -1, y: 1, anchor: .center)
+        .onChange(of: viewModel.bufferID) { newValue in
+            print(viewModel.bufferID.uuidString)
+        }
+
     }
+    
     
     var messageView: some View{
         HStack{
@@ -68,14 +78,12 @@ struct MessageUserView: View {
         .frame(maxWidth: maxWidth, alignment: .leading)
         
         .onTapGesture {
-            isSpeaking = audioManager.speak(text: message.wordUser)
+            audioManager.speak(text: message.wordUser)
+            isSpeaking = true
         }
-        
-        
-        
     }
     
-    var voiceView: some View{
+    var speakerView: some View{
         HStack{
             Spacer().frame(width: widthSubstrate )
 
@@ -92,9 +100,26 @@ struct MessageUserView: View {
                 isSpeaking = newValue
             }
         })
+        //TODO: - Display the voiceView (isSpeaking = true) when speaking a new word using Notifications
+        //
+//        .onReceive(newMessage, perform: { notification in
+//            if let newMessages = notification.object as? ChatUnit {
+//                if newMessages.wordUser == viewModel.wordRequest{
+//                    isSpeaking = true
+//                }
+//
+//            }
+//        })
         .onTapGesture {
             audioManager.stopSpeaking()
         }
-        
+
     }
+    
+}
+
+
+struct Notifications{
+    static let newMessage = Notification.Name("newMessage")
+    
 }

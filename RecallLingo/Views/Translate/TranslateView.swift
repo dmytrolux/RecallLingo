@@ -23,7 +23,8 @@ struct TranslateView: View {
             VStack{
                 ScrollView(showsIndicators: true){
                     ForEach(viewModel.chat, id: \.id) { chatUnit in
-                        ChatUnitView(viewModel: viewModel, chatUnit: chatUnit)
+                        ChatUnitView(viewModel: viewModel,
+                                     chatUnit: chatUnit)
                     }
                 }
                 .rotationEffect(.degrees(180))
@@ -58,13 +59,12 @@ struct TranslateView: View {
                       dismissButton: .cancel())
             }
             .toolbar{
-    //
                     Button {
-                        
+                        audioManager.isMute.toggle()
                     } label: {
-                        Image(systemName: "speaker.slash.fill" )
+                        Image(systemName: audioManager.isMute ? "speaker.slash.circle.fill" : "speaker.wave.2.circle" )
                             .resizable()
-                            .frame(width: 25, height: 25)
+                            .frame(width: 30, height: 30)
                             .foregroundColor(.myPurpleLight)
                     }
                     
@@ -76,6 +76,8 @@ struct TranslateView: View {
         .onChange(of: viewModel.wordResponse) { response in
             viewModel.sendTranslatedMessage(response: response)
         }
+        
+        
 
         
     }
@@ -110,16 +112,24 @@ struct TranslateView: View {
     
     var sendMessageForTranslationButtonView: some View{
         Button {
-            viewModel.sendMessageForTranslation()
+            if !viewModel.wordRequest.isEmpty{
+                viewModel.sendMessageForTranslation()
+                
+                if !audioManager.isMute{
+                    audioManager.speak(text: viewModel.wordRequest)
+                }
+            }
         } label: {
             Image(systemName: "paperplane")
                 .resizable()
                 .frame(width: 30, height: 30, alignment: .center)
                 .foregroundColor(viewModel.networkMonitor.isConnected ? .myPurpleLight : .red )
                 .padding(.trailing, 15)
+                .opacity(viewModel.isSendMessageButtonEnabled ? 0.5 : 1)
         }
-        .disabled(viewModel.sendMessageForTranslationButtonIsDisabled)
+        .disabled(viewModel.isSendMessageButtonEnabled)
     }
+    
     
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)

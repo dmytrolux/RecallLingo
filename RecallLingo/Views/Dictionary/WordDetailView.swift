@@ -12,23 +12,11 @@ import SwiftUI
 
 
 struct WordDetailView: View {
-//    @EnvironmentObject var vm: TranslateViewModel
-    
     @State var word: WordEntity
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    let synthesizer = AVSpeechSynthesizer()
-    
-    func speakWord(word: WordEntity){
-//        if counter.volumeSpeakCount > 0 {
-        print(AVSpeechSynthesisVoice.speechVoices())
-        let utterance = AVSpeechUtterance(string: String(word.original ?? ""))
-            utterance.voice = AVSpeechSynthesisVoice(identifier: "com.apple.ttsbundle.siri_male_en-AU_compact")
-            utterance.volume = 1
-        utterance.rate = 0.4
-            synthesizer.speak(utterance)
-//        }
-    }
+    @StateObject var audioManager = AudioManager.shared
+    @State var isSpeaking = false
     
     var body: some View {
         VStack {
@@ -45,12 +33,23 @@ struct WordDetailView: View {
                     VStack{
                         Spacer().frame(height: 10)
                         Button{
-                            speakWord(word: word)
+                            if !isSpeaking{
+                                audioManager.speak(text: word.original ?? "")
+                                isSpeaking = true
+                            } else {
+                                audioManager.stopSpeaking()
+                            }
                         } label: {
-                            Image(systemName: "speaker.wave.3.fill")
+                            
+                            Image(systemName: isSpeaking ? "speaker.wave.2.bubble.left" : "speaker.wave.2.bubble.left.fill")
                                 .resizable()
-                                .frame(width: 30, height: 20)
+                                .frame(width: 40, height: 40)
                                 .foregroundColor(.myYellow)
+                                .onChange(of: audioManager.isSpeaking, perform: { newValue in
+                                    if !newValue{
+                                        isSpeaking = newValue
+                                    }
+                                })
                         }
                         Spacer()
                     }
@@ -70,6 +69,8 @@ struct WordDetailView: View {
             MyApp.dataController.increasePopularity(word: word)
             UITabBar.hideTabBar(animated: false)
         }
+        
+        
         .navigationBarBackButtonHidden()
         .navigationBarItems(leading:
                                 Button(action: { self.presentationMode.wrappedValue.dismiss()}) {

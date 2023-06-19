@@ -24,7 +24,7 @@ class AudioManager: NSObject, AVSpeechSynthesizerDelegate, ObservableObject {
     
     
     @AppStorage("selectedVoice") var voice: Voice = .gordon
-    @AppStorage("isMute") var isMute: Bool = false{
+    @AppStorage("isMute") var isMute: Bool = false {
         didSet{
             self.objectWillChange.send()
         }
@@ -35,17 +35,15 @@ class AudioManager: NSObject, AVSpeechSynthesizerDelegate, ObservableObject {
     }
     
     
-    func speak(text: String) -> Bool{
-        if !isMute && !isSpeaking{
+    func speak(text: String) {
+        if !isSpeaking{
             let utterance = AVSpeechUtterance(string: text)
             utterance.voice = AVSpeechSynthesisVoice(identifier: voice.rawValue)
             utterance.volume = 1
             utterance.rate = 0.4
             synthesizer.speak(utterance)
-            
-            return true
+      
         }
-        return false
     }
     
     func stopSpeaking() {

@@ -19,7 +19,7 @@ struct ChatUnitView: View{
                                  chatUnit: chatUnit)
             }
             
-            MessageUserView(message: chatUnit)
+            MessageUserView(viewModel: viewModel, message: chatUnit)
         }
         .padding(.horizontal, 15)
         .padding(.bottom, 10)

@@ -17,7 +17,6 @@ struct ShowAlert: Identifiable {
 @MainActor
 class TranslateViewModel: ObservableObject {
     @Published var networkMonitor = NetworkMonitor()
-    var audioManager = AudioManager.shared
     @Published var wordRequest: String = ""
     @Published var wordResponse: String = ""
     @Published var isUniqueWord: Bool = false
@@ -26,29 +25,21 @@ class TranslateViewModel: ObservableObject {
     @Published var isShowAlert: ShowAlert?
     
     @Published var chat: [ChatUnit] = [
-                ChatUnit(id: UUID(), wordUser: "The Lord of the Rings", wordTranslate: "Володар перснів"),
-                ChatUnit(id: UUID(), wordUser: "time", wordTranslate: "час"),
-                ChatUnit(id: UUID(), wordUser: "information", wordTranslate: "інформація"),
-                ChatUnit(id: UUID(), wordUser: "people", wordTranslate: "люди"),
-                ChatUnit(id: UUID(), wordUser: "state", wordTranslate: "держава"),
-                ChatUnit(id: UUID(), wordUser: "kind", wordTranslate: "доброзичливий"),
-                ChatUnit(id: UUID(), wordUser: "rain cats and dogs", wordTranslate: "лити як з відра"),
-                ChatUnit(id: UUID(), wordUser: "lightning-fast", wordTranslate: "блискавичний"),
-                ChatUnit(id: UUID(), wordUser: "under а cloud", wordTranslate: "під підозрою"),
-                ChatUnit(id: UUID(), wordUser: "on cloud nine", wordTranslate: "на сьомому небі від щастя"),
-                ChatUnit(id: UUID(), wordUser: "for a rainy day", wordTranslate: "на чорний день"),
-                ChatUnit(id: UUID(), wordUser: "as right as rain", wordTranslate: "у повному порядку")
-                
-            ]
+                ChatUnit(id: UUID(), wordUser: "The Lord of the Rings", wordTranslate: "Володар перснів")
+                ]
 
     @Published var bufferID = UUID()
     @Published var tapppedID : UUID?
     @Published var isEditMode = false
     @Published var isContainInDict = false //make logica
     @Published var bufferMessageTranslate = ""
-    @Published var sendMessageForTranslationButtonIsDisabled = false
+    @Published var isBlockingSendButton = false
     
     @Published var isTextFieldFocused = false
+    
+    @Published var lastAddedIndex: Int? = nil
+    
+    private let newMessage = NotificationCenter.default.publisher(for: Notifications.newMessage)
     
     let translator = Translator.translator(options: TranslatorOptions(sourceLanguage: .english, targetLanguage: .ukrainian))
     
@@ -65,18 +56,20 @@ class TranslateViewModel: ObservableObject {
     }
     
     func sendMessageForTranslation(){
-        audioManager.speak(text: wordRequest)
         translateText()
         let id = UUID()
         let newMessages = ChatUnit(id: id, wordUser: wordRequest, wordTranslate: "")
         chat.insert(newMessages, at: 0)
+        lastAddedIndex = chat.count - 1
         bufferID = id
+        NotificationCenter.default.post(name: Notifications.newMessage, object: newMessages)
+        
     }
     
     ///Якщо слово відсутнє в БД, то перекладаємо через MLKitTranslate, інакше дістаємо переклад з БД
     func translateText() {
         let key = wordRequest.toKey()
-        sendMessageForTranslationButtonIsDisabled = true
+        isBlockingSendButton = true
         
         if isWordEntityStored(at: key) {
             guard let word = getWordEntity(key: key) else {
@@ -86,11 +79,15 @@ class TranslateViewModel: ObservableObject {
             
             recallTranslation(of: word)
             MyApp.dataController.increasePopularity(word: word)
-            sendMessageForTranslationButtonIsDisabled = false
         }
         else{
             handleMLKitTranslate()
         }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.isBlockingSendButton = false
+        }
+
         
         
     }
@@ -102,6 +99,7 @@ class TranslateViewModel: ObservableObject {
             return
         }
         wordResponse = translate
+        
     }
     
     ///Перекладаємо у випадку наявності мовної моделі, або завантажуємо її і перекладаємо, якщо не вдається завантажити її через відсутність інтернету то просимо користувача увімкнути інтернет
@@ -145,15 +143,15 @@ class TranslateViewModel: ObservableObject {
         if let index = self.chat.firstIndex(where: {$0.id == self.bufferID}),
            self.chat[index].wordTranslate == "" {
             self.chat.remove(at: index)
-            self.sendMessageForTranslationButtonIsDisabled = false
-            self.isShowAlert = ShowAlert(name: "Invalid Input/nPlease enter a valid word for translation.")
+
+            self.isShowAlert = ShowAlert(name: "Invalid Input\nPlease enter a valid word for translation.")
         }
     }
     
     func getTranslation(_ translation: String){
         self.wordResponse = translation
         self.addToDictionary()
-        self.sendMessageForTranslationButtonIsDisabled = false
+
     }
     
     //при натисканні на прапорець додавати або видаляти слово із словника
@@ -252,6 +250,19 @@ class TranslateViewModel: ObservableObject {
         isEditMode = false
         tapppedID = nil
     }
+    
+    var isSendMessageButtonEnabled: Bool{
+        if !isBlockingSendButton{
+            if let _ = wordRequest.rangeOfCharacter(from: CharacterSets.englishSet){
+                return isBlockingSendButton
+            } else {
+                return true
+            }
+        } else {
+            return true
+        }
+    }
+    
 
 }
 
@@ -268,14 +279,6 @@ extension String{
     }
 }
 
-
-//    func removeAt(key: String){
-//        guard let wordEntity = MyApp.dataController.savedEntities.first(where: {$0.id == key}) else {
-//                print("No WordEntity found with id \(key)")
-//                return
-//            }
-//        MyApp.dataController.deleteWord(object: wordEntity)
-//    }
     
     
 
