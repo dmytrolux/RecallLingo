@@ -30,7 +30,12 @@ struct CustomTextField: View {
                 .focused($isFocused)
                 .onReceive(vm.$isTextFieldFocused) { focused in
                     isFocused = focused
+                    print("focused: \(focused)")
                 }
+                .onChange(of: isFocused, perform: { newValue in
+                    vm.isHidenTitle = newValue
+                
+                })
                 .onSubmit{
                     vm.sendMessageForTranslation()
                 }
@@ -75,12 +80,4 @@ struct CustomTextField: View {
         }
 }
 
-struct CharacterSets{
-    static let englishSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-    static let numberSet = CharacterSet(charactersIn: "0123456789")
-    static let symbolSet = CharacterSet(charactersIn: "!? \n\"'’.,-—")
-    
-    static var allowedCharacterSet: CharacterSet{
-        englishSet.union(numberSet).union(symbolSet)
-    }
-}
+

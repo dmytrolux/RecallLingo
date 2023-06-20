@@ -18,6 +18,7 @@ struct TranslateView: View {
     @StateObject var viewModel = TranslateViewModel()
     @StateObject var audioManager = AudioManager.shared
     
+    
     var body: some View {
         NavigationView {
             VStack{
@@ -38,6 +39,8 @@ struct TranslateView: View {
                     
                     if viewModel.isEditMode {
                         editCancelView
+                    } else {
+                        speakerView
                     }
                     
                     CustomTextField(vm: viewModel)
@@ -53,28 +56,40 @@ struct TranslateView: View {
             }
             .background(Color.myPurpleDark)
             .navigationTitle("Translate")
+            .navigationBarHidden(viewModel.isHidenTitle)
+            // open keyboard hide navigationTitle
+            
+            
+            
             .alert(item: $viewModel.isShowAlert){ show in
                 Alert(title: Text("Error"),
                       message: Text(show.name),
                       dismissButton: .cancel())
             }
-            .toolbar{
-                    Button {
-                        audioManager.isMute.toggle()
-                    } label: {
-                        Image(systemName: audioManager.isMute ? "speaker.slash.circle.fill" : "speaker.wave.2.circle" )
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(.myPurpleLight)
-                    }
-                    
-                }
+//            .toolbar{
+//                    Button {
+//                        audioManager.isMute.toggle()
+//                    } label: {
+//                        Image(systemName: audioManager.isMute ? "speaker.slash.circle.fill" : "speaker.wave.2.circle" )
+//                            .resizable()
+//                            .frame(width: 30, height: 30)
+//                            .foregroundColor(.myPurpleLight)
+//                    }
+//
+//                }
+            
+            
+//            .toolbar(viewModel.wordRequest.isEmpty ? .visible : .hidden , for: .)
+            
         }
         
         
         //        if we received a response, we display it in the chat window on the user's message
         .onChange(of: viewModel.wordResponse) { response in
             viewModel.sendTranslatedMessage(response: response)
+        }
+        .onChange(of: viewModel.isTextFieldFocused) { newValue in
+            print("isTextFieldFocused: \(newValue)")
         }
         
         
@@ -130,6 +145,18 @@ struct TranslateView: View {
         .disabled(viewModel.isSendMessageButtonEnabled)
     }
     
+    var speakerView: some View{
+        Button {
+            audioManager.isMute.toggle()
+        } label: {
+            Image(systemName: audioManager.isMute ? "speaker.slash.circle.fill" : "speaker.wave.2.circle" )
+                .resizable()
+                .frame(width: 30, height: 30, alignment: .center)
+                .foregroundColor(.myPurpleLight)
+                .padding(.leading, 15)
+        }
+    }
+    
     
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -137,7 +164,17 @@ struct TranslateView: View {
     
 }
 
-
-
-
-
+extension View {
+    @ViewBuilder
+    func ifIOS16OrLater<Content: View>(_ transform: (Self) -> Content) -> some View {
+        #if canImport(UIKit)
+        if #available(iOS 16.0, *) {
+            transform(self)
+        } else {
+            self
+        }
+        #else
+        self
+        #endif
+    }
+}

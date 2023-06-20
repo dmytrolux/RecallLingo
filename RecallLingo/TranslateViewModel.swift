@@ -37,7 +37,7 @@ class TranslateViewModel: ObservableObject {
     
     @Published var isTextFieldFocused = false
     
-    @Published var lastAddedIndex: Int? = nil
+    @Published var isHidenTitle = false
     
     private let newMessage = NotificationCenter.default.publisher(for: Notifications.newMessage)
     
@@ -60,7 +60,6 @@ class TranslateViewModel: ObservableObject {
         let id = UUID()
         let newMessages = ChatUnit(id: id, wordUser: wordRequest, wordTranslate: "")
         chat.insert(newMessages, at: 0)
-        lastAddedIndex = chat.count - 1
         bufferID = id
         NotificationCenter.default.post(name: Notifications.newMessage, object: newMessages)
         
