@@ -246,10 +246,10 @@ class TranslateViewModel: ObservableObject {
         tapppedID = nil
     }
     
-    var isSendMessageButtonEnabled: Bool{
+    var isSendMessageButtonDisabled: Bool{
         if !isBlockingSendButton{
             if let _ = wordRequest.rangeOfCharacter(from: CharacterSets.latinSet){
-                return isBlockingSendButton
+                return false
             } else {
                 return true
             }
@@ -258,13 +258,27 @@ class TranslateViewModel: ObservableObject {
         }
     }
     
-    var isEditDoneViewEnabled: Bool{
+    var isEditDoneViewDisabled: Bool{
         if let _ = wordRequest.rangeOfCharacter(from: CharacterSets.cyrillicSet){
             return false
         } else {
             return true
         }
     }
+    
+    func handleReceivedText(_ text: String) {
+            if !isEditMode {
+                let filteredText = text.components(separatedBy: CharacterSets.latinAndSymbolSet.inverted).joined()
+                if filteredText != text {
+                    wordRequest = filteredText
+                }
+            } else {
+                let filteredText = text.components(separatedBy: CharacterSets.allowedCharacterSet.inverted).joined()
+                if filteredText != text {
+                    wordRequest = filteredText
+                }
+            }
+        }
     
 
 }

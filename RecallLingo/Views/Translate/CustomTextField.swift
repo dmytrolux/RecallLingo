@@ -37,16 +37,19 @@ struct CustomTextField: View {
                 
                 })
                 .onSubmit{
-                    vm.sendMessageForTranslation()
+                        if vm.isEditMode{
+                            if !vm.isEditDoneViewDisabled{
+                                vm.finishEditingTranslationThisWord()
+                            }
+                        } else {
+                            if !vm.isSendMessageButtonDisabled{
+                                vm.sendMessageForTranslation()
+                            }
+                        }
+                    
                 }
                 .onReceive(Just(vm.wordRequest)) { newValue in
-                    if !vm.isEditMode{
-                        let filteredText = filterText(newValue)
-                        if filteredText != newValue {
-                            vm.wordRequest = filteredText
-                        }
-                    }
-                    
+                    vm.handleReceivedText(newValue)
                 }
                 
             
@@ -78,9 +81,6 @@ struct CustomTextField: View {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
     
-    func filterText(_ input: String) -> String {
-        input.components(separatedBy: CharacterSets.allowedCharacterSet.inverted).joined()
-        }
 }
 
 

@@ -105,9 +105,9 @@ struct TranslateView: View {
                 .frame(width: 30, height: 30, alignment: .center)
                 .foregroundColor(.myPurpleLight)
                 .padding(.trailing, 15)
-                .opacity(viewModel.isEditDoneViewEnabled ? 0.5 : 1)
+                .opacity(viewModel.isEditDoneViewDisabled ? 0.5 : 1)
         }
-        .disabled(viewModel.isEditDoneViewEnabled)
+        .disabled(viewModel.isEditDoneViewDisabled)
     }
     
     var sendMessageForTranslationButtonView: some View{
@@ -125,9 +125,9 @@ struct TranslateView: View {
                 .frame(width: 30, height: 30, alignment: .center)
                 .foregroundColor(viewModel.networkMonitor.isConnected ? .myPurpleLight : .red )
                 .padding(.trailing, 15)
-                .opacity(viewModel.isSendMessageButtonEnabled ? 0.5 : 1)
+                .opacity(viewModel.isSendMessageButtonDisabled ? 0.5 : 1)
         }
-        .disabled(viewModel.isSendMessageButtonEnabled)
+        .disabled(viewModel.isSendMessageButtonDisabled)
     }
     
     var speakerButtonView: some View{
