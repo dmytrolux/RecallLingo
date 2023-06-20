@@ -248,11 +248,19 @@ class TranslateViewModel: ObservableObject {
     
     var isSendMessageButtonEnabled: Bool{
         if !isBlockingSendButton{
-            if let _ = wordRequest.rangeOfCharacter(from: CharacterSets.englishSet){
+            if let _ = wordRequest.rangeOfCharacter(from: CharacterSets.latinSet){
                 return isBlockingSendButton
             } else {
                 return true
             }
+        } else {
+            return true
+        }
+    }
+    
+    var isEditDoneViewEnabled: Bool{
+        if let _ = wordRequest.rangeOfCharacter(from: CharacterSets.cyrillicSet){
+            return false
         } else {
             return true
         }

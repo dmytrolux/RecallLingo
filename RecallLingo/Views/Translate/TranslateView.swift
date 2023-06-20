@@ -38,15 +38,15 @@ struct TranslateView: View {
                 HStack(alignment: .center){
                     
                     if viewModel.isEditMode {
-                        editCancelView
+                        editCancelButtonView
                     } else {
-                        speakerView
+                        speakerButtonView
                     }
                     
                     CustomTextField(vm: viewModel)
                     
                     if viewModel.isEditMode{
-                        editDoneView
+                        editDoneButtonView
                     } else {
                         sendMessageForTranslationButtonView
                     }
@@ -80,7 +80,7 @@ struct TranslateView: View {
         
     }
     
-    var editCancelView: some View{
+    var editCancelButtonView: some View{
         Button{
             viewModel.clearTranslateData()
             viewModel.isEditMode = false
@@ -95,7 +95,7 @@ struct TranslateView: View {
         }
     }
     
-    var editDoneView: some View{
+    var editDoneButtonView: some View{
         Button {
             viewModel.finishEditingTranslationThisWord()
             
@@ -105,7 +105,9 @@ struct TranslateView: View {
                 .frame(width: 30, height: 30, alignment: .center)
                 .foregroundColor(.myPurpleLight)
                 .padding(.trailing, 15)
+                .opacity(viewModel.isEditDoneViewEnabled ? 0.5 : 1)
         }
+        .disabled(viewModel.isEditDoneViewEnabled)
     }
     
     var sendMessageForTranslationButtonView: some View{
@@ -128,7 +130,7 @@ struct TranslateView: View {
         .disabled(viewModel.isSendMessageButtonEnabled)
     }
     
-    var speakerView: some View{
+    var speakerButtonView: some View{
         Button {
             audioManager.isMute.toggle()
         } label: {
