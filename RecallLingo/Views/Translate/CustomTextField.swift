@@ -40,10 +40,13 @@ struct CustomTextField: View {
                     vm.sendMessageForTranslation()
                 }
                 .onReceive(Just(vm.wordRequest)) { newValue in
-                    let filteredText = filterText(newValue)
-                    if filteredText != newValue {
-                        vm.wordRequest = filteredText
+                    if !vm.isEditMode{
+                        let filteredText = filterText(newValue)
+                        if filteredText != newValue {
+                            vm.wordRequest = filteredText
+                        }
                     }
+                    
                 }
                 
             

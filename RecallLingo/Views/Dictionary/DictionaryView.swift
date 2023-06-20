@@ -11,7 +11,6 @@ import CoreData
 
 struct DictionaryView: View {
     @EnvironmentObject var data: DataController
-//    var data = MyApp.dataController
     @State var sortByAlphabet: Bool = false
     
     func imageName(word: WordEntity)-> String{
@@ -89,22 +88,7 @@ struct DictionaryView: View {
         
     }
     
-//    func deleteItem(at offsets: IndexSet) {
-//        let indexes = Array(offsets)
-//
-//        for index in indexes {
-//            print("index: \(index)")
-//            guard index < data.savedEntities.count else {
-//                print("Invalid index: \(index)")
-//                return
-//            }
-//            let wordEntity = data.savedEntities[index]
-//            print(wordEntity.original ?? "kkkk")
-//            data.container.viewContext.delete(wordEntity)
-//        }
-//        data.saveData()
-//
-//    }
+
 }
 
 //struct DictionaryView_Previews: PreviewProvider {
@@ -152,37 +136,22 @@ struct DictionaryView: View {
 //}
 
 
-class CoreDataStack {
-    static let shared = CoreDataStack()
-    
-    lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "DictionaryContainer")
-        container.loadPersistentStores { _, error in
-            if let error = error {
-                fatalError("Failed to load persistent stores: \(error)")
-            }
-        }
-        return container
-    }()
-    
-    var context: NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
-}
+//class CoreDataStack {
+//    static let shared = CoreDataStack()
+//
+//    lazy var persistentContainer: NSPersistentContainer = {
+//        let container = NSPersistentContainer(name: "DictionaryContainer")
+//        container.loadPersistentStores { _, error in
+//            if let error = error {
+//                fatalError("Failed to load persistent stores: \(error)")
+//            }
+//        }
+//        return container
+//    }()
+//
+//    var context: NSManagedObjectContext {
+//        return persistentContainer.viewContext
+//    }
+//}
 
-extension View {
-    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape( RoundedCorner(radius: radius, corners: corners) )
-    }
-}
 
-struct RoundedCorner: Shape {
-
-    var radius: CGFloat = .infinity
-    var corners: UIRectCorner = .allCorners
-
-    func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        return Path(path.cgPath)
-    }
-}

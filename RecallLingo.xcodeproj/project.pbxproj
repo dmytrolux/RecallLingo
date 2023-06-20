@@ -24,6 +24,8 @@
 		669EE2332A0C5EF60056984E /* WordRememberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669EE2322A0C5EF60056984E /* WordRememberView.swift */; };
 		669EE2382A1039A20056984E /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669EE2372A1039A20056984E /* Color+Extension.swift */; };
 		66CE6AC52A411D4900A528AE /* CharacterSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CE6AC42A411D4900A528AE /* CharacterSets.swift */; };
+		66CE6AC72A41AAE700A528AE /* ShowAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CE6AC62A41AAE700A528AE /* ShowAlert.swift */; };
+		66CE6AC92A41AC6F00A528AE /* RoundedCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CE6AC82A41AC6F00A528AE /* RoundedCorner.swift */; };
 		66D295672A3D25A2009AA0F3 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D295662A3D25A2009AA0F3 /* AudioManager.swift */; };
 		66DCB1462A2E1247005697C5 /* HidableTabView in Frameworks */ = {isa = PBXBuildFile; productRef = 66DCB1452A2E1247005697C5 /* HidableTabView */; };
 		66E273772A025A3600C44C60 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E273762A025A3600C44C60 /* LocalNotificationManager.swift */; };
@@ -58,6 +60,8 @@
 		669EE2342A0D6B440056984E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		669EE2372A1039A20056984E /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		66CE6AC42A411D4900A528AE /* CharacterSets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterSets.swift; sourceTree = "<group>"; };
+		66CE6AC62A41AAE700A528AE /* ShowAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAlert.swift; sourceTree = "<group>"; };
+		66CE6AC82A41AC6F00A528AE /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
 		66D295662A3D25A2009AA0F3 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		66E273762A025A3600C44C60 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
 		66F8488D2A04706400ED071A /* Dictionary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Dictionary.xcdatamodel; sourceTree = "<group>"; };
@@ -118,14 +122,16 @@
 				669EE2342A0D6B440056984E /* Info.plist */,
 				66847BDE29DB3E8400CB3A8E /* MyApp.swift */,
 				669EE22A2A0B08360056984E /* Views */,
+				66F8488F2A0472B500ED071A /* DataController.swift */,
 				66F848952A05AE8E00ED071A /* TranslateViewModel.swift */,
-				66CE6AC42A411D4900A528AE /* CharacterSets.swift */,
 				66D295662A3D25A2009AA0F3 /* AudioManager.swift */,
-				663A46F92A3B68950038DEEB /* ChatUnit.swift */,
 				664BE1B92A267E2D00E1B577 /* NetworkMonitor.swift */,
+				66CE6AC42A411D4900A528AE /* CharacterSets.swift */,
+				663A46F92A3B68950038DEEB /* ChatUnit.swift */,
+				66CE6AC62A41AAE700A528AE /* ShowAlert.swift */,
+				66CE6AC82A41AC6F00A528AE /* RoundedCorner.swift */,
 				669EE2372A1039A20056984E /* Color+Extension.swift */,
 				662D853C2A117A1C0065DCF6 /* UDKey.swift */,
-				66F8488F2A0472B500ED071A /* DataController.swift */,
 				66E273762A025A3600C44C60 /* LocalNotificationManager.swift */,
 				66F8488C2A04706400ED071A /* DictionaryContainer.xcdatamodeld */,
 				66847BE229DB3E8600CB3A8E /* Assets.xcassets */,
@@ -350,6 +356,7 @@
 			files = (
 				66FA88D829E766A50077C159 /* KeyboardHiden.swift in Sources */,
 				669EE2382A1039A20056984E /* Color+Extension.swift in Sources */,
+				66CE6AC92A41AC6F00A528AE /* RoundedCorner.swift in Sources */,
 				664BE1B62A25FCA000E1B577 /* MessageUserView.swift in Sources */,
 				66CE6AC52A411D4900A528AE /* CharacterSets.swift in Sources */,
 				66F848902A0472B500ED071A /* DataController.swift in Sources */,
@@ -367,6 +374,7 @@
 				66847BDF29DB3E8400CB3A8E /* MyApp.swift in Sources */,
 				66F8488E2A04706400ED071A /* DictionaryContainer.xcdatamodeld in Sources */,
 				662D853D2A117A1C0065DCF6 /* UDKey.swift in Sources */,
+				66CE6AC72A41AAE700A528AE /* ShowAlert.swift in Sources */,
 				664BE1BA2A267E2D00E1B577 /* NetworkMonitor.swift in Sources */,
 				669EE2332A0C5EF60056984E /* WordRememberView.swift in Sources */,
 				66D295672A3D25A2009AA0F3 /* AudioManager.swift in Sources */,

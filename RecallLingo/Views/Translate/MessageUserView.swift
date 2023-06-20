@@ -121,5 +121,4 @@ struct MessageUserView: View {
 
 struct Notifications{
     static let newMessage = Notification.Name("newMessage")
-    
 }

@@ -66,20 +66,6 @@ struct TranslateView: View {
                       message: Text(show.name),
                       dismissButton: .cancel())
             }
-//            .toolbar{
-//                    Button {
-//                        audioManager.isMute.toggle()
-//                    } label: {
-//                        Image(systemName: audioManager.isMute ? "speaker.slash.circle.fill" : "speaker.wave.2.circle" )
-//                            .resizable()
-//                            .frame(width: 30, height: 30)
-//                            .foregroundColor(.myPurpleLight)
-//                    }
-//
-//                }
-            
-            
-//            .toolbar(viewModel.wordRequest.isEmpty ? .visible : .hidden , for: .)
             
         }
         
@@ -87,9 +73,6 @@ struct TranslateView: View {
         //        if we received a response, we display it in the chat window on the user's message
         .onChange(of: viewModel.wordResponse) { response in
             viewModel.sendTranslatedMessage(response: response)
-        }
-        .onChange(of: viewModel.isTextFieldFocused) { newValue in
-            print("isTextFieldFocused: \(newValue)")
         }
         
         
@@ -164,17 +147,3 @@ struct TranslateView: View {
     
 }
 
-extension View {
-    @ViewBuilder
-    func ifIOS16OrLater<Content: View>(_ transform: (Self) -> Content) -> some View {
-        #if canImport(UIKit)
-        if #available(iOS 16.0, *) {
-            transform(self)
-        } else {
-            self
-        }
-        #else
-        self
-        #endif
-    }
-}

@@ -9,11 +9,6 @@
 import MLKitTranslate
 import SwiftUI
 
-struct ShowAlert: Identifiable {
-    var id: String { name }
-    let name: String
-}
-
 @MainActor
 class TranslateViewModel: ObservableObject {
     @Published var networkMonitor = NetworkMonitor()
@@ -194,7 +189,8 @@ class TranslateViewModel: ObservableObject {
                 self.tapppedID = message.id
                 self.isEditMode = true
                 self.wordRequest = message.wordTranslate
-                print(message.wordTranslate)
+                print("message.wordTranslate: \(message.wordTranslate)")
+                print("wordRequest = \(self.wordRequest)")
                 UITabBar.hideTabBar()
                 updateMessageStatus()
             }
@@ -206,7 +202,7 @@ class TranslateViewModel: ObservableObject {
         if let tapID = tapppedID{
             if let index = chat.firstIndex(where: {$0.id == tapID}){
                 
-                chat[index].wordTranslate = bufferMessageTranslate.capitalized
+                chat[index].wordTranslate = bufferMessageTranslate
                 
                 if let word = getWordEntity(key: chat[index].wordUser.toKey()) {
                     word.translate = bufferMessageTranslate
