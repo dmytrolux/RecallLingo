@@ -22,6 +22,7 @@ struct TranslateView: View {
     var body: some View {
         NavigationView {
             VStack{
+                
                 ScrollView(showsIndicators: true){
                     ForEach(viewModel.chat, id: \.id) { chatUnit in
                         ChatUnitView(viewModel: viewModel,

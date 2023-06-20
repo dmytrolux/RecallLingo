@@ -127,9 +127,31 @@ class DataController: ObservableObject {
         savedEntities.sort(by: { $0.id ?? ""  < $1.id ?? ""})
     }
     
+    func sortWordByPopularity() {
+        savedEntities.sort(by: { $0.popularity  > $1.popularity})
+    }
+    
+    func sorting(type: SortType){
+        switch type {
+        case .date:
+            sortWordByDate()
+        case .alphabet:
+            sortWordByAlphabet()
+        case .popularity:
+           sortWordByPopularity()
+        }
+    }
+    
     func mostPopularWord()-> WordEntity?{
         let sortedEntities = savedEntities.sorted{$0.popularity > $1.popularity}
         return sortedEntities.first
     }
+    
+}
+
+enum SortType {
+    case date
+    case alphabet
+    case popularity
     
 }

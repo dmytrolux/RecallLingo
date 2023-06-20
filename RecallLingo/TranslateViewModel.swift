@@ -34,6 +34,8 @@ class TranslateViewModel: ObservableObject {
     
     @Published var isHidenTitle = false
     
+     
+    
     private let newMessage = NotificationCenter.default.publisher(for: Notifications.newMessage)
     
     let translator = Translator.translator(options: TranslatorOptions(sourceLanguage: .english, targetLanguage: .ukrainian))

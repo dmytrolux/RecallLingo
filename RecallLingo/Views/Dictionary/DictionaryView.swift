@@ -13,6 +13,8 @@ struct DictionaryView: View {
     @EnvironmentObject var data: DataController
     @State var sortByAlphabet: Bool = false
     
+    @State var sortType: SortType = .date
+    
     func imageName(word: WordEntity)-> String{
         if word.popularity < 50{
             return "\(word.popularity).circle.fill"
@@ -81,7 +83,33 @@ struct DictionaryView: View {
             .navigationBarTitle("Dictionary")
             .onAppear(){
                 UITabBar.showTabBar(animated: true)
+                MyApp.dataController.sorting(type: sortType)
             }
+            
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                                Picker("Sort Type", selection: $sortType) {
+                                    Text("Alphabet").tag(SortType.alphabet)
+                                    Text("Date").tag(SortType.date)
+                                    Text("Popularity").tag(SortType.popularity)
+                                }
+                                
+                                .pickerStyle(SegmentedPickerStyle())
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 16)
+                                .onAppear{
+                                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(Color.myYellow)], for: .normal)
+                                    UISegmentedControl.appearance().backgroundColor = UIColor(Color.myPurpleDark)
+                                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(Color.myPurpleDark)], for: .selected)
+                                    UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color.myYellow)
+                                    
+                                }
+                                .onChange(of: sortType) { newType in
+                                    MyApp.dataController.sorting(type: newType)
+                                }
+                            }
+                            
+                        }
             
         }
         .background(Color.myPurpleDark)
