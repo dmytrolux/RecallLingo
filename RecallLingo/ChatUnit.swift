@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ChatUnit: Identifiable{
+struct ChatUnit: Identifiable, Equatable{
     var id: UUID
     var wordUser: String
     var wordTranslate: String

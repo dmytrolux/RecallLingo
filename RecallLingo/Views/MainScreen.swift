@@ -26,7 +26,7 @@ struct MainScreen: View {
             DictionaryView()
                 .background(Color.myPurpleDark)
                 .tabItem {
-                    Image(systemName: "text.book.closed")
+                    Image(systemName: selection == .dictionary ? "book" : "text.book.closed")
                     Text("Dictionary")
                 }
                 .tag(Tab.dictionary)
@@ -40,7 +40,7 @@ struct MainScreen: View {
 //
             SettingsView()
                 .tabItem {
-                    Image(systemName: "gearshape")
+                    Image(systemName:  "gearshape")
                     Text("Seting")
                 }
                 .tag(Tab.setting)

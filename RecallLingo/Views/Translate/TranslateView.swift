@@ -18,21 +18,31 @@ struct TranslateView: View {
     @StateObject var viewModel = TranslateViewModel()
     @StateObject var audioManager = AudioManager.shared
     
-    
     var body: some View {
         NavigationView {
             VStack{
-                
-                ScrollView(showsIndicators: true){
-                    ForEach(viewModel.chat, id: \.id) { chatUnit in
-                        ChatUnitView(viewModel: viewModel,
-                                     chatUnit: chatUnit)
+                ScrollViewReader { scrollViewProxy in
+                    //how
+                    ScrollView(showsIndicators: true){
+                        ForEach(viewModel.chat, id: \.id) { chatUnit in
+                            ChatUnitView(viewModel: viewModel,
+                                         chatUnit: chatUnit)
+                            .id(chatUnit.id)
+                        }
+                        .onChange(of: viewModel.chat) { _ in
+                            // Scroll to the bottom whenever the chat array changes
+                            withAnimation {
+                                scrollViewProxy.scrollTo(viewModel.chat.first?.id, anchor: .bottom)
+                            }
+                        }
+                      
+                        
                     }
-                }
-                .rotationEffect(.degrees(180))
-                .scaleEffect(x: -1, y: 1, anchor: .center)
-                .onTapGesture {
-                    hideKeyboard()
+                    .rotationEffect(.degrees(180))
+                    .scaleEffect(x: -1, y: 1, anchor: .center)
+                    .onTapGesture {
+                        hideKeyboard()
+                    }
                 }
                 
                 //Chat Panel
@@ -50,6 +60,7 @@ struct TranslateView: View {
                         editDoneButtonView
                     } else {
                         sendMessageForTranslationButtonView
+                        
                     }
                     
                 }
