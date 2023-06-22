@@ -11,6 +11,7 @@ import UserNotifications
 
 @main
 struct MyApp: App {
+//    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     static var dataController = DataController()
     @StateObject var lNManager = LocalNotificationManager()//
     @Environment(\.scenePhase) private var phase
@@ -18,20 +19,58 @@ struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             MainScreen(isPresented: $isPresented)
-//            ContentView()
                 .preferredColorScheme(.dark)
-//                .environmentObject(viewModel)
                 .environmentObject(lNManager)
                 .environmentObject(Self.dataController)
-                
+            
                 .onChange(of: phase, perform: { newValue in
                     if newValue == .active {
                         Task{
                             try? await lNManager.getCurrentSetting()
-                            
                         }
                     }
                 })
+            
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
+                    lNManager.addNotification(for: Self.dataController.mostPopularWord() ?? WordEntity())
+                }
+            
+            
+        }
+        
+    }
+    
+    init() {
+        
+        if UserDefaults.standard.object(forKey: UDKey.isGranted) == nil {
+            UserDefaults.standard.register(defaults: [UDKey.isGranted: false])
+        }
+        if UserDefaults.standard.object(forKey: UDKey.isEnable) == nil {
+            UserDefaults.standard.register(defaults: [UDKey.isEnable: false])
+        }
+        
+    }
+}
+
+//class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+//
+//    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+//        UNUserNotificationCenter.current().delegate = self
+//        return true
+//    }
+//}
+
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                didReceive response: UNNotificationResponse,
+//                                withCompletionHandler completionHandler: @escaping () -> Void) {
+//        if response.actionIdentifier == Action.know{
+//            NotificationCenter.default.post(name: Notifications.pressToKnow, object: nil)
+//        }
+//        }
+    
+    
+    
+
                 
 //                .task{
 //                    try? await lNManager.requestAuthorization()
@@ -47,9 +86,7 @@ struct MyApp: App {
             //                            }
             
                 
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
-                    lNManager.addNotification(for: Self.dataController.mostPopularWord() ?? WordEntity())
-                        }
+                
             
             //                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
             //                    isPresented = true
@@ -69,19 +106,5 @@ struct MyApp: App {
 //                    }
 //                }
             
-        }
-    }
-    
-    init() {
-        print("05: \n isNotification: \(UserDefaults.standard.bool(forKey: UDKey.isEnable)) \n isGranted: \(UserDefaults.standard.bool(forKey: UDKey.isGranted))")
-        if UserDefaults.standard.object(forKey: UDKey.isGranted) == nil {
-            UserDefaults.standard.register(defaults: [UDKey.isGranted: false])
-        }
-        if UserDefaults.standard.object(forKey: UDKey.isEnable) == nil {
-            UserDefaults.standard.register(defaults: [UDKey.isEnable: false])
-        }
-        print("07: \n isNotification: \(UserDefaults.standard.bool(forKey: UDKey.isEnable)) \n isGranted: \(UserDefaults.standard.bool(forKey: UDKey.isGranted))")
-        
-    }
-}
+
 

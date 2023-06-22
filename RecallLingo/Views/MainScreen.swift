@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainScreen: View {
-//    @EnvironmentObject var vm: TranslateViewModel
+    var data = MyApp.dataController
     @EnvironmentObject var lNManager: LocalNotificationManager
     @State private var selection: Tab = .translate
     @Binding var isPresented: Bool
@@ -49,8 +49,43 @@ struct MainScreen: View {
         .background(Color.myPurpleDark)
         .navigationViewStyle(.stack)
         .sheet(isPresented: $lNManager.isPresented) {
-            WordRememberView(word: MyApp.dataController.mostPopularWord())
+            WordRememberView(word: data.mostPopularWord())
        
+        }
+        .onAppear(){
+            
+        
+        }
+    }
+    
+    func observerPressToKnowNotification(){
+        NotificationCenter.default.addObserver(forName: Notifications.pressActionKnow,
+                                               object: nil,
+                                               queue: .main) { _ in
+            guard let popularWord = data.mostPopularWord() else { return }
+            data.resetPopularity(word: popularWord)
+            
+            guard let newPopularWord = data.mostPopularWord() else { return }
+            lNManager.addNotification(for: newPopularWord)
+        }
+    }
+    
+    func observerPressCheckMeNotification(){
+        NotificationCenter.default.addObserver(forName: Notifications.pressActionCheckMe,
+                                               object: nil,
+                                               queue: .main) { _ in
+            
+            guard let popularWord = data.mostPopularWord() else { return }
+            lNManager.isPresented = true
+            
+        }
+    }
+    
+    func observerPressNotKnowNotification(){
+        NotificationCenter.default.addObserver(forName: Notifications.pressActionNotKnow,
+                                               object: nil,
+                                               queue: .main) { _ in
+            print("pressActionNotKnow")
         }
     }
 }

@@ -57,17 +57,7 @@ class LocalNotificationManager: NSObject, ObservableObject {
         super.init()
         center.delegate = self
     }
-    
-//    var mostPopularWord: WordEntity?{
-//        return MyApp.dataController.mostPopularWord()
-//    }
-    
-//    func requestAuthorization() async throws{
-//        if !isGranted{
-//            try await center.requestAuthorization(options: options)
-//            try await getCurrentSetting()
-//        }
-//    }
+
     
     func requestAuthorization(){
         center.requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
@@ -120,10 +110,31 @@ class LocalNotificationManager: NSObject, ObservableObject {
         content.categoryIdentifier = "recallTheWord"
         content.userInfo = ["reminder": "WordRememberView"]
         
+        let know = UNNotificationAction(identifier: Action.know,
+                                        title: "I know the translation",
+                                        options: .destructive)
+        
+        let checkMe = UNNotificationAction(identifier: Action.checkMe,
+                                           title: "Check me",
+                                           options: .foreground)
+        
+        let doNotKnow = UNNotificationAction(identifier: Action.doNotKnow,
+                                             title: "I do not know",
+                                             options: .destructive)
+        
+        let category = UNNotificationCategory(identifier: "recallTheWord",
+                                              actions: [know, checkMe, doNotKnow],
+                                              intentIdentifiers: [],
+                                              options: [])
+        
+        self.center.setNotificationCategories([category])
+        content.categoryIdentifier = "recallTheWord"
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
         
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: UUID().uuidString,
+                                            content: content,
+                                            trigger: trigger)
         
         self.center.add(request)
     }
@@ -144,6 +155,9 @@ class LocalNotificationManager: NSObject, ObservableObject {
             }
         }
     }
+    
+   
+    
 }
 
 
@@ -153,12 +167,24 @@ extension LocalNotificationManager: UNUserNotificationCenterDelegate{
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
         return [.sound, .banner]
     }
-    
+    //при тапі на нотифікацію запускає
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         if let _ = response.notification.request.content.userInfo["reminder"] as? String{
-            #warning("Додати перевірку наявність слів з популярністтю")
+            //            #warning("Додати перевірку наявність слів з популярністтю")
             self.isPresented = true
-            
+        }
+        
+        if response.actionIdentifier == Action.know{
+            NotificationCenter.default.post(name: Notifications.pressActionKnow, object: nil)
         }
     }
+        
+    
+}
+
+
+struct Action{
+    static let know = "know"
+    static let checkMe = "checkMe"
+    static let doNotKnow = "doNotKnow"
 }

@@ -121,4 +121,7 @@ struct MessageUserView: View {
 
 struct Notifications{
     static let newMessage = Notification.Name("newMessage")
+    static let pressActionKnow = NSNotification.Name("knowNotification")
+    static let pressActionCheckMe = NSNotification.Name("checkMeNotification")
+    static let pressActionNotKnow = NSNotification.Name("NotKnowNotification")
 }
