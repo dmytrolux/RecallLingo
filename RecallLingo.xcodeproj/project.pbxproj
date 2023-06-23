@@ -15,6 +15,7 @@
 		664BE1B62A25FCA000E1B577 /* MessageUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BE1B52A25FCA000E1B577 /* MessageUserView.swift */; };
 		664BE1B82A26117200E1B577 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BE1B72A26117200E1B577 /* CustomTextField.swift */; };
 		664BE1BA2A267E2D00E1B577 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BE1B92A267E2D00E1B577 /* NetworkMonitor.swift */; };
+		66563D7E2A44F3A8003D58A3 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66563D7D2A44F3A8003D58A3 /* Notifications.swift */; };
 		6679C3B02A17CD1700C97213 /* MessageTranslateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6679C3AF2A17CD1700C97213 /* MessageTranslateView.swift */; };
 		66847BDF29DB3E8400CB3A8E /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BDE29DB3E8400CB3A8E /* MyApp.swift */; };
 		66847BE129DB3E8400CB3A8E /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BE029DB3E8400CB3A8E /* MainScreen.swift */; };
@@ -49,6 +50,7 @@
 		664BE1B52A25FCA000E1B577 /* MessageUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageUserView.swift; sourceTree = "<group>"; };
 		664BE1B72A26117200E1B577 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		664BE1B92A267E2D00E1B577 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		66563D7D2A44F3A8003D58A3 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		6679C3AF2A17CD1700C97213 /* MessageTranslateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTranslateView.swift; sourceTree = "<group>"; };
 		66847BDB29DB3E8400CB3A8E /* RecallLingo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecallLingo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66847BDE29DB3E8400CB3A8E /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				669EE2372A1039A20056984E /* Color+Extension.swift */,
 				662D853C2A117A1C0065DCF6 /* UDKey.swift */,
 				66E273762A025A3600C44C60 /* LocalNotificationManager.swift */,
+				66563D7D2A44F3A8003D58A3 /* Notifications.swift */,
 				66F8488C2A04706400ED071A /* DictionaryContainer.xcdatamodeld */,
 				66847BE229DB3E8600CB3A8E /* Assets.xcassets */,
 				66847BE429DB3E8600CB3A8E /* Preview Content */,
@@ -372,6 +375,7 @@
 				663A46F82A3B67B70038DEEB /* ChatUnitView.swift in Sources */,
 				66847BE129DB3E8400CB3A8E /* MainScreen.swift in Sources */,
 				66847BDF29DB3E8400CB3A8E /* MyApp.swift in Sources */,
+				66563D7E2A44F3A8003D58A3 /* Notifications.swift in Sources */,
 				66F8488E2A04706400ED071A /* DictionaryContainer.xcdatamodeld in Sources */,
 				662D853D2A117A1C0065DCF6 /* UDKey.swift in Sources */,
 				66CE6AC72A41AAE700A528AE /* ShowAlert.swift in Sources */,

@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import Combine
 
 struct MainScreen: View {
     var data = MyApp.dataController
     @EnvironmentObject var lNManager: LocalNotificationManager
     @State private var selection: Tab = .translate
     @Binding var isPresented: Bool
+    
+//    private var cancellables = Set<AnyCancellable>()
+    
     var body: some View {
         
         TabView(selection: $selection) {
@@ -52,42 +56,12 @@ struct MainScreen: View {
             WordRememberView(word: data.mostPopularWord())
        
         }
-        .onAppear(){
-            
-        
-        }
     }
     
-    func observerPressToKnowNotification(){
-        NotificationCenter.default.addObserver(forName: Notifications.pressActionKnow,
-                                               object: nil,
-                                               queue: .main) { _ in
-            guard let popularWord = data.mostPopularWord() else { return }
-            data.resetPopularity(word: popularWord)
-            
-            guard let newPopularWord = data.mostPopularWord() else { return }
-            lNManager.addNotification(for: newPopularWord)
-        }
-    }
     
-    func observerPressCheckMeNotification(){
-        NotificationCenter.default.addObserver(forName: Notifications.pressActionCheckMe,
-                                               object: nil,
-                                               queue: .main) { _ in
-            
-            guard let popularWord = data.mostPopularWord() else { return }
-            lNManager.isPresented = true
-            
-        }
-    }
+
     
-    func observerPressNotKnowNotification(){
-        NotificationCenter.default.addObserver(forName: Notifications.pressActionNotKnow,
-                                               object: nil,
-                                               queue: .main) { _ in
-            print("pressActionNotKnow")
-        }
-    }
+    
 }
 
 enum Tab {

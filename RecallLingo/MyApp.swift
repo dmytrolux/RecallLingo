@@ -32,7 +32,8 @@ struct MyApp: App {
                 })
             
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
-                    lNManager.addNotification(for: Self.dataController.mostPopularWord() ?? WordEntity())
+                    guard let word = Self.dataController.mostPopularWord() else { return }
+                    lNManager.addNotification(for: word, delaySec: 60*60*8, scheduledDate: nil)
                 }
             
             

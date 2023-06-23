@@ -7,17 +7,24 @@
 
 import UserNotifications
 import UIKit
+import Combine
 
 //в цьому класі прописати все, що стосується саме нотифікацій: від дозволу до їх планувальника
 @MainActor
-class LocalNotificationManager: NSObject, ObservableObject {
+ class LocalNotificationManager: NSObject, ObservableObject {
     
     private let center = UNUserNotificationCenter.current()
     private let options: UNAuthorizationOptions = [.alert, .badge, .sound]
+     var data = MyApp.dataController
     
     @Published var isGranted: Bool{
         didSet {
             UserDefaults.standard.set(isGranted, forKey: UDKey.isGranted)
+        }
+    }
+    @Published var isDelayed8Hours: Bool{
+        didSet {
+            UserDefaults.standard.set(isGranted, forKey: UDKey.isDelayed8Hours)
         }
     }
     
@@ -45,18 +52,26 @@ class LocalNotificationManager: NSObject, ObservableObject {
         }
     }
     
-//    @Published var dataController: DataController
     @Published var isPresented = false
     
     override init () {
-//        self.dataController = data
         
         isEnable = UserDefaults.standard.bool(forKey: UDKey.isEnable)
         isGranted = UserDefaults.standard.bool(forKey: UDKey.isGranted)
         
+        UserDefaults.standard.register(defaults: [UDKey.isDelayed8Hours: false])
+        isDelayed8Hours = UserDefaults.standard.bool(forKey: UDKey.isDelayed8Hours)
+
         super.init()
         center.delegate = self
+        
+        observerPressToKnowNotification()
+        observerPressCheckMeNotification()
+        observerPressNotKnowNotification()
+        
     }
+    
+
 
     
     func requestAuthorization(){
@@ -95,48 +110,66 @@ class LocalNotificationManager: NSObject, ObservableObject {
         }
     }
     
-    
-    func addNotification(for word: WordEntity){
-        self.removeAllNotifications()
-        
-        guard isEnable, word.popularity > 0 else {return}
-        
-        let content = UNMutableNotificationContent()
-        content.title = "Remember the translation"
-        content.subtitle = word.original ?? "Subtitle: error"
-        content.body = "\(word.popularity)"
-        content.sound = UNNotificationSound.default
-        content.badge = 1
-        content.categoryIdentifier = "recallTheWord"
-        content.userInfo = ["reminder": "WordRememberView"]
+    var category: UNNotificationCategory {
+        let checkMe = UNNotificationAction(identifier: Action.checkMe,
+                                           title: "Check me",
+                                           options: .foreground)
         
         let know = UNNotificationAction(identifier: Action.know,
                                         title: "I know the translation",
                                         options: .destructive)
         
-        let checkMe = UNNotificationAction(identifier: Action.checkMe,
-                                           title: "Check me",
-                                           options: .foreground)
-        
         let doNotKnow = UNNotificationAction(identifier: Action.doNotKnow,
                                              title: "I do not know",
                                              options: .destructive)
         
+        
         let category = UNNotificationCategory(identifier: "recallTheWord",
-                                              actions: [know, checkMe, doNotKnow],
+                                              actions: [checkMe, know, doNotKnow],
                                               intentIdentifiers: [],
                                               options: [])
+        return category
+    }
+    
+
+    
+    func addNotification(for word: WordEntity, delaySec: TimeInterval?, scheduledDate: DateComponents?){
+        self.removeAllNotifications()
+        
+        guard isEnable,
+              word.popularity > 1 else {return}
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Remember the translation"
+        content.subtitle = word.original ?? "Subtitle: error"
+        content.body = "isDelayed8Hours \(isDelayed8Hours)"
+        content.sound = UNNotificationSound.default
+        content.badge = 1
+        content.categoryIdentifier = "recallTheWord"
+        content.userInfo = ["reminder": "WordRememberView"]
+        
         
         self.center.setNotificationCategories([category])
         content.categoryIdentifier = "recallTheWord"
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
+        var trigger: UNNotificationTrigger{
+            if let delaySec = delaySec{
+                return UNTimeIntervalNotificationTrigger(timeInterval: delaySec, repeats: true)
+            } else if let scheduledDate = scheduledDate {
+                return UNCalendarNotificationTrigger(dateMatching: scheduledDate, repeats: false)
+            } else {
+                return UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
+            }
+        }
+        
+       
         
         let request = UNNotificationRequest(identifier: UUID().uuidString,
                                             content: content,
                                             trigger: trigger)
         
         self.center.add(request)
+
     }
     
     
@@ -176,6 +209,43 @@ extension LocalNotificationManager: UNUserNotificationCenterDelegate{
         
         if response.actionIdentifier == Action.know{
             NotificationCenter.default.post(name: Notifications.pressActionKnow, object: nil)
+        }
+        //тест
+        let userInfo = response.notification.request.content.userInfo
+        NotificationCenter.default.post(name: Notification.Name("NotificationReceived"), object: userInfo)
+//                completionHandler()
+    }
+    
+    func observerPressToKnowNotification(){
+        NotificationCenter.default.addObserver(forName: Notifications.pressActionKnow,
+                                               object: nil,
+                                               queue: .main) { [weak self] _ in
+            print("pressActionKnow")
+            guard let popularWord = self?.data.mostPopularWord() else { return }
+            self?.data.resetPopularity(word: popularWord)
+            
+            guard let newPopularWord = self?.data.mostPopularWord() else { return }
+            self?.addNotification(for: newPopularWord, delaySec: 60, scheduledDate: nil)
+        }
+    }
+    
+    func observerPressCheckMeNotification(){
+        NotificationCenter.default.addObserver(forName: Notifications.pressActionCheckMe,
+                                               object: nil,
+                                               queue: .main) { [weak self] _ in
+            print("pressActionCheckMe")
+            self?.isPresented = true
+            
+        }
+    }
+    
+    func observerPressNotKnowNotification(){
+        NotificationCenter.default.addObserver(forName: Notifications.pressActionNotKnow,
+                                               object: nil,
+                                               queue: .main) { [weak self] _ in
+            print("pressActionNotKnow")
+            guard let popularWord = self?.data.mostPopularWord() else { return }
+            self?.data.decreasePopularity(word: popularWord)
         }
     }
         

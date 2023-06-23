@@ -18,6 +18,8 @@ struct SettingsView: View {
             } label: {
                 Text("Clear dictionary")
             }
+            
+            Text("isDelayed8Hours \(notificationController.isDelayed8Hours.description)")
 
                 Toggle("Show notification", isOn: $notificationController.isEnable)
 

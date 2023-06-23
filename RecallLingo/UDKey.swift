@@ -10,4 +10,6 @@ import Foundation
 class UDKey{
     static let isEnable = "isNotificationEnable"
     static let isGranted = "isGrantedKey"
+    static let isDelayed8Hours = "isDelayed8Hours"
+    static let isQuietUntilMorning = "isQuietUntilMorning"
 }
