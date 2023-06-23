@@ -35,13 +35,15 @@ struct SettingsView: View {
                 Form{
                     Section{
                         Toggle("Show notification", isOn: $notificationController.isEnable)
-                    }
+                   
                     
                         Picker("Interval", selection: $selectedIntervalIndex) {
                             ForEach(0..<sortedIntervalKeys.count, id: \.self) { index in
                                                 Text(sortedIntervalKeys[index])
                                             }
                         }
+                        }
+                    .listRowBackground(Color.myPurple)
                         .pickerStyle(.menu)
                         .onChange(of: selectedIntervalIndex, perform: { value in
                             print("Selected index: \(value), value: \(sortedIntervalKeys[value]))")
@@ -53,6 +55,9 @@ struct SettingsView: View {
                     
                     
                 }
+                .tint(Color.myYellow)
+                .background(Color.myPurpleDark)
+                .scrollContentBackground(.hidden)
             
                     .navigationTitle("Setting")
                     .navigationBarTitleDisplayMode(.large)

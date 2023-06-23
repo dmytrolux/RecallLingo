@@ -11,9 +11,33 @@ struct StatisticView: View {
     @EnvironmentObject var data: DataController
     @EnvironmentObject var vm: TranslateViewModel
     var body: some View {
-        VStack{
-            Text("All words: \(data.savedEntities.count)")
-            Text("Most Popular Word: \(MyApp.dataController.mostPopularWord()?.original ?? "nil")") //замінити на RecallLingo
+        NavigationView{
+            Form{
+                Section{
+                    HStack{
+                        Text("All words:")
+                            .bold()
+                        Spacer(minLength: 0)
+                        Text(data.savedEntities.count.description)
+                            .foregroundColor(.myYellow)
+                    }
+                    if MyApp.dataController.mostPopularWord() != nil{
+                        HStack{
+                            Text("Most popular word:")
+                                .bold()
+                            Spacer(minLength: 0)
+                            Text(MyApp.dataController.mostPopularWord()?.original ?? "nil")
+                                .foregroundColor(.myYellow)
+                        }
+                    }
+                   
+                }
+                .listRowBackground(Color.myPurple)
+            }
+            .background(Color.myPurpleDark)
+            .scrollContentBackground(.hidden)
+            .navigationTitle("Statistic")
+            .navigationBarTitleDisplayMode(.large)
         }
     }
 }

@@ -21,8 +21,33 @@ struct WordDetailView: View {
     var body: some View {
 //        NavigationView{
             VStack {
-                Text("Popularity: \(word.popularity )")
-                Text(word.date ?? Date(), format: .dateTime)
+                Form{
+                    Section{
+                        HStack{
+                            Text("Popularity:")
+                                .bold()
+                            Spacer(minLength: 0)
+                            Text(word.popularity.description)
+                                .foregroundColor(.myYellow)
+                        }
+                        HStack{
+                            Text("Date added:")
+                                .bold()
+                            Spacer(minLength: 0)
+                            
+                            Text(word.date ?? Date(), format: .dateTime)
+                                .foregroundColor(.myYellow)
+                        }
+                    }
+                    .listRowBackground(Color.myPurple)
+                }
+                .background(Color.myPurpleDark)
+                .scrollContentBackground(.hidden)
+                
+                
+                .background(Color.myPurpleDark)
+                .scrollContentBackground(.hidden)
+                
                 ZStack{
                     RoundedRectangle(cornerRadius: 15).fill(Color.myPurple)
                     Text(word.original ?? "")
@@ -64,6 +89,9 @@ struct WordDetailView: View {
                         .foregroundColor(.myPurple)
                         .padding()
                 }
+                
+                
+                
             }
             .navigationTitle("Word")
             .navigationBarTitleDisplayMode(.inline)
@@ -83,16 +111,16 @@ struct WordDetailView: View {
                     }
                 }
                 
-                ToolbarItem(placement: .confirmationAction) {
-                    Button() {
-                        //Edit word
-                    } label: {
-                        Label("Edit", systemImage: "square.and.pencil")
-//                            .font(.title3)
-                            .labelStyle(.iconOnly)
-                            .foregroundColor(.myYellow)
-                    }
-                }
+//                ToolbarItem(placement: .confirmationAction) {
+//                    Button() {
+//                        //Edit word
+//                    } label: {
+//                        Label("Edit", systemImage: "square.and.pencil")
+////                            .font(.title3)
+//                            .labelStyle(.iconOnly)
+//                            .foregroundColor(.myYellow)
+//                    }
+//                }
             }
 //
             
