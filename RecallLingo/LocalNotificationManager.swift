@@ -27,6 +27,12 @@ import Combine
             UserDefaults.standard.set(interval, forKey: UDKey.interval)
         }
     }
+     
+     @Published var isShowTranslate: Bool{
+         didSet {
+             UserDefaults.standard.set(isShowTranslate, forKey: UDKey.isShowTranslate)
+         }
+     }
     
     @Published var isEnable: Bool {
         didSet {
@@ -61,6 +67,9 @@ import Combine
         
         UserDefaults.standard.register(defaults: [UDKey.interval: 60])
         interval = UserDefaults.standard.double(forKey: UDKey.interval)
+        
+        UserDefaults.standard.register(defaults: [UDKey.isShowTranslate: false])
+        isShowTranslate = UserDefaults.standard.bool(forKey: UDKey.isShowTranslate)
 
         super.init()
         center.delegate = self
@@ -139,14 +148,19 @@ import Combine
         guard isEnable,
               word.popularity > 1 else {return}
         
+        
+        
         let content = UNMutableNotificationContent()
         content.title = "Remember the translation"
         content.subtitle = word.original ?? "Subtitle: error"
-//        content.body = ""
         content.sound = UNNotificationSound.default
         content.badge = 1
         content.categoryIdentifier = "recallTheWord"
         content.userInfo = ["reminder": "WordRememberView"]
+        
+        if isShowTranslate{
+            content.body = word.translate ?? "Body: error"
+        }
         
         
         self.center.setNotificationCategories([category])

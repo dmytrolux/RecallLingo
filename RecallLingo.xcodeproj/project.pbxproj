@@ -13,9 +13,10 @@
 		663A46F82A3B67B70038DEEB /* ChatUnitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A46F72A3B67B70038DEEB /* ChatUnitView.swift */; };
 		663A46FA2A3B68950038DEEB /* ChatUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A46F92A3B68950038DEEB /* ChatUnit.swift */; };
 		664BE1B62A25FCA000E1B577 /* MessageUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BE1B52A25FCA000E1B577 /* MessageUserView.swift */; };
-		664BE1B82A26117200E1B577 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BE1B72A26117200E1B577 /* CustomTextField.swift */; };
+		664BE1B82A26117200E1B577 /* TranslateTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BE1B72A26117200E1B577 /* TranslateTextField.swift */; };
 		664BE1BA2A267E2D00E1B577 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BE1B92A267E2D00E1B577 /* NetworkMonitor.swift */; };
 		66563D7E2A44F3A8003D58A3 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66563D7D2A44F3A8003D58A3 /* Notifications.swift */; };
+		666869FB2A45DDB30040BB69 /* RememberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666869FA2A45DDB30040BB69 /* RememberTextField.swift */; };
 		6679C3B02A17CD1700C97213 /* MessageTranslateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6679C3AF2A17CD1700C97213 /* MessageTranslateView.swift */; };
 		66847BDF29DB3E8400CB3A8E /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BDE29DB3E8400CB3A8E /* MyApp.swift */; };
 		66847BE129DB3E8400CB3A8E /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BE029DB3E8400CB3A8E /* MainScreen.swift */; };
@@ -48,9 +49,10 @@
 		663A46F72A3B67B70038DEEB /* ChatUnitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUnitView.swift; sourceTree = "<group>"; };
 		663A46F92A3B68950038DEEB /* ChatUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUnit.swift; sourceTree = "<group>"; };
 		664BE1B52A25FCA000E1B577 /* MessageUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageUserView.swift; sourceTree = "<group>"; };
-		664BE1B72A26117200E1B577 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		664BE1B72A26117200E1B577 /* TranslateTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateTextField.swift; sourceTree = "<group>"; };
 		664BE1B92A267E2D00E1B577 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		66563D7D2A44F3A8003D58A3 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		666869FA2A45DDB30040BB69 /* RememberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RememberTextField.swift; sourceTree = "<group>"; };
 		6679C3AF2A17CD1700C97213 /* MessageTranslateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTranslateView.swift; sourceTree = "<group>"; };
 		66847BDB29DB3E8400CB3A8E /* RecallLingo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecallLingo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66847BDE29DB3E8400CB3A8E /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
@@ -167,7 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				66FA88C929E702D10077C159 /* TranslateView.swift */,
-				664BE1B72A26117200E1B577 /* CustomTextField.swift */,
+				664BE1B72A26117200E1B577 /* TranslateTextField.swift */,
 				6679C3AF2A17CD1700C97213 /* MessageTranslateView.swift */,
 				664BE1B52A25FCA000E1B577 /* MessageUserView.swift */,
 				663A46F72A3B67B70038DEEB /* ChatUnitView.swift */,
@@ -179,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				66FA88CB29E706C10077C159 /* DictionaryView.swift */,
+				666869FA2A45DDB30040BB69 /* RememberTextField.swift */,
 				669EE2282A0B08130056984E /* WordDetailView.swift */,
 				669EE2322A0C5EF60056984E /* WordRememberView.swift */,
 			);
@@ -368,7 +371,8 @@
 				66E273772A025A3600C44C60 /* LocalNotificationManager.swift in Sources */,
 				66F848962A05AE8E00ED071A /* TranslateViewModel.swift in Sources */,
 				663A46FA2A3B68950038DEEB /* ChatUnit.swift in Sources */,
-				664BE1B82A26117200E1B577 /* CustomTextField.swift in Sources */,
+				664BE1B82A26117200E1B577 /* TranslateTextField.swift in Sources */,
+				666869FB2A45DDB30040BB69 /* RememberTextField.swift in Sources */,
 				669EE2292A0B08130056984E /* WordDetailView.swift in Sources */,
 				66FA88D529E726FA0077C159 /* SettingsView.swift in Sources */,
 				66FA88CA29E702D10077C159 /* TranslateView.swift in Sources */,

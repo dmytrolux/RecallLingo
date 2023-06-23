@@ -33,8 +33,8 @@ struct SettingsView: View {
         NavigationView {
           
                 Form{
-                    Section{
-                        Toggle("Show notification", isOn: $notificationController.isEnable)
+                    Section(header: Text("Notification")){
+                        Toggle("Show notifications", isOn: $notificationController.isEnable)
                    
                     
                         Picker("Interval", selection: $selectedIntervalIndex) {
@@ -42,6 +42,14 @@ struct SettingsView: View {
                                                 Text(sortedIntervalKeys[index])
                                             }
                         }
+                        VStack{
+                            Toggle("Show translate", isOn: $notificationController.isShowTranslate)
+                            Text("Immediately show the translation of the word in the message")
+                                .font(.caption)
+                                .foregroundColor(.white)
+                                .padding(.horizontal)
+                        }
+                        
                         }
                     .listRowBackground(Color.myPurple)
                         .pickerStyle(.menu)

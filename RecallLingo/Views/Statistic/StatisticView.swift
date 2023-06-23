@@ -16,7 +16,6 @@ struct StatisticView: View {
                 Section{
                     HStack{
                         Text("All words:")
-                            .bold()
                         Spacer(minLength: 0)
                         Text(data.savedEntities.count.description)
                             .foregroundColor(.myYellow)
@@ -24,7 +23,6 @@ struct StatisticView: View {
                     if MyApp.dataController.mostPopularWord() != nil{
                         HStack{
                             Text("Most popular word:")
-                                .bold()
                             Spacer(minLength: 0)
                             Text(MyApp.dataController.mostPopularWord()?.original ?? "nil")
                                 .foregroundColor(.myYellow)

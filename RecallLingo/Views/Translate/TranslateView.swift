@@ -54,7 +54,7 @@ struct TranslateView: View {
                         speakerButtonView
                     }
                     
-                    CustomTextField(vm: viewModel)
+                    TranslateTextField(vm: viewModel)
                     
                     if viewModel.isEditMode{
                         editDoneButtonView

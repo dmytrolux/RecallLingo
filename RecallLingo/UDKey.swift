@@ -12,4 +12,5 @@ class UDKey{
     static let isGranted = "isGrantedKey"
     static let interval = "interval"
     static let selectedIntervalIndex = "selectedIntervalIndex"
+    static let isShowTranslate = "isShowTranslate"
 }

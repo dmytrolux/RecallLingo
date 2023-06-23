@@ -9,7 +9,7 @@ import Combine
 import SwiftUI
 
 
-struct CustomTextField: View {
+struct TranslateTextField: View {
     
     @ObservedObject var vm: TranslateViewModel
     @FocusState private var isFocused: Bool

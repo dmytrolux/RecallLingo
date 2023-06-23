@@ -17,22 +17,21 @@ struct WordDetailView: View {
     
     @StateObject var audioManager = AudioManager.shared
     @State var isSpeaking = false
+    @State var isEdit = false
+    @State var translate = ""
     
     var body: some View {
-//        NavigationView{
             VStack {
                 Form{
                     Section{
                         HStack{
                             Text("Popularity:")
-                                .bold()
                             Spacer(minLength: 0)
                             Text(word.popularity.description)
                                 .foregroundColor(.myYellow)
                         }
                         HStack{
                             Text("Date added:")
-                                .bold()
                             Spacer(minLength: 0)
                             
                             Text(word.date ?? Date(), format: .dateTime)
@@ -93,8 +92,28 @@ struct WordDetailView: View {
                 
                 
             }
+            .onAppear(){
+                translate = word.translate ?? ""
+            }
             .navigationTitle("Word")
             .navigationBarTitleDisplayMode(.inline)
+            .alert("Edit translate", isPresented: $isEdit, actions: {
+                TextField("Edit translate", text: $translate)
+                
+                Button("Save", action: {
+                    isEdit = false
+                    word.translate = translate
+                    MyApp.dataController.saveData()
+                })
+                
+                Button("Cancel", role: .cancel, action: {
+                    isEdit = false
+                })
+            
+                    }, message: {
+                        Text("Please enter a new translation for the word \"\(word.original ?? "nil")\"")
+                    })
+
             
             .toolbar(){
                 ToolbarItem(placement: .destructiveAction) {
@@ -105,24 +124,22 @@ struct WordDetailView: View {
                         }
                     } label: {
                         Label("Delete", systemImage: "trash")
-//                            .font(.title3)
                             .labelStyle(.iconOnly)
                             .foregroundColor(.red)
                     }
                 }
                 
-//                ToolbarItem(placement: .confirmationAction) {
-//                    Button() {
-//                        //Edit word
-//                    } label: {
-//                        Label("Edit", systemImage: "square.and.pencil")
-////                            .font(.title3)
-//                            .labelStyle(.iconOnly)
-//                            .foregroundColor(.myYellow)
-//                    }
-//                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button() {
+                        isEdit = true
+                    } label: {
+                        Label("Edit", systemImage: "square.and.pencil")
+                            .labelStyle(.iconOnly)
+                            .foregroundColor(.myYellow)
+                    }
+                }
             }
-//
+
             
             .background(Color.myPurpleDark)
             .onAppear(){
@@ -133,7 +150,6 @@ struct WordDetailView: View {
                 print("Disappear")
             }
             
-//        }
         .background(Color.myPurpleDark)
         
     }
