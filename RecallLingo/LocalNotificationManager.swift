@@ -22,9 +22,9 @@ import Combine
             UserDefaults.standard.set(isGranted, forKey: UDKey.isGranted)
         }
     }
-    @Published var isDelayed8Hours: Bool{
+    @Published var interval: TimeInterval{
         didSet {
-            UserDefaults.standard.set(isGranted, forKey: UDKey.isDelayed8Hours)
+            UserDefaults.standard.set(interval, forKey: UDKey.interval)
         }
     }
     
@@ -59,8 +59,8 @@ import Combine
         isEnable = UserDefaults.standard.bool(forKey: UDKey.isEnable)
         isGranted = UserDefaults.standard.bool(forKey: UDKey.isGranted)
         
-        UserDefaults.standard.register(defaults: [UDKey.isDelayed8Hours: false])
-        isDelayed8Hours = UserDefaults.standard.bool(forKey: UDKey.isDelayed8Hours)
+        UserDefaults.standard.register(defaults: [UDKey.interval: 60])
+        interval = UserDefaults.standard.double(forKey: UDKey.interval)
 
         super.init()
         center.delegate = self
@@ -135,14 +135,14 @@ import Combine
     
     func addNotification(for word: WordEntity, delaySec: TimeInterval?, scheduledDate: DateComponents?){
         self.removeAllNotifications()
-        
+        print("delaySec: \(delaySec ?? 0)")
         guard isEnable,
               word.popularity > 1 else {return}
         
         let content = UNMutableNotificationContent()
         content.title = "Remember the translation"
         content.subtitle = word.original ?? "Subtitle: error"
-        content.body = "isDelayed8Hours \(isDelayed8Hours)"
+//        content.body = ""
         content.sound = UNNotificationSound.default
         content.badge = 1
         content.categoryIdentifier = "recallTheWord"
@@ -169,6 +169,8 @@ import Combine
                                             trigger: trigger)
         
         self.center.add(request)
+        
+        printNotificationRequest()
 
     }
     
@@ -178,7 +180,6 @@ import Combine
     private func removeAllNotifications() {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-        print("removeAllNotifications()")
     }
     
     func printNotificationRequest(){
@@ -210,7 +211,7 @@ extension LocalNotificationManager: UNUserNotificationCenterDelegate{
         if response.actionIdentifier == Action.know{
             NotificationCenter.default.post(name: Notifications.pressActionKnow, object: nil)
         }
-        //тест
+        
         let userInfo = response.notification.request.content.userInfo
         NotificationCenter.default.post(name: Notification.Name("NotificationReceived"), object: userInfo)
 //                completionHandler()
@@ -225,7 +226,7 @@ extension LocalNotificationManager: UNUserNotificationCenterDelegate{
             self?.data.resetPopularity(word: popularWord)
             
             guard let newPopularWord = self?.data.mostPopularWord() else { return }
-            self?.addNotification(for: newPopularWord, delaySec: 60, scheduledDate: nil)
+            self?.addNotification(for: newPopularWord, delaySec: self?.interval, scheduledDate: nil)
         }
     }
     

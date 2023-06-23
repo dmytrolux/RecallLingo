@@ -19,51 +19,51 @@ struct WordDetailView: View {
     @State var isSpeaking = false
     
     var body: some View {
-        NavigationView{
+//        NavigationView{
             VStack {
                 Text("Popularity: \(word.popularity )")
                 Text(word.date ?? Date(), format: .dateTime)
-//                ZStack{
-//                    RoundedRectangle(cornerRadius: 15).fill(Color.myPurple)
-//                    Text(word.original ?? "")
-//                        .font(.title)
-//                        .foregroundColor(.myYellow)
-//                        .padding()
-//                    HStack{
-//                        Spacer()
-//                        VStack{
-//                            Spacer().frame(height: 10)
-//                            Button{
-//                                if !isSpeaking{
-//                                    audioManager.speak(text: word.original ?? "")
-//                                    isSpeaking = true
-//                                } else {
-//                                    audioManager.stopSpeaking()
-//                                }
-//                            } label: {
-//
-//                                Image(systemName: isSpeaking ? "speaker.wave.2.bubble.left" : "speaker.wave.2.bubble.left.fill")
-//                                    .resizable()
-//                                    .frame(width: 40, height: 40)
-//                                    .foregroundColor(.myYellow)
-//                                    .onChange(of: audioManager.isSpeaking, perform: { newValue in
-//                                        if !newValue{
-//                                            isSpeaking = newValue
-//                                        }
-//                                    })
-//                            }
-//                            Spacer()
-//                        }
-//                        Spacer().frame(width: 10)
-//                    }
-//                }
-//                ZStack{
-//                    RoundedRectangle(cornerRadius: 15).fill(Color.yellow)
-//                    Text(word.translate ?? "")
-//                        .font(.title)
-//                        .foregroundColor(.myPurple)
-//                        .padding()
-//                }
+                ZStack{
+                    RoundedRectangle(cornerRadius: 15).fill(Color.myPurple)
+                    Text(word.original ?? "")
+                        .font(.title)
+                        .foregroundColor(.myYellow)
+                        .padding()
+                    HStack{
+                        Spacer()
+                        VStack{
+                            Spacer().frame(height: 10)
+                            Button{
+                                if !isSpeaking{
+                                    audioManager.speak(text: word.original ?? "")
+                                    isSpeaking = true
+                                } else {
+                                    audioManager.stopSpeaking()
+                                }
+                            } label: {
+
+                                Image(systemName: isSpeaking ? "speaker.wave.2.bubble.left" : "speaker.wave.2.bubble.left.fill")
+                                    .resizable()
+                                    .frame(width: 40, height: 40)
+                                    .foregroundColor(.myYellow)
+                                    .onChange(of: audioManager.isSpeaking, perform: { newValue in
+                                        if !newValue{
+                                            isSpeaking = newValue
+                                        }
+                                    })
+                            }
+                            Spacer()
+                        }
+                        Spacer().frame(width: 10)
+                    }
+                }
+                ZStack{
+                    RoundedRectangle(cornerRadius: 15).fill(Color.yellow)
+                    Text(word.translate ?? "")
+                        .font(.title)
+                        .foregroundColor(.myPurple)
+                        .padding()
+                }
             }
             .navigationTitle("Word")
             .navigationBarTitleDisplayMode(.inline)
@@ -77,7 +77,7 @@ struct WordDetailView: View {
                         }
                     } label: {
                         Label("Delete", systemImage: "trash")
-                            .font(.title3)
+//                            .font(.title3)
                             .labelStyle(.iconOnly)
                             .foregroundColor(.red)
                     }
@@ -88,7 +88,7 @@ struct WordDetailView: View {
                         //Edit word
                     } label: {
                         Label("Edit", systemImage: "square.and.pencil")
-                            .font(.title3)
+//                            .font(.title3)
                             .labelStyle(.iconOnly)
                             .foregroundColor(.myYellow)
                     }
@@ -105,7 +105,7 @@ struct WordDetailView: View {
                 print("Disappear")
             }
             
-        }
+//        }
         .background(Color.myPurpleDark)
         
     }

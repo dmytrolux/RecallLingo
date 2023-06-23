@@ -33,7 +33,7 @@ struct MyApp: App {
             
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
                     guard let word = Self.dataController.mostPopularWord() else { return }
-                    lNManager.addNotification(for: word, delaySec: 60*60*8, scheduledDate: nil)
+                    lNManager.addNotification(for: word, delaySec: lNManager.interval, scheduledDate: nil)
                 }
             
             
