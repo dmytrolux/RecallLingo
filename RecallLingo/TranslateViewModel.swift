@@ -53,6 +53,7 @@ class TranslateViewModel: ObservableObject {
     }
     
     func sendMessageForTranslation(){
+        wordRequest = wordRequest.trimmingCharacters(in: CharacterSets.latinSet.inverted)
         translateText()
         let id = UUID()
         let newMessages = ChatUnit(id: id, wordUser: wordRequest, wordTranslate: "")
@@ -270,7 +271,9 @@ class TranslateViewModel: ObservableObject {
     
     func handleReceivedText(_ text: String) {
             if !isEditMode {
-                let filteredText = text.components(separatedBy: CharacterSets.latinAndSymbolSet.inverted).joined()
+                let filteredText = text
+                    .components(separatedBy: CharacterSets.latinAndSymbolSet.inverted)
+                    .joined()
                 if filteredText != text {
                     wordRequest = filteredText
                 }
