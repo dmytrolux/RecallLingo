@@ -16,14 +16,15 @@ struct MessageUserView: View {
     @State var isSpeaking = false
     
     var padding: CGFloat = 15
+    var flag: CGFloat = 40 + 10
     var minWidth = UIScreen.main.bounds.width*(1/4)
     var maxWidth = UIScreen.main.bounds.width*(3/4)
     
     var widthSubstrate: CGFloat{
         if widthText < minWidth - 30{
-            return minWidth + 10
+            return minWidth + 10 + flag
         } else {
-            return widthText + (2 * padding) + 10
+            return widthText + (2 * padding) + 10 + flag
         }
     }
     
@@ -34,6 +35,8 @@ struct MessageUserView: View {
         ZStack{
             
             HStack{
+                Flag(emoji: "🇬🇧")
+                
                 messageView
                 Spacer()
             }
@@ -78,8 +81,9 @@ struct MessageUserView: View {
         .frame(maxWidth: maxWidth, alignment: .leading)
         
         .onTapGesture {
-            audioManager.speak(text: message.wordUser)
-            isSpeaking = true
+            audioManager.speak(text: message.wordUser) {
+                isSpeaking = true
+            }
         }
     }
     

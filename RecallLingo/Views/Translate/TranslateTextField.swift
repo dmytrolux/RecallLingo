@@ -18,7 +18,7 @@ struct TranslateTextField: View {
         ZStack{
             if vm.wordRequest.isEmpty{
                 HStack{
-                    Text("Enter word")
+                    Text("Enter english word")
                         .foregroundColor(.myPurpleLight)
                     Spacer()
                 }

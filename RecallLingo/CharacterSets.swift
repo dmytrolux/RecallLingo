@@ -11,7 +11,7 @@ import Foundation
     static let latinSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
     static let cyrillicSet = CharacterSet(charactersIn: "АаБбВвГгҐґДдЕеЄєЖжЗзИиІіЇїЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЬьЮюЯяЁёЪъЫыЭэЮюЯя")
     static let numberSet = CharacterSet(charactersIn: "0123456789")
-    static let symbolSet = CharacterSet(charactersIn: "!?:;() \n\"''’‛’.,-—")
+    static let symbolSet = CharacterSet(charactersIn: "!?:;() \n\"''’«»“”„“„”‛’.,-—")
     
     static var latinAndSymbolSet: CharacterSet{
         latinSet.union(numberSet).union(symbolSet)

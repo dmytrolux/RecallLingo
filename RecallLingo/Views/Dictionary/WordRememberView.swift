@@ -14,7 +14,7 @@ struct WordRememberView: View {
     @State var translationUser: String = ""
     @State var isChecked = false
     @State var isCorrected: Bool?
-    @State var isShowHint = true
+    @State var isShowHint = false
     var translationCorrect: String{
         self.word?.translate ?? ""
     }

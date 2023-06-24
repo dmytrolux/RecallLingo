@@ -10,6 +10,9 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject var notificationController: LocalNotificationManager
     @State private var selectedIntervalIndex: Int
+    @StateObject var audioManager = AudioManager.shared
+    @State var isSpeak: Bool = false
+    @State var name = "Siri"
     
     let intervalOptions: [String: TimeInterval] = [
             "1 m": 60,
@@ -26,43 +29,58 @@ struct SettingsView: View {
         ]
     
     var sortedIntervalKeys: [String] {
-            return intervalOptions.keys.sorted(by: { intervalOptions[$0]! < intervalOptions[$1]! })
+        return intervalOptions.keys.sorted(by: { intervalOptions[$0]! < intervalOptions[$1]! })
         }
+  
     
     var body: some View {
         NavigationView {
           
-                Form{
-                    Section(header: Text("Notification")){
-                        Toggle("Show notifications", isOn: $notificationController.isEnable)
-                   
-                    
-                        Picker("Interval", selection: $selectedIntervalIndex) {
-                            ForEach(0..<sortedIntervalKeys.count, id: \.self) { index in
-                                                Text(sortedIntervalKeys[index])
-                                            }
-                        }
-                        VStack{
-                            Toggle("Show translate", isOn: $notificationController.isShowTranslate)
-                            Text("Immediately show the translation of the word in the message")
-                                .font(.caption)
-                                .foregroundColor(.white)
-                                .padding(.horizontal)
-                        }
-                        
-                        }
-                    .listRowBackground(Color.myPurple)
-                        .pickerStyle(.menu)
-                        .onChange(of: selectedIntervalIndex, perform: { value in
-                            print("Selected index: \(value), value: \(sortedIntervalKeys[value]))")
-                            
-                            UserDefaults.standard.set(selectedIntervalIndex, forKey: UDKey.selectedIntervalIndex)
-                            notificationController.interval = intervalOptions[sortedIntervalKeys[value]]!
-                        })
+            Form{
+                
+                Section(header: Text("Notification")){
+                    Toggle("Show notifications", isOn: $notificationController.isEnable)
                     
                     
+                    Picker("Interval", selection: $selectedIntervalIndex) {
+                        ForEach(0..<sortedIntervalKeys.count, id: \.self) { index in
+                            Text(sortedIntervalKeys[index])
+                        }
+                    }
+                    VStack{
+                        Toggle("Show translate", isOn: $notificationController.isShowTranslate)
+                        Text("Immediately show the translation of the word in the message")
+                            .font(.caption)
+                            .foregroundColor(Color.myPurpleLight)
+                            .padding(.horizontal)
+                    }
                     
                 }
+                .listRowBackground(Color.myPurple)
+                .pickerStyle(.menu)
+                .onChange(of: selectedIntervalIndex, perform: { value in
+                    print("Selected index: \(value), value: \(sortedIntervalKeys[value]))")
+                    
+                    UserDefaults.standard.set(selectedIntervalIndex, forKey: UDKey.selectedIntervalIndex)
+                    notificationController.interval = intervalOptions[sortedIntervalKeys[value]]!
+                })
+                
+                Section(header: Text("Voice")){
+                    HStack{
+                        Picker("Select voice", selection: $audioManager.voiceValue) {
+                            ForEach(audioManager.voices.keys.sorted(), id: \.self) { key in
+                                Text(key.capitalized)
+                                    .tag(audioManager.voices[key]!)
+                            }
+                        }
+                        speakerView
+                            .padding(.leading, 20)
+                    }
+                }
+                
+                .listRowBackground(Color.myPurple)
+                .pickerStyle(.menu)
+            }
                 .tint(Color.myYellow)
                 .background(Color.myPurpleDark)
                 .scrollContentBackground(.hidden)
@@ -73,10 +91,35 @@ struct SettingsView: View {
         
     }
     
+    
     init(){
         UserDefaults.standard.register(defaults: [UDKey.selectedIntervalIndex: 0])
         selectedIntervalIndex = (UserDefaults.standard.integer(forKey: UDKey.selectedIntervalIndex))
     }
+    
+    var speakerView: some View{
+        Image(systemName: isSpeak ? "speaker.circle.fill" : "speaker.circle")
+            .resizable()
+            .frame(width: 25, height: 25)
+            .foregroundColor(.myYellow)
+            .onTapGesture {
+                audioManager.speak(text: "Hello, my name is \(audioManager.voiceName).)") {
+                    isSpeak = true
+                }
+            }
+            .onChange(of: audioManager.isSpeaking, perform: { newValue in
+                if !newValue{
+                    isSpeak = newValue
+                }
+            })
+            .onChange(of: audioManager.voiceValue) { newValue in
+              audioManager.speak(text: "Hello, my name is \(audioManager.voiceName).)") {
+                    isSpeak = true
+                }
+            
+            }
+    }
+   
 }
 
 struct SettingsView_Previews: PreviewProvider {

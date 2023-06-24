@@ -22,8 +22,31 @@ class AudioManager: NSObject, AVSpeechSynthesizerDelegate, ObservableObject {
         synthesizer.delegate = self
     }
     
+    let voices = [
+        "daniel": "com.apple.ttsbundle.Daniel-compact",
+        "fred": "com.apple.speech.synthesis.voice.Fred",
+        "gordon": "com.apple.ttsbundle.siri_male_en-AU_compact",
+        "karen": "com.apple.ttsbundle.siri_female_en-AU_compact",
+        "samantha": "com.apple.ttsbundle.siri_female_en-US_compact",
+        "zarvox": "com.apple.speech.synthesis.voice.Zarvox",
+        "trinoids": "com.apple.speech.synthesis.voice.Trinoids",
+        "nicky": "com.apple.ttsbundle.siri_Nicky_en-US_compact",
+        "aaron": "com.apple.ttsbundle.siri_Aaron_en-US_compact",
+        "ralph": "com.apple.speech.synthesis.voice.Ralph"
+    ]
     
-    @AppStorage("selectedVoice") var voice: Voice = .gordon
+    @AppStorage("selectedVoice") var voiceValue: String = "com.apple.ttsbundle.siri_Aaron_en-US_compact"
+    
+    var voiceName: String{
+        let value = voiceValue
+        
+        if let key = voices.first(where: { $0.value == value })?.key {
+            return key
+        } else {
+           return "Siri"
+        }
+    }
+    
     @AppStorage("isMute") var isMute: Bool = false {
         didSet{
             self.objectWillChange.send()
@@ -38,13 +61,27 @@ class AudioManager: NSObject, AVSpeechSynthesizerDelegate, ObservableObject {
     func speak(text: String) {
         if !isSpeaking{
             let utterance = AVSpeechUtterance(string: text)
-            utterance.voice = AVSpeechSynthesisVoice(identifier: voice.rawValue)
+            utterance.voice = AVSpeechSynthesisVoice(identifier: voiceValue)
             utterance.volume = 1
             utterance.rate = 0.4
             synthesizer.speak(utterance)
-      
         }
     }
+    
+    func speak(text: String, onStart: (() -> Void)?) {
+        if !isSpeaking{
+            
+            onStart?()
+            
+            let utterance = AVSpeechUtterance(string: text)
+            utterance.voice = AVSpeechSynthesisVoice(identifier: voiceValue)
+            utterance.volume = 1
+            utterance.rate = 0.4
+            synthesizer.speak(utterance)
+        }
+    }
+    
+
     
     func stopSpeaking() {
         synthesizer.stopSpeaking(at: .immediate)
@@ -57,20 +94,9 @@ class AudioManager: NSObject, AVSpeechSynthesizerDelegate, ObservableObject {
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
         self.objectWillChange.send()
     }
+   
+
     
-    
-    
-    enum Voice: String {
-        case gordon = "com.apple.ttsbundle.siri_male_en-AU_compact"
-        case samantha = "com.apple.ttsbundle.siri_female_en-US_compact"
-        case daniel = "com.apple.ttsbundle.Daniel-compact"
-        case karen = "com.apple.ttsbundle.siri_female_en-AU_compact"
-        case fred = "com.apple.speech.synthesis.voice.Fred"
-        case victoria = "com.apple.speech.synthesis.voice.Victoria"
-        case alex = "com.apple.speech.synthesis.voice.Alex"
-        case serena = "com.apple.speech.synthesis.voice.Serena"
-        case lee = "com.apple.speech.synthesis.voice.Lee"
-        case oliver = "com.apple.speech.synthesis.voice.Oliver"
-        case allison = "com.apple.speech.synthesis.voice.Allison"
-    }
 }
+
+

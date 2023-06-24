@@ -21,7 +21,20 @@ struct ChatUnitView: View{
             
             MessageUserView(viewModel: viewModel, message: chatUnit)
         }
-        .padding(.horizontal, 15)
+        .padding(.horizontal, 5)
         .padding(.bottom, 10)
+    }
+}
+
+struct Flag: View{
+    let emoji: String
+    var body: some View{
+        ZStack{
+            Circle()
+                .fill(.ultraThinMaterial)
+                .frame(width: 40, height: 40)
+            Text(emoji)
+                .font(.system(size: 30))
+        }
     }
 }

@@ -17,14 +17,15 @@ struct MessageTranslateView: View{
     @State var isEditingMessage = false
     
     var padding: CGFloat = 15
+    var flag: CGFloat = 40 + 10
     var minWidth = UIScreen.main.bounds.width*(1/4)
     var maxWidth = UIScreen.main.bounds.width*(3/4)
     
     var widthSubstrate: CGFloat{
         if widthText < minWidth - 30{
-            return minWidth + 10
+            return minWidth + 10 + flag
         } else {
-            return widthText + (2 * padding) + 10
+            return widthText + (2 * padding) + 10 + flag
         }
     }
     
@@ -41,6 +42,8 @@ struct MessageTranslateView: View{
                 Spacer()
                 
                 messageView
+                
+                Flag(emoji: "🇺🇦")
             }
             
             if !viewModel.isEditMode{

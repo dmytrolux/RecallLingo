@@ -9,7 +9,6 @@ import UserNotifications
 import UIKit
 import Combine
 
-//в цьому класі прописати все, що стосується саме нотифікацій: від дозволу до їх планувальника
 @MainActor
  class LocalNotificationManager: NSObject, ObservableObject {
     
@@ -217,18 +216,16 @@ extension LocalNotificationManager: UNUserNotificationCenterDelegate{
     }
     //при тапі на нотифікацію запускає
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        if let _ = response.notification.request.content.userInfo["reminder"] as? String{
-            //            #warning("Додати перевірку наявність слів з популярністтю")
-            self.isPresented = true
-        }
+        
         
         if response.actionIdentifier == Action.know{
             NotificationCenter.default.post(name: Notifications.pressActionKnow, object: nil)
+        } else {
+            if let _ = response.notification.request.content.userInfo["reminder"] as? String{
+                //            #warning("Додати перевірку наявність слів з популярністтю")
+                self.isPresented = true
+            }
         }
-        
-        let userInfo = response.notification.request.content.userInfo
-        NotificationCenter.default.post(name: Notification.Name("NotificationReceived"), object: userInfo)
-//                completionHandler()
     }
     
     func observerPressToKnowNotification(){
