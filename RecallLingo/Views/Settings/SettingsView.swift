@@ -38,7 +38,7 @@ struct SettingsView: View {
           
             Form{
                 
-                Section(header: Text("Notification")){
+                Section(header: Text("Notification").foregroundColor(Color.myPurpleLight)){
                     Toggle("Show notifications", isOn: $notificationController.isEnable)
                     
                     
@@ -65,9 +65,9 @@ struct SettingsView: View {
                     notificationController.interval = intervalOptions[sortedIntervalKeys[value]]!
                 })
                 
-                Section(header: Text("Voice")){
+                Section(header: Text("Voice").foregroundColor(Color.myPurpleLight)){
                     HStack{
-                        Picker("Select voice", selection: $audioManager.voiceValue) {
+                        Picker("Select eglish voice", selection: $audioManager.voiceValue) {
                             ForEach(audioManager.voices.keys.sorted(), id: \.self) { key in
                                 Text(key.capitalized)
                                     .tag(audioManager.voices[key]!)
@@ -75,6 +75,13 @@ struct SettingsView: View {
                         }
                         speakerView
                             .padding(.leading, 20)
+                    }
+                    VStack{
+                        Toggle("Auto speak", isOn: $audioManager.isAutoSpeak)
+                        Text("Automatic voice synthesis of English words during translation, word lookup, or assessing word knowledge.")
+                            .font(.caption)
+                            .foregroundColor(Color.myPurpleLight)
+                            .padding(.horizontal)
                     }
                 }
                 
@@ -103,7 +110,7 @@ struct SettingsView: View {
             .frame(width: 25, height: 25)
             .foregroundColor(.myYellow)
             .onTapGesture {
-                audioManager.speak(text: "Hello, my name is \(audioManager.voiceName).)") {
+                audioManager.speakEng(text: "Hello, my name is \(audioManager.voiceName).)") {
                     isSpeak = true
                 }
             }
@@ -113,7 +120,7 @@ struct SettingsView: View {
                 }
             })
             .onChange(of: audioManager.voiceValue) { newValue in
-              audioManager.speak(text: "Hello, my name is \(audioManager.voiceName).)") {
+              audioManager.speakEng(text: "Hello, my name is \(audioManager.voiceName).)") {
                     isSpeak = true
                 }
             

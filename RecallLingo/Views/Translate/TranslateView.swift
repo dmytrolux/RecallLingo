@@ -22,26 +22,30 @@ struct TranslateView: View {
         NavigationView {
             VStack{
                 ScrollViewReader { scrollViewProxy in
-                    //how
                     ScrollView(showsIndicators: true){
                         ForEach(viewModel.chat, id: \.id) { chatUnit in
                             ChatUnitView(viewModel: viewModel,
                                          chatUnit: chatUnit)
                             .id(chatUnit.id)
                         }
-                        .onChange(of: viewModel.chat) { _ in
-                            // Scroll to the bottom whenever the chat array changes
-                            withAnimation {
-                                scrollViewProxy.scrollTo(viewModel.chat.first?.id, anchor: .bottom)
+                        .onChange(of: viewModel.chat.count) { _ in
+                            scrollToBottom(proxy: scrollViewProxy)
+                        }
+                        .onChange(of: viewModel.isEditMode) { newValue in
+                            if newValue{
+                                scrollToEndWhileIsEdit(proxy: scrollViewProxy)
+                            
                             }
                         }
-                      
                         
                     }
+                    .scrollDisabled(viewModel.isEditMode)
                     .rotationEffect(.degrees(180))
                     .scaleEffect(x: -1, y: 1, anchor: .center)
                     .onTapGesture {
-                        hideKeyboard()
+                        if !viewModel.isEditMode{
+                            hideKeyboard()
+                        }
                     }
                 }
                 
@@ -127,7 +131,7 @@ struct TranslateView: View {
             if !viewModel.wordRequest.isEmpty{
                 viewModel.sendMessageForTranslation()
                 
-                if !audioManager.isMute{
+                if audioManager.isAutoSpeak{
                     audioManager.speak(text: viewModel.wordRequest)
                 }
             }
@@ -144,9 +148,9 @@ struct TranslateView: View {
     
     var speakerButtonView: some View{
         Button {
-            audioManager.isMute.toggle()
+            audioManager.isAutoSpeak.toggle()
         } label: {
-            Image(systemName: audioManager.isMute ? "speaker.slash.circle.fill" : "speaker.wave.2.circle" )
+            Image(systemName: audioManager.isAutoSpeak ? "speaker.wave.2.circle" : "speaker.slash.circle.fill" )
                 .resizable()
                 .frame(width: 30, height: 30, alignment: .center)
                 .foregroundColor(.myPurpleLight)
@@ -158,6 +162,26 @@ struct TranslateView: View {
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
+    
+    func scrollToBottom(proxy: ScrollViewProxy) {
+        withAnimation {
+            let idToScroll = viewModel.chat.first?.id
+            proxy.scrollTo(idToScroll, anchor: .bottom)
+        }
+    }
+    
+    
+    
+    func scrollToEndWhileIsEdit(proxy: ScrollViewProxy) {
+        let idToScroll: UUID? = viewModel.chat.first(where: { $0.id == viewModel.tapppedID })?.id
+        print("scrollToEndWhileIsEdit? = \(String(describing: idToScroll))")
+        guard let id = idToScroll else { return }
+        
+        withAnimation {
+            proxy.scrollTo(id, anchor: .top)
+        }
+    }
+    
     
 }
 

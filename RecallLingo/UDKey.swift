@@ -13,4 +13,5 @@ class UDKey{
     static let interval = "interval"
     static let selectedIntervalIndex = "selectedIntervalIndex"
     static let isShowTranslate = "isShowTranslate"
+    static let sortType = "sortType"
 }

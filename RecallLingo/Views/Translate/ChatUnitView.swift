@@ -21,7 +21,7 @@ struct ChatUnitView: View{
             
             MessageUserView(viewModel: viewModel, message: chatUnit)
         }
-        .padding(.horizontal, 5)
+        .padding(.horizontal, 15)
         .padding(.bottom, 10)
     }
 }
@@ -36,5 +36,20 @@ struct Flag: View{
             Text(emoji)
                 .font(.system(size: 30))
         }
+    }
+}
+
+struct Flag2: View{
+    let emoji: String
+    var body: some View{
+        HStack{
+            VStack{
+                Text(emoji)
+                    .font(.system(size: 30))
+                Spacer()
+            }
+            Spacer()
+        }
+        .offset(x: -10, y: -15)
     }
 }

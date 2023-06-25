@@ -11,9 +11,8 @@ import CoreData
 
 struct DictionaryView: View {
     @EnvironmentObject var data: DataController
-    @State var sortByAlphabet: Bool = false
     
-    @State var sortType: SortType = .date
+    
     
     func imageName(word: WordEntity)-> String{
         if word.popularity < 50{
@@ -26,6 +25,12 @@ struct DictionaryView: View {
     func imageColor(word: WordEntity) -> Color{
         return word.popularity > 1 ? Color(hex: "de3163") : .myYellow
     }
+    
+//    init(){
+//        MyApp.dataController.sorting(type: sortType)
+//
+//
+//    }
     
     var body: some View {
         NavigationView {
@@ -59,11 +64,6 @@ struct DictionaryView: View {
                     
                 }
                 .onDelete(perform: data.deleteItem)
-                
-                .onChange(of: sortByAlphabet) { newValue in
-                    sortByAlphabet ? data.sortWordByAlphabet() : data.sortWordByDate()
-                }
-                
                 .listRowBackground(
                     HStack{ Spacer().frame(width: 20)
                         Rectangle()
@@ -76,48 +76,54 @@ struct DictionaryView: View {
                 
             }
             .environment(\.defaultMinListRowHeight, 50)
-//            .padding(.leading)
-            
+
             .listStyle(.plain)
             .background(Color.myPurpleDark)
             .navigationBarTitle("Dictionary")
             .onAppear(){
                 UITabBar.showTabBar(animated: true)
-                MyApp.dataController.sorting(type: sortType)
             }
-            
+
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                                Picker("Sort Type", selection: $sortType) {
-                                    Text("Alphabet").tag(SortType.alphabet)
-                                    Text("Date").tag(SortType.date)
-                                    Text("Popularity").tag(SortType.popularity)
-                                }
-                                
-                                .pickerStyle(SegmentedPickerStyle())
-                                .padding(.vertical, 8)
-                                .padding(.horizontal, 16)
-                                .onAppear{
-                                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(Color.myYellow)], for: .normal)
-                                    UISegmentedControl.appearance().backgroundColor = UIColor(Color.myPurpleDark)
-                                    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(Color.myPurpleDark)], for: .selected)
-                                    UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color.myYellow)
-                                    
-                                }
-                                .onChange(of: sortType) { newType in
-                                    MyApp.dataController.sorting(type: newType)
-                                }
-                            }
+                    Picker("Sort Type", selection: $data.sortType) {
+                        Text("Alphabet").tag(SortType.alphabet)
+                        Text("Date").tag(SortType.date)
+                        Text("Popularity").tag(SortType.popularity)
+                    }
+                    
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .onAppear{
+                        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(Color.myYellow)], for: .normal)
+                        UISegmentedControl.appearance().backgroundColor = UIColor(Color.myPurpleDark)
+                        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(Color.myPurpleDark)], for: .selected)
+                        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(Color.myYellow)
+                        
+                    }
+                    .onChange(of: data.sortType) { newType in
+                        MyApp.dataController.sorting(type: newType)
+                        UserDefaults.standard.set(newType.rawValue, forKey: UDKey.sortType)
+                        print("ChangeSortType: \(newType.rawValue)")
+                        
+                    }
+                }
                             
                         }
             
         }
         .background(Color.myPurpleDark)
+        .onAppear(){
+            MyApp.dataController.sorting(type: data.sortType)
+        }
         
     }
     
 
 }
+
+
 
 //struct DictionaryView_Previews: PreviewProvider {
 //

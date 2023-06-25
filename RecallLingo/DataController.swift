@@ -11,7 +11,16 @@ import Foundation
 class DataController: ObservableObject {
     let container = NSPersistentContainer(name: "DictionaryContainer")
     @Published var savedEntities: [WordEntity]
+    @Published var sortType: SortType
     init(savedEntities: [WordEntity] = []) {
+        if UserDefaults.standard.object(forKey: UDKey.sortType) == nil {
+            UserDefaults.standard.register(defaults: [UDKey.sortType : SortType.date.rawValue])
+        }
+        if let savedSortType = UserDefaults.standard.object(forKey: UDKey.sortType) as? String{
+            sortType = SortType(rawValue: savedSortType)!
+        } else {
+            sortType = .date
+        }
         
         self.savedEntities = savedEntities
         
@@ -29,6 +38,7 @@ class DataController: ObservableObject {
         let request = NSFetchRequest<WordEntity>(entityName: "WordEntity")
         do {
             savedEntities = try container.viewContext.fetch(request)
+            sorting(type: sortType)
         } catch let error {
             print("Error fetching. \(error.localizedDescription )")
         }
@@ -149,9 +159,8 @@ class DataController: ObservableObject {
     
 }
 
-enum SortType {
-    case date
-    case alphabet
-    case popularity
-    
+enum SortType: String {
+    case date = "date"
+    case alphabet = "alphabet"
+    case popularity = "popularity"
 }

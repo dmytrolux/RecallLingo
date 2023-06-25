@@ -16,13 +16,66 @@ struct WordDetailView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @StateObject var audioManager = AudioManager.shared
-    @State var isSpeaking = false
+    @State var isSpeakingEng = false
+    @State var isSpeakingUkr = false
     @State var isEdit = false
     @State var translate = ""
     
     var body: some View {
-            VStack {
                 Form{
+                    let headerOriginal = HStack{
+                        Text("Original")
+                            .foregroundColor(.myPurpleLight)
+                        Spacer()
+                        speakerEng
+                    }
+                    
+                    Section(header: headerOriginal ){
+                        ZStack{
+                            Color.myPurple
+                            Text(word.original ?? "")
+                                .font(.system(size: 30))
+                                .minimumScaleFactor(0.5)
+                                .foregroundColor(.myYellow)
+                                .frame(maxWidth: .infinity)
+                                .frame(alignment: .center)
+                                .padding()
+                            
+                        }
+                            .frame(height: UIScreen.main.bounds.height / 4)
+                            .onTapGesture {
+                                audioManager.speakEng(text: word.original ?? ""){
+                                    isSpeakingEng = true
+                                }
+                            }
+                    }
+                    .listRowBackground(Color.myPurple)
+                    
+                    let headerTranslate = HStack{
+                        
+                        Text("Translate")
+                            .foregroundColor(.myPurpleLight)
+                        Spacer()
+                        speakerUkr
+                    }
+                    
+                    Section(header: headerTranslate){
+                        ZStack{
+                            Color.myYellow
+                            Text(word.translate ?? "")
+                                .font(.system(size: 30))
+                                .minimumScaleFactor(0.5)
+                                .foregroundColor(.myPurple)
+                                .frame(maxWidth: .infinity)
+                                .frame(alignment: .center)
+                                .padding()
+                        }
+                            .frame(height: UIScreen.main.bounds.height / 4)
+                            
+                        
+                    }
+                    .listRowBackground(Color.myYellow)
+                    
                     Section{
                         HStack{
                             Text("Popularity:")
@@ -39,59 +92,11 @@ struct WordDetailView: View {
                         }
                     }
                     .listRowBackground(Color.myPurple)
+                    
                 }
                 .background(Color.myPurpleDark)
                 .scrollContentBackground(.hidden)
-                
-                
-                .background(Color.myPurpleDark)
-                .scrollContentBackground(.hidden)
-                
-                ZStack{
-                    RoundedRectangle(cornerRadius: 15).fill(Color.myPurple)
-                    Text(word.original ?? "")
-                        .font(.title)
-                        .foregroundColor(.myYellow)
-                        .padding()
-                    HStack{
-                        Spacer()
-                        VStack{
-                            Spacer().frame(height: 10)
-                            Button{
-                                if !isSpeaking{
-                                    audioManager.speak(text: word.original ?? "")
-                                    isSpeaking = true
-                                } else {
-                                    audioManager.stopSpeaking()
-                                }
-                            } label: {
 
-                                Image(systemName: isSpeaking ? "speaker.wave.2.bubble.left" : "speaker.wave.2.bubble.left.fill")
-                                    .resizable()
-                                    .frame(width: 40, height: 40)
-                                    .foregroundColor(.myYellow)
-                                    .onChange(of: audioManager.isSpeaking, perform: { newValue in
-                                        if !newValue{
-                                            isSpeaking = newValue
-                                        }
-                                    })
-                            }
-                            Spacer()
-                        }
-                        Spacer().frame(width: 10)
-                    }
-                }
-                ZStack{
-                    RoundedRectangle(cornerRadius: 15).fill(Color.yellow)
-                    Text(word.translate ?? "")
-                        .font(.title)
-                        .foregroundColor(.myPurple)
-                        .padding()
-                }
-                
-                
-                
-            }
             .onAppear(){
                 translate = word.translate ?? ""
             }
@@ -143,37 +148,99 @@ struct WordDetailView: View {
             
             .background(Color.myPurpleDark)
             .onAppear(){
-                MyApp.dataController.increasePopularity(word: word)
+                
                 UITabBar.hideTabBar(animated: false)
+                audioManager.speakEng(text: word.original ?? ""){
+                    isSpeakingEng = true
+                }
             }
             .onDisappear(){
-                print("Disappear")
+                
+                MyApp.dataController.increasePopularity(word: word)
             }
             
         .background(Color.myPurpleDark)
         
     }
+    
+    var speakerEng: some View{
+        ZStack{
+            Image(systemName: "speaker.wave.2.bubble.left.fill" )
+                .resizable()
+                .foregroundColor(.myPurpleDark)
+                .scaleEffect(0.95)
+            
+            Image(systemName: isSpeakingEng ? "speaker.wave.2.bubble.left.fill" : "speaker.wave.2.bubble.left")
+                .resizable()
+                .foregroundColor(.myYellow)
+        }
+                .frame(width: 20, height: 20)
+                .scaleEffect(2)
+                .offset(x: 0, y: 10)
+                
+                .onChange(of: audioManager.isSpeaking, perform: { newValue in
+                    if !newValue{
+                        isSpeakingEng = newValue
+                    }
+                })
+                .onTapGesture {
+                    if !isSpeakingEng && !isSpeakingUkr{
+                        audioManager.speakEng(text: word.original ?? ""){
+                            isSpeakingEng = true
+                        }
+                    } else {
+                        audioManager.stopSpeaking()
+                    }
+                }
+    }
+    
+    var speakerUkr: some View{
+        ZStack{
+            Image(systemName: "speaker.wave.2.bubble.left.fill" )
+                .resizable()
+                .foregroundColor(.myPurpleDark)
+            Image(systemName: isSpeakingUkr ? "speaker.wave.2.bubble.left.fill" : "speaker.wave.2.bubble.left")
+                .resizable()
+                .foregroundColor(.myPurpleLight)
+        }
+        
+        .frame(width: 20, height: 20)
+        .scaleEffect(2)
+        .offset(x: 0, y: 10)
+                .onChange(of: audioManager.isSpeaking, perform: { newValue in
+                    if !newValue{
+                        isSpeakingUkr = newValue
+                    }
+                })
+                .onTapGesture {
+                    if !isSpeakingEng && !isSpeakingUkr{
+                        audioManager.speakUkr(text: word.translate ?? ""){
+                            isSpeakingUkr = true
+                        }
+                    } else {
+                        audioManager.stopSpeaking()
+                    }
+                }
+    }
 }
 
-//struct WordDetailView_Previews: PreviewProvider {
-//    static let dataController = DataController()
-//    static let word: WordEntity = {
-//        let newWord = WordEntity(context: dataController.container.viewContext)
-//        newWord.date = Date()
-//        newWord.id = "thelordoftherings"
-//        newWord.original = "The Lord of the Rings"
-//        newWord.popularity = Int16(15)
-//        newWord.translate = "Володар перснів"
-//        return newWord
-//    }()
-//    static var previews: some View {
-//        WordDetailView(word: word)
-//            .preferredColorScheme(.dark)
-//            .environmentObject(DictViewModel(dataController: DataController()))
-//
-//
-//    }
-//}
+struct WordDetailView_Previews: PreviewProvider {
+    static let dataController = DataController()
+    static let word: WordEntity = {
+        let newWord = WordEntity(context: dataController.container.viewContext)
+        newWord.date = Date()
+        newWord.id = "thelordoftherings"
+        newWord.original = "The Lord of the Rings"
+        newWord.popularity = Int16(15)
+        newWord.translate = "Володар перснів"
+        return newWord
+    }()
+    static var previews: some View {
+        WordDetailView(word: word)
+//        ContentView()
+            .preferredColorScheme(.dark)
 
 
+    }
+}
 

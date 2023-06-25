@@ -20,4 +20,8 @@ import Foundation
     static var allowedCharacterSet: CharacterSet{
         latinAndSymbolSet.union(cyrillicSet)
     }
+     
+     static var latinAndCyrillicSet: CharacterSet{
+         latinSet.union(cyrillicSet)
+     }
 }

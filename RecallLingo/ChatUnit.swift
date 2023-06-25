@@ -7,8 +7,14 @@
 
 import Foundation
 
-struct ChatUnit: Identifiable, Equatable{
+struct ChatUnit: Identifiable, Equatable, Hashable{
     var id: UUID
     var wordUser: String
     var wordTranslate: String
+    
+    func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
+            hasher.combine(wordUser)
+            hasher.combine(wordTranslate)
+        }
 }

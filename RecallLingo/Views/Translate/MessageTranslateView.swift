@@ -23,9 +23,11 @@ struct MessageTranslateView: View{
     
     var widthSubstrate: CGFloat{
         if widthText < minWidth - 30{
-            return minWidth + 10 + flag
+            return minWidth + 10
+//            + flag
         } else {
-            return widthText + (2 * padding) + 10 + flag
+            return widthText + (2 * padding) + 10
+//            + flag
         }
     }
     
@@ -43,7 +45,7 @@ struct MessageTranslateView: View{
                 
                 messageView
                 
-                Flag(emoji: "🇺🇦")
+//                Flag(emoji: "🇺🇦")
             }
             
             if !viewModel.isEditMode{
@@ -126,6 +128,18 @@ struct MessageTranslateView: View{
         )
         .cornerRadius(15)
         .frame(maxWidth: maxWidth, alignment: .trailing)
+        .overlay{
+            HStack{
+                Spacer()
+                           VStack{
+                               Text("🇺🇦")
+                                   .font(.system(size: 30))
+                               Spacer()
+                           }
+                           
+                       }
+                       .offset(x: +10, y: -15)
+        }
         
         .onLongPressGesture(minimumDuration: 0.3){
             viewModel.editing(this: chatUnit,

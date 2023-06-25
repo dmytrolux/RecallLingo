@@ -47,7 +47,7 @@ class AudioManager: NSObject, AVSpeechSynthesizerDelegate, ObservableObject {
         }
     }
     
-    @AppStorage("isMute") var isMute: Bool = false {
+    @AppStorage("isMute") var isAutoSpeak: Bool = false {
         didSet{
             self.objectWillChange.send()
         }
@@ -68,13 +68,25 @@ class AudioManager: NSObject, AVSpeechSynthesizerDelegate, ObservableObject {
         }
     }
     
-    func speak(text: String, onStart: (() -> Void)?) {
+    func speakEng(text: String, onStart: (() -> Void)?) {
         if !isSpeaking{
             
             onStart?()
             
             let utterance = AVSpeechUtterance(string: text)
             utterance.voice = AVSpeechSynthesisVoice(identifier: voiceValue)
+            utterance.volume = 1
+            utterance.rate = 0.4
+            synthesizer.speak(utterance)
+        }
+    }
+    
+    func speakUkr(text: String, onStart: (() -> Void)?) {
+        if !isSpeaking{
+            onStart?()
+            
+            let utterance = AVSpeechUtterance(string: text)
+            utterance.voice = AVSpeechSynthesisVoice(language: "uk-UA")
             utterance.volume = 1
             utterance.rate = 0.4
             synthesizer.speak(utterance)

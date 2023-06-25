@@ -20,8 +20,8 @@ class TranslateViewModel: ObservableObject {
     @Published var isShowAlert: ShowAlert?
     
     @Published var chat: [ChatUnit] = [
-                ChatUnit(id: UUID(), wordUser: "The Lord of the Rings", wordTranslate: "Володар перснів")
-                ]
+        ChatUnit(id: UUID(), wordUser: "Write me, please!", wordTranslate: "Напишіть мені, будь ласка!"),
+    ]
 
     @Published var bufferID = UUID()
     @Published var tapppedID : UUID?
@@ -130,6 +130,7 @@ class TranslateViewModel: ObservableObject {
                 if translation.toKey() == self.wordRequest.toKey(){
                     self.removeInvalidRequest()
                 } else {
+                    
                     self.getTranslation(translation)
                 }
             }
@@ -146,7 +147,7 @@ class TranslateViewModel: ObservableObject {
     }
     
     func getTranslation(_ translation: String){
-        self.wordResponse = translation
+        self.wordResponse = translation.trimmingCharacters(in: CharacterSets.latinAndCyrillicSet.inverted)
         self.addToDictionary()
 
     }

@@ -22,9 +22,11 @@ struct MessageUserView: View {
     
     var widthSubstrate: CGFloat{
         if widthText < minWidth - 30{
-            return minWidth + 10 + flag
+            return minWidth + 10
+//            + flag
         } else {
-            return widthText + (2 * padding) + 10 + flag
+            return widthText + (2 * padding) + 10
+//            + flag
         }
     }
     
@@ -35,7 +37,7 @@ struct MessageUserView: View {
         ZStack{
             
             HStack{
-                Flag(emoji: "🇬🇧")
+//                Flag(emoji: "🇬🇧")
                 
                 messageView
                 Spacer()
@@ -79,9 +81,21 @@ struct MessageUserView: View {
         .background(Color.myPurple)
         .cornerRadius(15)
         .frame(maxWidth: maxWidth, alignment: .leading)
+        .overlay{
+            HStack{
+                VStack{
+                    Text("🇬🇧")
+                        .font(.system(size: 30))
+                    Spacer()
+                }
+                Spacer()
+            }
+            .offset(x: -10, y: -15)
+
+        }
         
         .onTapGesture {
-            audioManager.speak(text: message.wordUser) {
+            audioManager.speakEng(text: message.wordUser) {
                 isSpeaking = true
             }
         }
