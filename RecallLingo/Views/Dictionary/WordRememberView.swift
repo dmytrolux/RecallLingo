@@ -107,7 +107,8 @@ struct WordRememberView: View {
                 }
                 .tint(Color.myYellow)
                 .background(Color.myPurpleDark)
-                .scrollContentBackground(.hidden)
+//                .scrollContentBackground(.hidden)
+                .clearListBackground()
             }
             .navigationTitle("Remember the translation")
             .navigationBarTitleDisplayMode(.inline)

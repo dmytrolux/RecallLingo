@@ -32,10 +32,12 @@ struct StatisticView: View {
                 }
                 .listRowBackground(Color.myPurple)
             }
+            
             .background(Color.myPurpleDark)
-            .scrollContentBackground(.hidden)
+//            .scrollContentBackground(.hidden)
             .navigationTitle("Statistic")
             .navigationBarTitleDisplayMode(.large)
+            .clearListBackground()
         }
     }
 }

@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "app_icon 2.jpg",
+      "filename" : "bubbleSpeakerOn.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "app_icon 1.jpg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "app_icon.jpg",
       "idiom" : "universal",
       "scale" : "3x"
     }

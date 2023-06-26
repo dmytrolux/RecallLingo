@@ -41,15 +41,22 @@ struct SettingsView: View {
                 Section(header: Text("Notification").foregroundColor(Color.myPurpleLight)){
                     Toggle("Show notifications", isOn: $notificationController.isEnable)
                     
-                    
-                    Picker("Interval", selection: $selectedIntervalIndex) {
-                        ForEach(0..<sortedIntervalKeys.count, id: \.self) { index in
-                            Text(sortedIntervalKeys[index])
+                    HStack{
+                        Text("Select interval")
+                        Spacer(minLength: 0)
+                        Picker("Interval", selection: $selectedIntervalIndex) {
+                            ForEach(0..<sortedIntervalKeys.count, id: \.self) { index in
+                                Text(sortedIntervalKeys[index])
+                            }
+                            
                         }
+                        .labelsHidden()
                     }
+                    
                     VStack{
                         Toggle("Show translate", isOn: $notificationController.isShowTranslate)
                         Text("Immediately show the translation of the word in the message")
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.caption)
                             .foregroundColor(Color.myPurpleLight)
                             .padding(.horizontal)
@@ -67,18 +74,23 @@ struct SettingsView: View {
                 
                 Section(header: Text("Voice").foregroundColor(Color.myPurpleLight)){
                     HStack{
+                        Text("Select eglish voice")
+                        Spacer(minLength: 0)
                         Picker("Select eglish voice", selection: $audioManager.voiceValue) {
                             ForEach(audioManager.voices.keys.sorted(), id: \.self) { key in
                                 Text(key.capitalized)
                                     .tag(audioManager.voices[key]!)
                             }
                         }
+                        .labelsHidden()
+                        .pickerStyle(.menu)
+                        
                         speakerView
-                            .padding(.leading, 20)
                     }
                     VStack{
                         Toggle("Auto speak", isOn: $audioManager.isAutoSpeak)
                         Text("Automatic voice synthesis of English words during translation, word lookup, or assessing word knowledge.")
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.caption)
                             .foregroundColor(Color.myPurpleLight)
                             .padding(.horizontal)
@@ -86,11 +98,12 @@ struct SettingsView: View {
                 }
                 
                 .listRowBackground(Color.myPurple)
-                .pickerStyle(.menu)
+                
             }
                 .tint(Color.myYellow)
                 .background(Color.myPurpleDark)
-                .scrollContentBackground(.hidden)
+//                .scrollContentBackground(.hidden)
+                .clearListBackground()
             
                     .navigationTitle("Setting")
                     .navigationBarTitleDisplayMode(.large)
@@ -135,3 +148,52 @@ struct SettingsView_Previews: PreviewProvider {
         .environmentObject(LocalNotificationManager())
     }
 }
+
+struct ClearListBackgroundModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 16.0, *) {
+            content.scrollContentBackground(.hidden)
+        } else {
+            content
+                .onAppear(){
+                    UITableView.appearance().backgroundColor = .clear
+                }
+        }
+    }
+}
+
+struct FrameSection: ViewModifier{
+    func body(content: Content) -> some View {
+        if #available(iOS 16.0, *) {
+            content
+        } else {
+            content
+                .cornerRadius(15)
+                .padding(.horizontal)
+            
+        }
+    }
+}
+
+extension View {
+    func clearListBackground() -> some View {
+        modifier(ClearListBackgroundModifier())
+    }
+    
+    func framingSection() -> some View {
+        modifier(FrameSection())
+    }
+}
+
+
+
+// .scrollDisabled(viewModel.isEditMode)
+//struct ClearListBackgroundModifier: ViewModifier {
+//    func body(content: Content) -> some View {
+//        if #available(iOS 16.0, *) {
+//            content.scrollContentBackground(.hidden)
+//        } else {
+//            content
+//        }
+//    }
+//}

@@ -95,7 +95,8 @@ struct WordDetailView: View {
                     
                 }
                 .background(Color.myPurpleDark)
-                .scrollContentBackground(.hidden)
+//                .scrollContentBackground(.hidden)
+                .clearListBackground()
 
             .onAppear(){
                 translate = word.translate ?? ""
@@ -165,14 +166,12 @@ struct WordDetailView: View {
     
     var speakerEng: some View{
         ZStack{
-            Image(systemName: "speaker.wave.2.bubble.left.fill" )
+            Image("bubbleSpeakerBack")
                 .resizable()
-                .foregroundColor(.myPurpleDark)
                 .scaleEffect(0.95)
             
-            Image(systemName: isSpeakingEng ? "speaker.wave.2.bubble.left.fill" : "speaker.wave.2.bubble.left")
+            Image(isSpeakingEng ? "bubbleSpeakerOn" : "bubbleSpeakerOff")
                 .resizable()
-                .foregroundColor(.myYellow)
         }
                 .frame(width: 20, height: 20)
                 .scaleEffect(2)
@@ -196,12 +195,11 @@ struct WordDetailView: View {
     
     var speakerUkr: some View{
         ZStack{
-            Image(systemName: "speaker.wave.2.bubble.left.fill" )
+            Image("bubbleSpeakerBack" )
                 .resizable()
-                .foregroundColor(.myPurpleDark)
-            Image(systemName: isSpeakingUkr ? "speaker.wave.2.bubble.left.fill" : "speaker.wave.2.bubble.left")
+                .scaleEffect(0.95)
+            Image(isSpeakingUkr ? "bubbleSpeakerUkrOn" : "bubbleSpeakerUkrOff")
                 .resizable()
-                .foregroundColor(.myPurpleLight)
         }
         
         .frame(width: 20, height: 20)

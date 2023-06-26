@@ -16,7 +16,7 @@ import Combine
     private let options: UNAuthorizationOptions = [.alert, .badge, .sound]
      var data = MyApp.dataController
     
-    @Published var isGranted: Bool{
+     var isGranted: Bool{
         didSet {
             UserDefaults.standard.set(isGranted, forKey: UDKey.isGranted)
         }
@@ -85,7 +85,6 @@ import Combine
     func requestAuthorization(){
         center.requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
             if success {
-                print("All set!")
                 self.center.getNotificationSettings { settings in
                     self.isGranted = settings.authorizationStatus == .authorized
                     if self.isGranted {

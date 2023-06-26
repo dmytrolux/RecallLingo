@@ -54,6 +54,7 @@ struct TranslateTextField: View {
                 
             
         }
+        .frame(height: 25)
         .foregroundColor(.myPurpleDark)
         .padding(.vertical, 10)
         .padding(.horizontal, 20)

@@ -39,7 +39,7 @@ struct TranslateView: View {
                         }
                         
                     }
-                    .scrollDisabled(viewModel.isEditMode)
+//                    .scrollDisabled(viewModel.isEditMode)
                     .rotationEffect(.degrees(180))
                     .scaleEffect(x: -1, y: 1, anchor: .center)
                     .onTapGesture {
