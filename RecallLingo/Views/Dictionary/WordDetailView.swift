@@ -9,8 +9,6 @@ import AVFoundation
 import HidableTabView
 import SwiftUI
 
-
-
 struct WordDetailView: View {
     @State var word: WordEntity
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>

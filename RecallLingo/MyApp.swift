@@ -11,7 +11,6 @@ import UserNotifications
 
 @main
 struct MyApp: App {
-//    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     static var dataController = DataController()
     @StateObject var lNManager = LocalNotificationManager()//
     @Environment(\.scenePhase) private var phase

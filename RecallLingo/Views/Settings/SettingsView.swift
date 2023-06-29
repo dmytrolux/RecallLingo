@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HidableTabView
 
 struct SettingsView: View {
     @EnvironmentObject var notificationController: LocalNotificationManager
@@ -96,6 +97,20 @@ struct SettingsView: View {
                             .padding(.horizontal)
                     }
                 }
+                .listRowBackground(Color.myPurple)
+                
+                Section{
+                    NavigationLink(destination: AboutApp()) {
+                        HStack{
+                            Text("About this app")
+                                .foregroundColor(Color.myYellow)
+                            Spacer(minLength: 0)
+                        }
+                     
+                    }
+                    
+                 
+                }
                 
                 .listRowBackground(Color.myPurple)
                 
@@ -107,7 +122,11 @@ struct SettingsView: View {
             
                     .navigationTitle("Setting")
                     .navigationBarTitleDisplayMode(.large)
+                    .onAppear(){
+                        UITabBar.showTabBar(animated: true)
+                    }
         }
+        
         
     }
     

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class UDKey{
+struct UDKey{
     static let isEnable = "isNotificationEnable"
     static let isGranted = "isGrantedKey"
     static let interval = "interval"

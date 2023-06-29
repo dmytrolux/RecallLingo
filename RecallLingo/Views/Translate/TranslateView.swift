@@ -139,7 +139,7 @@ struct TranslateView: View {
             Image(systemName: "paperplane")
                 .resizable()
                 .frame(width: 30, height: 30, alignment: .center)
-                .foregroundColor(viewModel.networkMonitor.isConnected ? .myPurpleLight : .red )
+                .foregroundColor(.myPurpleLight)
                 .padding(.trailing, 15)
                 .opacity(viewModel.isSendMessageButtonDisabled ? 0.5 : 1)
         }
