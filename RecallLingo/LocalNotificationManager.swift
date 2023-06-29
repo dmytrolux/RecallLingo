@@ -78,27 +78,27 @@ import Combine
         observerPressNotKnowNotification()
         
     }
-    
+     
+     func requestAuthorization() {
+         center.requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+             if success {
+                 self.center.getNotificationSettings { settings in
+                     self.isGranted = settings.authorizationStatus == .authorized
+                     if self.isGranted {
+                         DispatchQueue.main.async {
+                             self.isEnable = true
+                         }
+                     }
+                 }
+             } else {
+                 self.openSetting()
+                 if let error = error {
+                     print(error.localizedDescription)
+                 }
+             }
+         }
+     }
 
-
-    
-    func requestAuthorization(){
-        center.requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
-            if success {
-                self.center.getNotificationSettings { settings in
-                    self.isGranted = settings.authorizationStatus == .authorized
-                    if self.isGranted {
-                        self.isEnable = true
-                    }
-                }
-            } else {
-                self.openSetting()
-                if let error = error {
-                   print(error.localizedDescription)
-               }
-            }
-        }
-    }
     
     
     
