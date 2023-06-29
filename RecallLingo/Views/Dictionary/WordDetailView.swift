@@ -22,7 +22,7 @@ struct WordDetailView: View {
     var body: some View {
                 Form{
                     let headerOriginal = HStack{
-                        Text("Original")
+                        Text("cOriginal")
                             .foregroundColor(.myPurpleLight)
                         Spacer()
                         speakerEng
@@ -51,7 +51,7 @@ struct WordDetailView: View {
                     
                     let headerTranslate = HStack{
                         
-                        Text("Translate")
+                        Text("cTranslate")
                             .foregroundColor(.myPurpleLight)
                         Spacer()
                         speakerUkr
@@ -76,13 +76,13 @@ struct WordDetailView: View {
                     
                     Section{
                         HStack{
-                            Text("Popularity:")
+                            Text("cPopularity:")
                             Spacer(minLength: 0)
                             Text(word.popularity.description)
                                 .foregroundColor(.myYellow)
                         }
                         HStack{
-                            Text("Date added:")
+                            Text("cDateAdded:")
                             Spacer(minLength: 0)
                             
                             Text(word.date ?? Date(), format: .dateTime)
@@ -99,23 +99,24 @@ struct WordDetailView: View {
             .onAppear(){
                 translate = word.translate ?? ""
             }
-            .navigationTitle("Word")
+            .navigationTitle("cWord")
             .navigationBarTitleDisplayMode(.inline)
-            .alert("Edit translate", isPresented: $isEdit, actions: {
-                TextField("Edit translate", text: $translate)
+            .alert("cEditTranslate", isPresented: $isEdit, actions: {
+                TextField("cEditTranslate", text: $translate)
                 
-                Button("Save", action: {
+                Button("cSave", action: {
                     isEdit = false
                     word.translate = translate
                     MyApp.dataController.saveData()
                 })
                 
-                Button("Cancel", role: .cancel, action: {
+                Button("cCancel", role: .cancel, action: {
                     isEdit = false
                 })
             
                     }, message: {
-                        Text("Please enter a new translation for the word \"\(word.original ?? "nil")\"")
+                  
+                        Text("cPleaseEnter".localized() + (word.original ?? "nil") + "\"")
                     })
 
             
@@ -127,7 +128,7 @@ struct WordDetailView: View {
                             MyApp.dataController.deleteWordAt(object: word)
                         }
                     } label: {
-                        Label("Delete", systemImage: "trash")
+                        Label("cDelete", systemImage: "trash")
                             .labelStyle(.iconOnly)
                             .foregroundColor(.red)
                     }
@@ -137,7 +138,7 @@ struct WordDetailView: View {
                     Button() {
                         isEdit = true
                     } label: {
-                        Label("Edit", systemImage: "square.and.pencil")
+                        Label("cEdit", systemImage: "square.and.pencil")
                             .labelStyle(.iconOnly)
                             .foregroundColor(.myYellow)
                     }
@@ -240,3 +241,9 @@ struct WordDetailView_Previews: PreviewProvider {
     }
 }
 
+extension String{
+    func localized() -> String{
+        return NSLocalizedString(self, comment: "")
+    }
+
+}

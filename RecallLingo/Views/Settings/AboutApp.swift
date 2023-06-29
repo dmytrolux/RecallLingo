@@ -27,10 +27,10 @@ struct AboutApp: View {
                     .frame(width: 180, height: 180, alignment: .center)
                     .cornerRadius(40)
                 
-                Text("Recall Lingo")
+                Text("cRecallLingo")
                     .font(.title)
                 
-                Text("App version: \(appVersion) (build \(buildNumber))")
+                Text("aAppVersion".localized() + appVersion + "aBuild".localized() + buildNumber + ")")
                     .font(.footnote)
                     .padding(.bottom, 20)
                 
@@ -40,7 +40,7 @@ struct AboutApp: View {
                         
                         HStack{
                            
-                                Label("Share with friends", systemImage: "square.and.arrow.up")
+                                Label("aShareFriends", systemImage: "square.and.arrow.up")
                                     .foregroundColor(.myYellow)
                             
                             Spacer()
@@ -54,7 +54,7 @@ struct AboutApp: View {
                         }
                         
                         HStack{
-                                Label("Rate app", systemImage: "star")
+                                Label("aRateApp", systemImage: "star")
                                 .foregroundColor(.myYellow)
                             Spacer()
                             
@@ -67,7 +67,7 @@ struct AboutApp: View {
                         }
                         
                         HStack{
-                            Label("Show in App Store", systemImage: "arrow.up.right.square")
+                            Label("aShowAppStore", systemImage: "arrow.up.right.square")
                                 .foregroundColor(.myYellow)
                                 .background(
                                     Link("", destination: .init(string: "https://apps.apple.com/app/id\(appId)")!)
@@ -81,7 +81,7 @@ struct AboutApp: View {
                         }
                         
                         HStack{
-                            Label("Privacy Policy", systemImage: "hand.raised")
+                            Label("aPrivacyPolicy", systemImage: "hand.raised")
                                 .foregroundColor(.myYellow)
                                 .background(NavigationLink("", destination: DocumentView(type: .privacyPolicy)))
                             
@@ -93,7 +93,7 @@ struct AboutApp: View {
                         }
                         
                         HStack{
-                            Label("Terms of Use", systemImage: "hand.raised")
+                            Label("aTermsUse", systemImage: "doc.text")
                                 .foregroundColor(.myYellow)
                                 .background(NavigationLink("", destination: DocumentView(type: .termsOfUse)))
                             
@@ -115,7 +115,7 @@ struct AboutApp: View {
                 
                 Spacer()
             }
-            .navigationTitle("About app")
+            .navigationTitle("aAboutApp")
             .background(Color.myPurpleDark)
             .onAppear {
                 fetchAppVersion()
@@ -134,7 +134,7 @@ struct AboutApp: View {
        }
     
     func shareApp() {
-        let shareText = "Спробуйте цей чудовий додаток! https://itunes.apple.com/app/id\(appId)"
+        let shareText = "Раджу спробувати додаток \"Recall Lingo\" - англійсько-український офлайн-перекладач з чат-інтерфейсом, особистим словником та сповіщеннями для кращого запам'ятовування слів. Він дуже зручний та допоможе покращити свої знання англійської мови. Посиланням:" + " https://itunes.apple.com/app/id\(appId) + Мій друг вже користується ним і рекомендує всім, хто хоче навчатись краще!"
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let window = windowScene.windows.first else {
             return

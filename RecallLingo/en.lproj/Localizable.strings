@@ -1,0 +1,74 @@
+/* 
+  Localizable.strings
+  RecallLingo
+
+  Created by Pryshliak Dmytro on 29.06.2023.
+  
+*/
+
+"tbTranslate" = "Переклад";
+"tbDictionary" = "Словник";
+"tbStatistic" = "Статистика";
+"tbSetting" = "Налаштування";
+"alError" = "Помилка";
+"tEnterEnglishWord" = "Введіть англійське слово";
+"dReset" = "Скинути";
+"dDictionary" = "Словник";
+"dSortType" = "Тип сортування";
+"dAlphabet" = "Алфавіт";
+"dDate" = "Дата";
+"dPopularity" = "Популярність";
+"rEnterTranslate" = "Введіть переклад";
+"cOriginal" = "Оригінал";
+"cTranslate" = "Переклад";
+"cPopularity:" = "Популярність:";
+"cDateAdded:" = "Дата додавання:";
+"cWord" = "Слово";
+"cEditTranslate" = "Редагувати переклад";
+"cSave" = "Зберегти";
+"cCancel" = "Скасувати";
+"cPleaseEnter" = "Будь ласка, введіть новий переклад для слова \"";
+"cDelete" = "Видалити";
+"cEdit" = "Редагувати";
+"cCheck" = "Перевірити";
+"cCorrect" = "Правильно";
+"cIncorrect" = "Неправильно";
+"cShowHint" = "Показати підказку";
+"cHint:" = "Підказка:";
+"cRememberTranslation" = "Запам'ятати переклад";
+"cRecallLingo" = "Нагадувач Перекладу";
+"sAllWords:" = "Всі слова:";
+"sMostPopularWord:" = "Найпопулярніше слово:";
+"sStatistic" = "Статистика";
+"s1m" = "1 хв";
+"s5m" = "5 хв";
+"s15m" = "15 хв";
+"s30m" = "30 хв";
+"s45m" = "45 хв";
+"s1h" = "1 год";
+"s2h" = "2 год";
+"s4h" = "4 год";
+"s8h" = "8 год";
+"s12h" = "12 год";
+"s24h" = "24 год";
+"sNotification" = "Сповіщення";
+"sShowNotifications" = "Показувати сповіщення";
+"sSelectInterval" = "Виберіть інтервал";
+"sInterval" = "Інтервал";
+"sShowTranslate" = "Показувати переклад";
+"sDescriptionShowTranslate" = "Негайно показувати переклад слова у сповіщенні";
+"sVoice" = "Голос";
+"sSelectVoice" = "Виберіть англійський голос";
+"sAutoSpeak" = "Автоматична вимова";
+"sDescriptionAutoVoice" = "Автоматичне синтезування англійських слів під час перекладу, пошуку слів або перевірці знань слів.";
+"sAboutApp" = "Про додаток";
+"sSetting" = "Налаштування";
+"sMyName" = "Привіт, мене звати ";
+"aAppVersion" = "Версія додатку: ";
+"aBuild" = " (збірка ";
+"aShareFriends" = "Поділитися з друзями";
+"aRateApp" = "Оцінити додаток";
+"aShowAppStore" = "Показати в App Store";
+"aPrivacyPolicy" = "Політика конфіденційності";
+"aTermsUse" = "Умови використання";
+"aAboutApp" = "Про додаток";

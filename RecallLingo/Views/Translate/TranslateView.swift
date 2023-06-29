@@ -71,14 +71,14 @@ struct TranslateView: View {
                 .padding(.bottom, 20)
             }
             .background(Color.myPurpleDark)
-            .navigationTitle("Translate")
+            .navigationTitle("tbTranslate")
             .navigationBarHidden(viewModel.isHidenTitle)
             // open keyboard hide navigationTitle
             
             
             
             .alert(item: $viewModel.isShowAlert){ show in
-                Alert(title: Text("Error"),
+                Alert(title: Text("alError"),
                       message: Text(show.name),
                       dismissButton: .cancel())
             }

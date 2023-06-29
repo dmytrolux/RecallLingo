@@ -1,0 +1,76 @@
+/* 
+  Localizable.strings
+  RecallLingo
+
+  Created by Pryshliak Dmytro on 29.06.2023.
+  
+*/
+
+
+"tbTranslate" = "Translate";
+"tbDictionary" = "Dictionary";
+"tbStatistic" = "Statistic";
+"tbSetting" = "Setting";
+"alError" = "Error";
+"tEnterEnglishWord" = "Enter english word";
+"dReset" = "Reset";
+"dDictionary" = "Dictionary";
+"dSortType" = "Sort Type";
+"dAlphabet" = "Alphabet";
+"dDate" = "Date";
+"dPopularity" = "Popularity";
+"rEnterTranslate" = "Enter translate";
+"cOriginal" = "Original";
+"cTranslate" = "Translate";
+"cPopularity:" = "Popularity:";
+"cDateAdded:" = "Date added:";
+"cWord" = "Word";
+"cEditTranslate" = "Edit translate";
+"cSave" = "Save";
+"cCancel" = "Cancel";
+"cPleaseEnter" = "Please enter a new translation for the word \"";
+"cDelete" = "Delete";
+"cEdit" = "Edit";
+"cCheck" = "Check";
+"cCorrect" = "Correct";
+"cIncorrect" = "Incorrect";
+"cShowHint" = "Show Hint";
+"cHint:" = "Hint:";
+"cRememberTranslation" = "Remember the translation";
+"cRecallLingo" ="Recall Lingo";
+"sAllWords:" = "All words:";
+"sMostPopularWord:" = "Most popular word:";
+"sStatistic" = "Statistic";
+"s1m" = "1 m";
+"s5m" = "5 m";
+"s15m" = "15 m";
+"s30m" = "30 m";
+"s45m" = "45 m";
+"s1h" = "1 h";
+"s2h" = "2 h";
+"s4h" = "4 h";
+"s8h" = "8 h";
+"s12h" = "12 h";
+"s24h" = "24 h";
+"sNotification" = "Notification";
+"sShowNotifications" = "Show notifications";
+"sSelectInterval" = "Select interval";
+"sInterval" = "Interval";
+"sShowTranslate" = "Show translate";
+"sDescriptionShowTranslate" = "Immediately show the translation of the word in the message";
+"sVoice" = "Voice";
+"sSelectVoice" = "Select english voice";
+"sAutoSpeak" = "Auto speak";
+"sDescriptionAutoVoice" = "Automatic voice synthesis of English words during translation, word lookup, or assessing word knowledge.";
+"sAboutApp" = "About this app";
+"sSetting" = "Setting";
+"sMyName" = "Hello, my name is ";
+"aAppVersion" = "App version: ";
+"aBuild" = " (build ";
+"aShareFriends" = "Share with friends";
+"aRateApp" = "Rate app";
+"aShowAppStore" = "Show me in App Store";
+"aPrivacyPolicy" = "Privacy Policy";
+"aTermsUse" = "Terms of Use";
+"aAboutApp" = "About app";
+

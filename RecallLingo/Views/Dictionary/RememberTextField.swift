@@ -19,7 +19,7 @@ struct RememberTextField: View {
         ZStack{
             if text.isEmpty{
                 HStack{
-                    Text("Enter translate")
+                    Text("rEntertranslate")
                         .foregroundColor(.myPurpleLight)
                     Spacer()
                 }

@@ -23,7 +23,7 @@ struct MainScreen: View {
                 .background(Color.myPurpleDark)
                 .tabItem {
                     Image(systemName: "globe")
-                    Text("Translate")
+                    Text("tbTranslate")
                 }
                 .tag(Tab.translate)
 
@@ -31,21 +31,21 @@ struct MainScreen: View {
                 .background(Color.myPurpleDark)
                 .tabItem {
                     Image(systemName: selection == .dictionary ? "book" : "text.book.closed")
-                    Text("Dictionary")
+                    Text("tbDictionary")
                 }
                 .tag(Tab.dictionary)
 //
             StatisticView()
                 .tabItem{
                     Image(systemName: "chart.line.uptrend.xyaxis")
-                    Text("Statistic")
+                    Text("tbStatistic")
                 }
                 .tag(Tab.statistic)
 //
             SettingsView()
                 .tabItem {
                     Image(systemName:  "gearshape")
-                    Text("Seting")
+                    Text("tbSetting")
                 }
                 .tag(Tab.setting)
 

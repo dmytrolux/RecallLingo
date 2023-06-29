@@ -15,14 +15,14 @@ struct StatisticView: View {
             Form{
                 Section{
                     HStack{
-                        Text("All words:")
+                        Text("sAllWords:")
                         Spacer(minLength: 0)
                         Text(data.savedEntities.count.description)
                             .foregroundColor(.myYellow)
                     }
                     if MyApp.dataController.mostPopularWord() != nil{
                         HStack{
-                            Text("Most popular word:")
+                            Text("sMostPopularWord:")
                             Spacer(minLength: 0)
                             Text(MyApp.dataController.mostPopularWord()?.original ?? "nil")
                                 .foregroundColor(.myYellow)
@@ -35,7 +35,7 @@ struct StatisticView: View {
             
             .background(Color.myPurpleDark)
 //            .scrollContentBackground(.hidden)
-            .navigationTitle("Statistic")
+            .navigationTitle("sStatistic")
             .navigationBarTitleDisplayMode(.large)
             .clearListBackground()
         }

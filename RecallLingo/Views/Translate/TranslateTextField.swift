@@ -18,7 +18,7 @@ struct TranslateTextField: View {
         ZStack{
             if vm.wordRequest.isEmpty{
                 HStack{
-                    Text("Enter english word")
+                    Text("tEnterEnglishWord")
                         .foregroundColor(.myPurpleLight)
                     Spacer()
                 }
@@ -30,7 +30,7 @@ struct TranslateTextField: View {
                 .focused($isFocused)
                 .onReceive(vm.$isTextFieldFocused) { focused in
                     isFocused = focused
-                    print("focused: \(focused)")
+//                    print("focused: \(focused)")
                 }
                 .onChange(of: isFocused, perform: { newValue in
                     vm.isHidenTitle = newValue

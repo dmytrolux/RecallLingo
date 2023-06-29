@@ -16,17 +16,17 @@ struct SettingsView: View {
     @State var name = "Siri"
     
     let intervalOptions: [String: TimeInterval] = [
-            "1 m": 60,
-            "5 m": 300,
-            "15 m": 900,
-            "30 m": 1800,
-            "45 m": 2700,
-            "1 h": 3600,
-            "2 h": 7200,
-            "4 h": 14400,
-            "8 h": 28800,
-            "12 h": 43200,
-            "24 h": 86400
+            "s1m": 60,
+            "s5m": 300,
+            "s15m": 900,
+            "s30m": 1800,
+            "s45m": 2700,
+            "s1h": 3600,
+            "s2h": 7200,
+            "s4h": 14400,
+            "s8h": 28800,
+            "s12h": 43200,
+            "s24h": 86400
         ]
     
     var sortedIntervalKeys: [String] {
@@ -39,15 +39,17 @@ struct SettingsView: View {
           
             Form{
                 
-                Section(header: Text("Notification").foregroundColor(Color.myPurpleLight)){
-                    Toggle("Show notifications", isOn: $notificationController.isEnable)
+                Section(header: Text("sNotification").foregroundColor(Color.myPurpleLight)){
+                    Toggle("sShowNotifications", isOn: $notificationController.isEnable)
                     
                     HStack{
-                        Text("Select interval")
+                        Text("sSelectInterval")
                         Spacer(minLength: 0)
-                        Picker("Interval", selection: $selectedIntervalIndex) {
+                        Picker("sInterval", selection: $selectedIntervalIndex) {
                             ForEach(0..<sortedIntervalKeys.count, id: \.self) { index in
-                                Text(sortedIntervalKeys[index])
+                                let text = NSLocalizedString(sortedIntervalKeys[index], comment: "")
+                                
+                                Text(text)
                             }
                             
                         }
@@ -55,8 +57,8 @@ struct SettingsView: View {
                     }
                     
                     VStack{
-                        Toggle("Show translate", isOn: $notificationController.isShowTranslate)
-                        Text("Immediately show the translation of the word in the message")
+                        Toggle("sShowTranslate", isOn: $notificationController.isShowTranslate)
+                        Text("sDescriptionShowTranslate")
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.caption)
                             .foregroundColor(Color.myPurpleLight)
@@ -67,17 +69,16 @@ struct SettingsView: View {
                 .listRowBackground(Color.myPurple)
                 .pickerStyle(.menu)
                 .onChange(of: selectedIntervalIndex, perform: { value in
-                    print("Selected index: \(value), value: \(sortedIntervalKeys[value]))")
                     
                     UserDefaults.standard.set(selectedIntervalIndex, forKey: UDKey.selectedIntervalIndex)
                     notificationController.interval = intervalOptions[sortedIntervalKeys[value]]!
                 })
                 
-                Section(header: Text("Voice").foregroundColor(Color.myPurpleLight)){
+                Section(header: Text("sVoice").foregroundColor(Color.myPurpleLight)){
                     HStack{
-                        Text("Select eglish voice")
+                        Text("sSelectVoice")
                         Spacer(minLength: 0)
-                        Picker("Select eglish voice", selection: $audioManager.voiceValue) {
+                        Picker("sSelectVoice", selection: $audioManager.voiceValue) {
                             ForEach(audioManager.voices.keys.sorted(), id: \.self) { key in
                                 Text(key.capitalized)
                                     .tag(audioManager.voices[key]!)
@@ -89,8 +90,8 @@ struct SettingsView: View {
                         speakerView
                     }
                     VStack{
-                        Toggle("Auto speak", isOn: $audioManager.isAutoSpeak)
-                        Text("Automatic voice synthesis of English words during translation, word lookup, or assessing word knowledge.")
+                        Toggle("sAutoSpeak", isOn: $audioManager.isAutoSpeak)
+                        Text("sDescriptionAutoVoice")
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.caption)
                             .foregroundColor(Color.myPurpleLight)
@@ -102,7 +103,7 @@ struct SettingsView: View {
                 Section{
                     NavigationLink(destination: AboutApp()) {
                         HStack{
-                            Text("About this app")
+                            Text("sAboutApp")
                                 .foregroundColor(Color.myYellow)
                             Spacer(minLength: 0)
                         }
@@ -120,7 +121,7 @@ struct SettingsView: View {
 //                .scrollContentBackground(.hidden)
                 .clearListBackground()
             
-                    .navigationTitle("Setting")
+                    .navigationTitle("sSetting")
                     .navigationBarTitleDisplayMode(.large)
                     .onAppear(){
                         UITabBar.showTabBar(animated: true)
@@ -142,9 +143,7 @@ struct SettingsView: View {
             .frame(width: 25, height: 25)
             .foregroundColor(.myYellow)
             .onTapGesture {
-                audioManager.speakEng(text: "Hello, my name is \(audioManager.voiceName).)") {
-                    isSpeak = true
-                }
+                testVoice()
             }
             .onChange(of: audioManager.isSpeaking, perform: { newValue in
                 if !newValue{
@@ -152,11 +151,15 @@ struct SettingsView: View {
                 }
             })
             .onChange(of: audioManager.voiceValue) { newValue in
-              audioManager.speakEng(text: "Hello, my name is \(audioManager.voiceName).)") {
-                    isSpeak = true
-                }
+                testVoice()
             
             }
+    }
+    
+    func testVoice(){
+        audioManager.speakEng(text: "sMyName".localized() + audioManager.voiceName + ".)") {
+            isSpeak = true
+        }
     }
    
 }

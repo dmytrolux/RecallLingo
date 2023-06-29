@@ -55,7 +55,7 @@ struct DictionaryView: View {
                         Button {
                             data.resetPopularity(word: word)
                         } label: {
-                            Label("Reset", systemImage: "gobackward")
+                            Label("dReset", systemImage: "gobackward")
                                 .labelStyle(.titleAndIcon)
                         }
                         .tint(.green)
@@ -79,17 +79,17 @@ struct DictionaryView: View {
 
             .listStyle(.plain)
             .background(Color.myPurpleDark)
-            .navigationBarTitle("Dictionary")
+            .navigationBarTitle("dDictionary")
             .onAppear(){
                 UITabBar.showTabBar(animated: true)
             }
 
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Picker("Sort Type", selection: $data.sortType) {
-                        Text("Alphabet").tag(SortType.alphabet)
-                        Text("Date").tag(SortType.date)
-                        Text("Popularity").tag(SortType.popularity)
+                    Picker("dSortType", selection: $data.sortType) {
+                        Text("dAlphabet").tag(SortType.alphabet)
+                        Text("dDate").tag(SortType.date)
+                        Text("dPopularity").tag(SortType.popularity)
                     }
                     
                     .pickerStyle(SegmentedPickerStyle())
@@ -105,7 +105,7 @@ struct DictionaryView: View {
                     .onChange(of: data.sortType) { newType in
                         MyApp.dataController.sorting(type: newType)
                         UserDefaults.standard.set(newType.rawValue, forKey: UDKey.sortType)
-                        print("ChangeSortType: \(newType.rawValue)")
+//                        print("ChangeSortType: \(newType.rawValue)")
                         
                     }
                 }

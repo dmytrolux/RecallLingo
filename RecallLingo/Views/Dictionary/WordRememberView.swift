@@ -48,13 +48,13 @@ struct WordRememberView: View {
                     checkTransltation()
                 } label: {
                     Group{ if !isChecked{
-                        Label("Check", systemImage: "checkmark.circle.badge.questionmark")
+                        Label("cCheck", systemImage: "checkmark.circle.badge.questionmark")
                     } else {
                         if isCorrected ?? false{
-                            Label("Correct", systemImage: "checkmark.circle")
+                            Label("cCorrect", systemImage: "checkmark.circle")
                                 .foregroundColor(.white)
                         } else {
-                            Label("Incorrect", systemImage: "xmark.circle")
+                            Label("cIncorrect", systemImage: "xmark.circle")
                                 .foregroundColor(.white)
                             
                         }
@@ -85,12 +85,12 @@ struct WordRememberView: View {
                 
                 Form{
                     Section{
-                        Toggle("Show Hint", isOn: $isShowHint)
+                        Toggle("cShowHint", isOn: $isShowHint)
                             .foregroundColor(.white)
                         
                         if isShowHint{
                             HStack{
-                                Text("Hint:")
+                                Text("cHint:")
                                     .foregroundColor(.white)
                                 
                                 Spacer(minLength: 0)
@@ -110,7 +110,7 @@ struct WordRememberView: View {
 //                .scrollContentBackground(.hidden)
                 .clearListBackground()
             }
-            .navigationTitle("Remember the translation")
+            .navigationTitle("cRememberTranslation")
             .navigationBarTitleDisplayMode(.inline)
             .background(Color.myPurpleDark)
             .toolbar{
@@ -118,7 +118,7 @@ struct WordRememberView: View {
                     Button {
                         dismiss()
                     } label: {
-                        Label("RecallLingo", systemImage: "arrowshape.turn.up.backward")
+                        Label("cRecallLingo", systemImage: "arrowshape.turn.up.backward")
                     }
                 }
             }
