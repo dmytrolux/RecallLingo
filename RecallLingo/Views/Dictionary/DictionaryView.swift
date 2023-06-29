@@ -12,8 +12,6 @@ import CoreData
 struct DictionaryView: View {
     @EnvironmentObject var data: DataController
     
-    
-    
     func imageName(word: WordEntity)-> String{
         if word.popularity < 50{
             return "\(word.popularity).circle.fill"
@@ -26,64 +24,86 @@ struct DictionaryView: View {
         return word.popularity > 1 ? Color(hex: "de3163") : .myYellow
     }
     
-//    init(){
-//        MyApp.dataController.sorting(type: sortType)
-//
-//
-//    }
-    
     var body: some View {
         NavigationView {
-            List{
-                ForEach(data.savedEntities, id: \.id) { word in
-                    NavigationLink(destination: WordDetailView(word: word)) {
-                        HStack{
-                            Spacer().frame(width: 20)
-                            Image(systemName: imageName(word: word) )
-                                .resizable()
-                                .frame(width: 20, height: 20)
-                                .foregroundColor(imageColor(word: word))
-                            Spacer()
-                                .frame(width: 20)
-                            Text("\(word.original ?? "")")
-                                .foregroundColor(Color.myYellow)
+            Group{
+                if data.savedEntities.isEmpty{
+                    Form{
+                        Section(header: Text("dRemark").foregroundColor(Color.myPurpleLight)){
+                            VStack{
+                                
+                                Text("dEmptyDictionary")
+                                    .multilineTextAlignment(.center)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                
+                                Text("dPlease")
+                                    .multilineTextAlignment(.center)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .font(.caption)
+                                    .foregroundColor(Color.myPurpleLight)
+                                    .padding(.horizontal)
+                            }
                         }
-    
+                        .listRowBackground(Color.myPurple)
+                    }
+                    .background(Color.myPurpleDark)
+                    .clearListBackground()
+                } else {
+                    List{
+                        ForEach(data.savedEntities, id: \.id) { word in
+                            NavigationLink(destination: WordDetailView(word: word)) {
+                                HStack{
+                                    Spacer().frame(width: 20)
+                                    Image(systemName: imageName(word: word) )
+                                        .resizable()
+                                        .frame(width: 20, height: 20)
+                                        .foregroundColor(imageColor(word: word))
+                                    Spacer()
+                                        .frame(width: 20)
+                                    Text("\(word.original ?? "")")
+                                        .foregroundColor(Color.myYellow)
+                                }
+                                
+                                
+                            }
+                            .swipeActions(edge: .leading) {
+                                Button {
+                                    data.resetPopularity(word: word)
+                                } label: {
+                                    Label("dReset", systemImage: "gobackward")
+                                        .labelStyle(.titleAndIcon)
+                                }
+                                .tint(.green)
+                            }
+                            
+                            
+                        }
+                        .onDelete(perform: data.deleteItem)
+                        .listRowBackground(
+                            HStack{ Spacer().frame(width: 20)
+                                Rectangle()
+                                    .fill(Color.myPurple)
+                                    .cornerRadius(25, corners: [.topLeft, .bottomLeft])
+                                    .padding(.vertical, 2)
+                            }
+                        )
+                        .listRowSeparator(Visibility.hidden)
                         
                     }
-                    .swipeActions(edge: .leading) {
-                        Button {
-                            data.resetPopularity(word: word)
-                        } label: {
-                            Label("dReset", systemImage: "gobackward")
-                                .labelStyle(.titleAndIcon)
-                        }
-                        .tint(.green)
-                    }
-                 
+                    .environment(\.defaultMinListRowHeight, 50)
+                    
+                    .listStyle(.plain)
                     
                 }
-                .onDelete(perform: data.deleteItem)
-                .listRowBackground(
-                    HStack{ Spacer().frame(width: 20)
-                        Rectangle()
-                            .fill(Color.myPurple)
-                            .cornerRadius(25, corners: [.topLeft, .bottomLeft])
-                            .padding(.vertical, 2)
-                    }
-                )
-                .listRowSeparator(Visibility.hidden)
                 
             }
-            .environment(\.defaultMinListRowHeight, 50)
-
-            .listStyle(.plain)
             .background(Color.myPurpleDark)
+            
             .navigationBarTitle("dDictionary")
             .onAppear(){
                 UITabBar.showTabBar(animated: true)
             }
-
+            
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Picker("dSortType", selection: $data.sortType) {
@@ -105,12 +125,12 @@ struct DictionaryView: View {
                     .onChange(of: data.sortType) { newType in
                         MyApp.dataController.sorting(type: newType)
                         UserDefaults.standard.set(newType.rawValue, forKey: UDKey.sortType)
-//                        print("ChangeSortType: \(newType.rawValue)")
+                        //                        print("ChangeSortType: \(newType.rawValue)")
                         
                     }
                 }
-                            
-                        }
+                
+            }
             
         }
         .background(Color.myPurpleDark)
@@ -120,7 +140,7 @@ struct DictionaryView: View {
         
     }
     
-
+    
 }
 
 

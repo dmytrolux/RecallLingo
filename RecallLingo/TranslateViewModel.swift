@@ -106,14 +106,14 @@ class TranslateViewModel: ObservableObject {
          } else if networkMonitor.isConnected{
              translator.downloadModelIfNeeded(with: conditions) { error in
                  if let error = error {
-                     self.isShowAlert = ShowAlert(name: "Error translating text: \(error.localizedDescription)")
+                     self.isShowAlert = ShowAlert(name: "aErrorTransl" + error.localizedDescription )
                  } else {
                      self.translatingWithMLKitTranslate()
                      self.isLanguageModelDownloaded = true
                  }
              }
          } else {
-             self.isShowAlert = ShowAlert(name: "No internet connection. \n Please enable your internet connection to continue using our services.")
+             self.isShowAlert = ShowAlert(name: "aNoInternet")
          }
     }
     
@@ -122,7 +122,7 @@ class TranslateViewModel: ObservableObject {
         translator.translate(wordRequest) {translation, error in
             
             if let error {
-                self.isShowAlert = ShowAlert(name: "Error translating text: \(error.localizedDescription)")
+                self.isShowAlert = ShowAlert(name: "aErrorTransl" + error.localizedDescription )
                 return
             }
             
@@ -142,7 +142,7 @@ class TranslateViewModel: ObservableObject {
            self.chat[index].wordTranslate == "" {
             self.chat.remove(at: index)
 
-            self.isShowAlert = ShowAlert(name: "Invalid Input\nPlease enter a valid word for translation.")
+            self.isShowAlert = ShowAlert(name: "aInvalidInput")
         }
     }
     
@@ -171,7 +171,6 @@ class TranslateViewModel: ObservableObject {
             print("add Error")
             return
         }
-        print("id: \(wordRequest.toKey()), original: \(wordRequest), translate: \(wordResponse)")
         MyApp.dataController.new(key: wordRequest.toKey(),
                                  original: wordRequest,
                                  translate: wordResponse)
@@ -193,8 +192,6 @@ class TranslateViewModel: ObservableObject {
                 self.tapppedID = message.id
                 self.isEditMode = true
                 self.wordRequest = message.wordTranslate
-                print("message.wordTranslate: \(message.wordTranslate)")
-                print("wordRequest = \(self.wordRequest)")
                 UITabBar.hideTabBar()
                 updateMessageStatus()
             }
@@ -231,7 +228,6 @@ class TranslateViewModel: ObservableObject {
     
     func sendTranslatedMessage(response: String){
         if !response.isEmpty{
-            print("Переклад: \(response)")
             if let index = chat.firstIndex(where: {$0.id == bufferID}){
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.chat[index].wordTranslate = response

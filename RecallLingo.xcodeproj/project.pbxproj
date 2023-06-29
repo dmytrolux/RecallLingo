@@ -285,7 +285,7 @@
 			};
 			buildConfigurationList = 66847BD629DB3E8400CB3A8E /* Build configuration list for PBXProject "RecallLingo" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = uk;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,

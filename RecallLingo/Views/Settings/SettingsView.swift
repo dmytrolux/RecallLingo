@@ -157,7 +157,7 @@ struct SettingsView: View {
     }
     
     func testVoice(){
-        audioManager.speakEng(text: "sMyName".localized() + audioManager.voiceName + ".)") {
+        audioManager.speakEng(text: "Hello, my name is " + audioManager.voiceName + ".)") {
             isSpeak = true
         }
     }
