@@ -20,145 +20,144 @@ struct WordDetailView: View {
     @State var translate = ""
     
     var body: some View {
-                Form{
-                    let headerOriginal = HStack{
-                        Text("cOriginal")
-                            .foregroundColor(.myPurpleLight)
-                        Spacer()
-                        speakerEng
-                    }
-                    
-                    Section(header: headerOriginal ){
-                        ZStack{
-                            Color.myPurple
-                            Text(word.original ?? "")
-                                .font(.system(size: 30))
-                                .minimumScaleFactor(0.5)
-                                .foregroundColor(.myYellow)
-                                .frame(maxWidth: .infinity)
-                                .frame(alignment: .center)
-                                .padding()
-                            
-                        }
-                            .frame(height: UIScreen.main.bounds.height / 4)
-                            .onTapGesture {
-                                audioManager.speakEng(text: word.original ?? ""){
-                                    isSpeakingEng = true
-                                }
-                            }
-                    }
-                    .listRowBackground(Color.myPurple)
-                    
-                    let headerTranslate = HStack{
-                        
-                        Text("cTranslate")
-                            .foregroundColor(.myPurpleLight)
-                        Spacer()
-                        speakerUkr
-                    }
-                    
-                    Section(header: headerTranslate){
-                        ZStack{
-                            Color.myYellow
-                            Text(word.translate ?? "")
-                                .font(.system(size: 30))
-                                .minimumScaleFactor(0.5)
-                                .foregroundColor(.myPurple)
-                                .frame(maxWidth: .infinity)
-                                .frame(alignment: .center)
-                                .padding()
-                        }
-                            .frame(height: UIScreen.main.bounds.height / 4)
-                            
-                        
-                    }
-                    .listRowBackground(Color.myYellow)
-                    
-                    Section{
-                        HStack{
-                            Text("cPopularity:")
-                            Spacer(minLength: 0)
-                            Text(word.popularity.description)
-                                .foregroundColor(.myYellow)
-                        }
-                        HStack{
-                            Text("cDateAdded:")
-                            Spacer(minLength: 0)
-                            
-                            Text(word.date ?? Date(), format: .dateTime)
-                                .foregroundColor(.myYellow)
-                        }
-                    }
-                    .listRowBackground(Color.myPurple)
-                    
-                }
-                .background(Color.myPurpleDark)
-//                .scrollContentBackground(.hidden)
-                .clearListBackground()
-
-            .onAppear(){
-                translate = word.translate ?? ""
+        Form{
+            let headerOriginal = HStack{
+                Text("cOriginal")
+                    .foregroundColor(.myPurpleLight)
+                Spacer()
+                speakerEng
             }
-            .navigationTitle("cWord")
-            .navigationBarTitleDisplayMode(.inline)
-            .alert("cEditTranslate", isPresented: $isEdit, actions: {
-                TextField("cEditTranslate", text: $translate)
-                
-                Button("cSave", action: {
-                    isEdit = false
-                    word.translate = translate
-                    MyApp.dataController.saveData()
-                })
-                
-                Button("cCancel", role: .cancel, action: {
-                    isEdit = false
-                })
             
-                    }, message: {
-                  
-                        Text("cPleaseEnter".localized() + (word.original ?? "nil") + "\"")
-                    })
-
-            
-            .toolbar(){
-                ToolbarItem(placement: .destructiveAction) {
-                    Button() {
-                        self.presentationMode.wrappedValue.dismiss()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            MyApp.dataController.deleteWordAt(object: word)
-                        }
-                    } label: {
-                        Label("cDelete", systemImage: "trash")
-                            .labelStyle(.iconOnly)
-                            .foregroundColor(.red)
-                    }
+            Section(header: headerOriginal ){
+                ZStack{
+                    Color.myPurple
+                    Text(word.original ?? "")
+                        .font(.system(size: 30))
+                        .minimumScaleFactor(0.5)
+                        .foregroundColor(.myYellow)
+                        .frame(maxWidth: .infinity)
+                        .frame(alignment: .center)
+                        .padding()
+                    
                 }
-                
-                ToolbarItem(placement: .confirmationAction) {
-                    Button() {
-                        isEdit = true
-                    } label: {
-                        Label("cEdit", systemImage: "square.and.pencil")
-                            .labelStyle(.iconOnly)
-                            .foregroundColor(.myYellow)
+                .frame(height: UIScreen.main.bounds.height / 4)
+                .onTapGesture {
+                    audioManager.speakEng(text: word.original ?? ""){
+                        isSpeakingEng = true
                     }
                 }
             }
-
+            .listRowBackground(Color.myPurple)
             
-            .background(Color.myPurpleDark)
-            .onAppear(){
+            let headerTranslate = HStack{
                 
-                UITabBar.hideTabBar(animated: false)
-                audioManager.speakEng(text: word.original ?? ""){
-                    isSpeakingEng = true
+                Text("cTranslate")
+                    .foregroundColor(.myPurpleLight)
+                Spacer()
+                speakerUkr
+            }
+            
+            Section(header: headerTranslate){
+                ZStack{
+                    Color.myYellow
+                    Text(word.translate ?? "")
+                        .font(.system(size: 30))
+                        .minimumScaleFactor(0.5)
+                        .foregroundColor(.myPurple)
+                        .frame(maxWidth: .infinity)
+                        .frame(alignment: .center)
+                        .padding()
+                }
+                .frame(height: UIScreen.main.bounds.height / 4)
+                
+                
+            }
+            .listRowBackground(Color.myYellow)
+            
+            Section{
+                HStack{
+                    Text("cPopularity:")
+                    Spacer(minLength: 0)
+                    Text(word.popularity.description)
+                        .foregroundColor(.myYellow)
+                }
+                HStack{
+                    Text("cDateAdded:")
+                    Spacer(minLength: 0)
+                    
+                    Text(word.date ?? Date(), format: .dateTime)
+                        .foregroundColor(.myYellow)
                 }
             }
-            .onDisappear(){
-                
-                MyApp.dataController.increasePopularity(word: word)
+            .listRowBackground(Color.myPurple)
+            
+        }
+        .background(Color.myPurpleDark)
+        .clearListBackground()
+        
+        .onAppear(){
+            translate = word.translate ?? ""
+        }
+        .navigationTitle("cWord")
+        .navigationBarTitleDisplayMode(.inline)
+        .alert("cEditTranslate", isPresented: $isEdit, actions: {
+            TextField("cEditTranslate", text: $translate)
+            
+            Button("cSave", action: {
+                isEdit = false
+                word.translate = translate
+                MyApp.dataController.saveData()
+            })
+            
+            Button("cCancel", role: .cancel, action: {
+                isEdit = false
+            })
+            
+        }, message: {
+            
+            Text("cPleaseEnter".localized() + (word.original ?? "nil") + "\"")
+        })
+        
+        
+        .toolbar(){
+            ToolbarItem(placement: .destructiveAction) {
+                Button() {
+                    self.presentationMode.wrappedValue.dismiss()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        MyApp.dataController.deleteWordAt(object: word)
+                    }
+                } label: {
+                    Label("cDelete", systemImage: "trash")
+                        .labelStyle(.iconOnly)
+                        .foregroundColor(.red)
+                }
             }
             
+            ToolbarItem(placement: .confirmationAction) {
+                Button() {
+                    isEdit = true
+                } label: {
+                    Label("cEdit", systemImage: "square.and.pencil")
+                        .labelStyle(.iconOnly)
+                        .foregroundColor(.myYellow)
+                }
+            }
+        }
+        
+        
+        .background(Color.myPurpleDark)
+        .onAppear(){
+            
+            UITabBar.hideTabBar(animated: false)
+            audioManager.speakEng(text: word.original ?? ""){
+                isSpeakingEng = true
+            }
+        }
+        .onDisappear(){
+            
+            MyApp.dataController.increasePopularity(word: word)
+        }
+        
         .background(Color.myPurpleDark)
         
     }

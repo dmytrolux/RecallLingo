@@ -14,8 +14,6 @@ struct MainScreen: View {
     @State private var selection: Tab = .translate
     @Binding var isPresented: Bool
     
-//    private var cancellables = Set<AnyCancellable>()
-    
     var body: some View {
         
         TabView(selection: $selection) {
@@ -68,12 +66,3 @@ enum Tab {
     case translate, dictionary, statistic, setting
 }
 
-
-
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MainScreen(isPresented: .constant(false))
-//            .environmentObject(DictViewModel(dataController: DataController()))
-//            .environmentObject(LocalNotificationManager(data: DataController()))
-//    }
-//}

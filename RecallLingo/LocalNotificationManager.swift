@@ -189,7 +189,7 @@ import Combine
     
     
     
-    private func removeAllNotifications() {
+     func removeAllNotifications() {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }

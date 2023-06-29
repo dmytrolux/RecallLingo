@@ -7,19 +7,76 @@
 
 import SwiftUI
 
+//struct RememberTextField: View {
+//
+//    @FocusState private var isFocused: Bool
+//    @Binding var text : String
+//    var actionSubmit: () -> Void
+//
+//
+//
+//    var body: some View {
+//        ZStack{
+//            if text.isEmpty{
+//                HStack{
+//                    Text("rEnterTranslate".localized())
+//                        .foregroundColor(.myPurpleLight)
+//                    Spacer()
+//                }
+//            }
+//            TextField("", text: $text)
+//                .disableAutocorrection(false)
+//                .textSelection(.enabled)
+//                .autocapitalization(.sentences)
+//                .focused($isFocused)
+////
+//                .onSubmit{
+//                    self.actionSubmit()
+//                }
+//
+//
+//
+//        }
+//        .foregroundColor(.myPurpleDark)
+//        .padding(.vertical, 10)
+//        .padding(.horizontal, 20)
+//        .background(){
+//            RoundedRectangle(cornerRadius: 20)
+//        }
+//        .overlay(){
+//            RoundedRectangle(cornerRadius: 20)
+//                .stroke(Color.myPurpleLight, lineWidth: 3)
+//        }
+//        .padding(.horizontal, 15)
+//        .gesture(bottomDrag)
+//    }
+//
+//    var bottomDrag: some Gesture{
+//        DragGesture()
+//            .onChanged({ value in
+//                if value.translation.height > 100{
+//                    hideKeyboard()
+//                }
+//            })
+//    }
+//
+//    private func hideKeyboard() {
+//            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+//        }
+//
+//}
+
 struct RememberTextField: View {
 
     @FocusState private var isFocused: Bool
     @Binding var text : String
     var actionSubmit: () -> Void
     
-    
-    
     var body: some View {
         ZStack{
             if text.isEmpty{
                 HStack{
-                    Text("rEntertranslate")
+                    Text("rEnterTranslate".localized())
                         .foregroundColor(.myPurpleLight)
                     Spacer()
                 }
@@ -33,36 +90,31 @@ struct RememberTextField: View {
                 .onSubmit{
                     self.actionSubmit()
                 }
-                
-                
-            
+           
         }
         .foregroundColor(.myPurpleDark)
         .padding(.vertical, 10)
         .padding(.horizontal, 20)
-        .background(){
-            RoundedRectangle(cornerRadius: 20)
-        }
-        .overlay(){
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(Color.myPurpleLight, lineWidth: 3)
-        }
-        .padding(.horizontal, 15)
-        .gesture(bottomDrag)
+//        .background(){
+//            RoundedRectangle(cornerRadius: 15)
+//        }
+//        .overlay(){
+//            RoundedRectangle(cornerRadius: 15)
+//                .stroke(Color.myPurpleLight, lineWidth: 2)
+//        }
     }
     
-    var bottomDrag: some Gesture{
-        DragGesture()
-            .onChanged({ value in
-                if value.translation.height > 100{
-                    hideKeyboard()
-                }
-            })
-    }
+//    var bottomDrag: some Gesture{
+//        DragGesture()
+//            .onChanged({ value in
+//                if value.translation.height > 100{
+//                    hideKeyboard()
+//                }
+//            })
+//    }
     
-    private func hideKeyboard() {
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-        }
+//    private func hideKeyboard() {
+//            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+//        }
     
 }
-

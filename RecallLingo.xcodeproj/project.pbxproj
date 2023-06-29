@@ -200,9 +200,9 @@
 			isa = PBXGroup;
 			children = (
 				66FA88CB29E706C10077C159 /* DictionaryView.swift */,
-				666869FA2A45DDB30040BB69 /* RememberTextField.swift */,
 				669EE2282A0B08130056984E /* WordDetailView.swift */,
 				669EE2322A0C5EF60056984E /* WordRememberView.swift */,
+				666869FA2A45DDB30040BB69 /* RememberTextField.swift */,
 			);
 			path = Dictionary;
 			sourceTree = "<group>";

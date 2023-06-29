@@ -19,7 +19,7 @@
 "dDate" = "Дата";
 "dPopularity" = "Популярність";
 "rEnterTranslate" = "Введіть переклад";
-"cOriginal" = "Оригінал";
+"cOriginal" = "Англійська мова";
 "cTranslate" = "Переклад";
 "cPopularity:" = "Популярність:";
 "cDateAdded:" = "Дата додавання:";
@@ -36,7 +36,7 @@
 "cShowHint" = "Показати підказку";
 "cHint:" = "Підказка:";
 "cRememberTranslation" = "Запам'ятати переклад";
-"cRecallLingo" = "Нагадувач Перекладу";
+"cRecallLingo" = "Recall Lingo";
 "sAllWords:" = "Всі слова:";
 "sMostPopularWord:" = "Найпопулярніше слово:";
 "sStatistic" = "Статистика";
