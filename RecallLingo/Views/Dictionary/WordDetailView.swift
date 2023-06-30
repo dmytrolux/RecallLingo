@@ -6,7 +6,7 @@
 //
 
 import AVFoundation
-import HidableTabView
+//import HidableTabView
 import SwiftUI
 
 struct WordDetailView: View {
