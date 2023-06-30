@@ -9,7 +9,7 @@ import SwiftUI
 
 extension UIApplication {
     func addTapGestureRecognizer() {
-        guard let window = windows.first else { return }
+        guard let window = currentUIWindow() else { return }
         let tapGesture = UITapGestureRecognizer(target: window, action: #selector(UIView.endEditing))
         tapGesture.requiresExclusiveTouchType = false
         tapGesture.cancelsTouchesInView = false
@@ -17,6 +17,19 @@ extension UIApplication {
         window.addGestureRecognizer(tapGesture)
     }
 }
+
+public extension UIApplication {
+  func currentUIWindow() -> UIWindow? {
+    let connectedScenes = UIApplication.shared.connectedScenes
+    .filter { $0.activationState == .foregroundActive }
+    .compactMap { $0 as? UIWindowScene }
+    let window = connectedScenes.first?
+    .windows
+    .first { $0.isKeyWindow }
+    return window
+  }
+}
+
 
 extension UIApplication: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
