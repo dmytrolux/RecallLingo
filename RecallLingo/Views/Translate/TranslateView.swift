@@ -174,7 +174,7 @@ struct TranslateView: View {
     
     func scrollToEndWhileIsEdit(proxy: ScrollViewProxy) {
         let idToScroll: UUID? = viewModel.chat.first(where: { $0.id == viewModel.tapppedID })?.id
-        print("scrollToEndWhileIsEdit? = \(String(describing: idToScroll))")
+//        print("scrollToEndWhileIsEdit? = \(String(describing: idToScroll))")
         guard let id = idToScroll else { return }
         
         withAnimation {

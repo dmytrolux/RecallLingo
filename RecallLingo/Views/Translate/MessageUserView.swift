@@ -47,9 +47,9 @@ struct MessageUserView: View {
         }
         .rotationEffect(.degrees(180))
         .scaleEffect(x: -1, y: 1, anchor: .center)
-        .onChange(of: viewModel.bufferID) { newValue in
-            print(viewModel.bufferID.uuidString)
-        }
+//        .onChange(of: viewModel.bufferID) { newValue in
+//            print(viewModel.bufferID.uuidString)
+//        }
 
     }
     

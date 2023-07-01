@@ -7,7 +7,7 @@
 */
 
 
-"tbTranslate" = "Translate";
+"tbTranslate" = "Translator";
 "tbDictionary" = "Dictionary";
 "tbStatistic" = "Statistic";
 "tbSetting" = "Setting";
@@ -79,6 +79,9 @@
 "aInvalidInput" = "Invalid Input\nPlease enter a valid word for translation.";
 "aErrorTransl" = "Error translating text: ";
 "aNoInternet" = "No internet connection. \n Please enable internet connection for one-time download of language model.";
+"nIKnow" = "I know the translation 😺";
+"nCheckMe" = "Check me 🧐";
+"nINotKnow" = "I do not know 😢";
 
 
 

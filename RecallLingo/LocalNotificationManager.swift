@@ -119,15 +119,15 @@ import Combine
     
     var category: UNNotificationCategory {
         let checkMe = UNNotificationAction(identifier: Action.checkMe,
-                                           title: "Check me",
+                                           title: "nCheckMe".localized(),
                                            options: .foreground)
         
         let know = UNNotificationAction(identifier: Action.know,
-                                        title: "I know the translation",
+                                        title: "nIKnow".localized(),
                                         options: .destructive)
         
         let doNotKnow = UNNotificationAction(identifier: Action.doNotKnow,
-                                             title: "I do not know",
+                                             title: "nINotKnow".localized(),
                                              options: .destructive)
         
         
@@ -142,23 +142,34 @@ import Combine
     
     func addNotification(for word: WordEntity, delaySec: TimeInterval?, scheduledDate: DateComponents?){
         self.removeAllNotifications()
-        print("delaySec: \(delaySec ?? 0)")
+//        print("delaySec: \(delaySec ?? 0)")
         guard isEnable,
               word.popularity > 1 else {return}
         
         
         
         let content = UNMutableNotificationContent()
-        content.title = "Remember the translation"
-        content.subtitle = word.original ?? "Subtitle: error"
+        content.title = "cRememberTranslation".localized()
+        
+        if let original = word.original{
+            content.subtitle = "🇬🇧 " + original
+        }
+        
         content.sound = UNNotificationSound.default
         content.badge = 1
         content.categoryIdentifier = "recallTheWord"
         content.userInfo = ["reminder": "WordRememberView"]
         
-        if isShowTranslate{
-            content.body = word.translate ?? "Body: error"
+        if let translate = word.translate{
+            if isShowTranslate{
+                content.body = "🇺🇦 " + translate
+            } else {
+                let hiddenTransl = "🇺🇦 " + hidenTranslate(translate)
+                content.body = hiddenTransl
+            }
+            
         }
+        
         
         
         self.center.setNotificationCategories([category])
@@ -182,7 +193,7 @@ import Combine
         
         self.center.add(request)
         
-        printNotificationRequest()
+//        printNotificationRequest()
 
     }
     
@@ -231,7 +242,7 @@ extension LocalNotificationManager: UNUserNotificationCenterDelegate{
         NotificationCenter.default.addObserver(forName: Notifications.pressActionKnow,
                                                object: nil,
                                                queue: .main) { [weak self] _ in
-            print("pressActionKnow")
+//            print("pressActionKnow")
             guard let popularWord = self?.data.mostPopularWord() else { return }
             self?.data.resetPopularity(word: popularWord)
             
@@ -244,7 +255,7 @@ extension LocalNotificationManager: UNUserNotificationCenterDelegate{
         NotificationCenter.default.addObserver(forName: Notifications.pressActionCheckMe,
                                                object: nil,
                                                queue: .main) { [weak self] _ in
-            print("pressActionCheckMe")
+//            print("pressActionCheckMe")
             self?.isPresented = true
             
         }
@@ -254,12 +265,53 @@ extension LocalNotificationManager: UNUserNotificationCenterDelegate{
         NotificationCenter.default.addObserver(forName: Notifications.pressActionNotKnow,
                                                object: nil,
                                                queue: .main) { [weak self] _ in
-            print("pressActionNotKnow")
+//            print("pressActionNotKnow")
             guard let popularWord = self?.data.mostPopularWord() else { return }
             self?.data.decreasePopularity(word: popularWord)
         }
     }
         
+    func hidenTranslate(_ input: String) -> String {
+       
+        guard !input.isEmpty else { return input }
+        var firstIndex: String.Index?
+        var lastIndex: String.Index?
+        
+      
+        // Проходимо через всі символи вхідного рядка
+            for (index, char) in input.enumerated() {
+                // Якщо символ належить до кирилиці
+                if CharacterSets.cyrillicSet.contains(char.unicodeScalars.first!) {
+                    // Якщо перший індекс ще не визначений, присвоюємо йому поточний індекс
+                    if firstIndex == nil {
+                        firstIndex = input.index(input.startIndex, offsetBy: index)
+                    }
+                    // Оновлюємо останній індекс поточним індексом
+                    lastIndex = input.index(input.startIndex, offsetBy: index)
+                }
+            }
+            
+            // Перевіряємо, що знайшли хоча б один символ з латинського алфавіту
+            guard let first = firstIndex, let last = lastIndex else { return input }
+            
+            // Створюємо змінну для збереження результату
+            var output = ""
+            
+            // Знову проходимо через всі символи вхідного рядка
+            for (index, char) in input.enumerated() {
+                // Якщо символ належить до латинського алфавіту і не є першим або останнім таким символом
+                if CharacterSets.cyrillicSet.contains(char.unicodeScalars.first!) && index != first.utf16Offset(in: input) && index != last.utf16Offset(in: input) {
+                    // Додаємо зірочку до результату
+                    output.append("*")
+                } else {
+                    // В іншому випадку додаємо сам символ до результату
+                    output.append(char)
+                }
+            }
+            
+            // Повертаємо результат
+            return output
+        }
     
 }
 
@@ -269,3 +321,6 @@ struct Action{
     static let checkMe = "checkMe"
     static let doNotKnow = "doNotKnow"
 }
+
+
+
