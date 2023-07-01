@@ -50,9 +50,15 @@ struct MainScreen: View {
         }
         .background(Color.myPurpleDark)
         .navigationViewStyle(.stack)
-        .sheet(isPresented: $lNManager.isPresented) {
+        .sheet(isPresented: $lNManager.isPresentedWordRememberView) {
             WordRememberView(word: data.mostPopularWord())
        
+        }
+        .sheet(isPresented: $lNManager.isPresentedWordDetailView) {
+            
+            if let mostPopularWord = data.mostPopularWord() {
+                WordDetailView(word: mostPopularWord)
+            }
         }
     }
     
@@ -66,3 +72,8 @@ enum Tab {
     case translate, dictionary, statistic, setting
 }
 
+extension String{
+    func localized() -> String{
+        return NSLocalizedString(self, comment: "")
+    }
+}

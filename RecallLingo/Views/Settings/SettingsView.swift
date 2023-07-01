@@ -133,7 +133,7 @@ struct SettingsView: View {
     
     
     init(){
-        UserDefaults.standard.register(defaults: [UDKey.selectedIntervalIndex: 0])
+        UserDefaults.standard.register(defaults: [UDKey.selectedIntervalIndex: 5])
         selectedIntervalIndex = (UserDefaults.standard.integer(forKey: UDKey.selectedIntervalIndex))
     }
     
@@ -207,15 +207,3 @@ extension View {
     }
 }
 
-
-
-// .scrollDisabled(viewModel.isEditMode)
-//struct ClearListBackgroundModifier: ViewModifier {
-//    func body(content: Content) -> some View {
-//        if #available(iOS 16.0, *) {
-//            content.scrollContentBackground(.hidden)
-//        } else {
-//            content
-//        }
-//    }
-//}

@@ -96,6 +96,7 @@ struct WordRememberView: View {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button {
                             dismiss()
+                            notificationController.isPresentedWordRememberView = false
                         } label: {
                             Label("cRecallLingo", systemImage: "arrowshape.turn.up.backward")
                         }
@@ -108,6 +109,9 @@ struct WordRememberView: View {
                 .onAppear(){
                     notificationController.removeAllNotifications()
                 }
+            }
+            .onDisappear(){
+                notificationController.isPresentedWordRememberView = false
             }
         }//navigation
         

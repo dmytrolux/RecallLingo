@@ -10,7 +10,7 @@ import UIKit
 import Combine
 
 @MainActor
- class LocalNotificationManager: NSObject, ObservableObject {
+ final class LocalNotificationManager: NSObject, ObservableObject {
     
     private let center = UNUserNotificationCenter.current()
     private let options: UNAuthorizationOptions = [.alert, .badge, .sound]
@@ -57,7 +57,8 @@ import Combine
         }
     }
     
-    @Published var isPresented = false
+    @Published var isPresentedWordRememberView = false
+    @Published var isPresentedWordDetailView = false
     
     override init () {
         
@@ -128,7 +129,7 @@ import Combine
         
         let doNotKnow = UNNotificationAction(identifier: Action.doNotKnow,
                                              title: "nINotKnow".localized(),
-                                             options: .destructive)
+                                             options: .foreground)
         
         
         let category = UNNotificationCategory(identifier: "recallTheWord",
@@ -138,15 +139,9 @@ import Combine
         return category
     }
     
-
-    
     func addNotification(for word: WordEntity, delaySec: TimeInterval?, scheduledDate: DateComponents?){
         self.removeAllNotifications()
-//        print("delaySec: \(delaySec ?? 0)")
-        guard isEnable,
-              word.popularity > 1 else {return}
-        
-        
+        guard isEnable, word.popularity > 1 else {return}
         
         let content = UNMutableNotificationContent()
         content.title = "cRememberTranslation".localized()
@@ -170,8 +165,6 @@ import Combine
             
         }
         
-        
-        
         self.center.setNotificationCategories([category])
         content.categoryIdentifier = "recallTheWord"
         
@@ -185,36 +178,19 @@ import Combine
             }
         }
         
-       
-        
         let request = UNNotificationRequest(identifier: UUID().uuidString,
                                             content: content,
                                             trigger: trigger)
         
         self.center.add(request)
-        
-//        printNotificationRequest()
-
     }
-    
-    
     
     
      func removeAllNotifications() {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
-    
-    func printNotificationRequest(){
-        UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
-            for notification in notifications {
-                print(notification)
-            }
-        }
-    }
-    
    
-    
 }
 
 
@@ -224,25 +200,33 @@ extension LocalNotificationManager: UNUserNotificationCenterDelegate{
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
         return [.sound, .banner]
     }
-    //при тапі на нотифікацію запускає
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         
-        
-        if response.actionIdentifier == Action.know{
+        switch response.actionIdentifier{
+            
+        case Action.know:
             NotificationCenter.default.post(name: Notifications.pressActionKnow, object: nil)
-        } else {
-            if let _ = response.notification.request.content.userInfo["reminder"] as? String{
-                //            #warning("Додати перевірку наявність слів з популярністтю")
-                self.isPresented = true
-            }
+            
+        case Action.doNotKnow:
+            NotificationCenter.default.post(name: Notifications.pressActionNotKnow, object: nil)
+            
+        case Action.checkMe:
+            self.isPresentedWordRememberView = true
+            
+        default:
+            guard let _ = response.notification.request.content.userInfo["reminder"] as? String else { return }
+            self.isPresentedWordRememberView = true
+            
         }
+        
     }
     
     func observerPressToKnowNotification(){
         NotificationCenter.default.addObserver(forName: Notifications.pressActionKnow,
                                                object: nil,
                                                queue: .main) { [weak self] _ in
-//            print("pressActionKnow")
+
             guard let popularWord = self?.data.mostPopularWord() else { return }
             self?.data.resetPopularity(word: popularWord)
             
@@ -255,8 +239,7 @@ extension LocalNotificationManager: UNUserNotificationCenterDelegate{
         NotificationCenter.default.addObserver(forName: Notifications.pressActionCheckMe,
                                                object: nil,
                                                queue: .main) { [weak self] _ in
-//            print("pressActionCheckMe")
-            self?.isPresented = true
+            self?.isPresentedWordRememberView = true
             
         }
     }
@@ -265,9 +248,8 @@ extension LocalNotificationManager: UNUserNotificationCenterDelegate{
         NotificationCenter.default.addObserver(forName: Notifications.pressActionNotKnow,
                                                object: nil,
                                                queue: .main) { [weak self] _ in
-//            print("pressActionNotKnow")
-            guard let popularWord = self?.data.mostPopularWord() else { return }
-            self?.data.decreasePopularity(word: popularWord)
+            self?.isPresentedWordDetailView = true
+
         }
     }
         

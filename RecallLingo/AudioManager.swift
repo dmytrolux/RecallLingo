@@ -11,7 +11,7 @@ import SwiftUI
 
 
 
-class AudioManager: NSObject, AVSpeechSynthesizerDelegate, ObservableObject {
+final class AudioManager: NSObject, AVSpeechSynthesizerDelegate, ObservableObject {
     
     static let shared = AudioManager()
     
@@ -47,7 +47,7 @@ class AudioManager: NSObject, AVSpeechSynthesizerDelegate, ObservableObject {
         }
     }
     
-    @AppStorage("isMute") var isAutoSpeak: Bool = false {
+    @AppStorage("isMute") var isAutoSpeak: Bool = true {
         didSet{
             self.objectWillChange.send()
         }

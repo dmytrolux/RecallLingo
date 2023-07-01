@@ -10,7 +10,7 @@ import MLKitTranslate
 import SwiftUI
 
 @MainActor
-class TranslateViewModel: ObservableObject {
+final class TranslateViewModel: ObservableObject {
     @Published var networkMonitor = NetworkMonitor()
     @Published var wordRequest: String = ""
     @Published var wordResponse: String = ""

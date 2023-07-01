@@ -6,7 +6,6 @@
 //
 
 import AVFoundation
-//import HidableTabView
 import SwiftUI
 
 struct WordDetailView: View {
@@ -149,13 +148,16 @@ struct WordDetailView: View {
         .onAppear(){
             
             UITabBar.hideTabBar(animated: false)
-            audioManager.speakEng(text: word.original ?? ""){
-                isSpeakingEng = true
+            if audioManager.isAutoSpeak{
+                audioManager.speakEng(text: word.original ?? ""){
+                    isSpeakingEng = true
+                }
             }
         }
         .onDisappear(){
             
             MyApp.dataController.increasePopularity(word: word)
+            UITabBar.showTabBar(animated: true)
         }
         
         .background(Color.myPurpleDark)
@@ -233,16 +235,9 @@ struct WordDetailView_Previews: PreviewProvider {
     }()
     static var previews: some View {
         WordDetailView(word: word)
-//        ContentView()
             .preferredColorScheme(.dark)
 
 
     }
 }
 
-extension String{
-    func localized() -> String{
-        return NSLocalizedString(self, comment: "")
-    }
-
-}

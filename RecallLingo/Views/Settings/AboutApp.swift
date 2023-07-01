@@ -11,9 +11,6 @@ import UIKit
 import WebKit
 import HidableTabView
 
-
-
-
 struct AboutApp: View {
     let appId = "6450751867"
     @State private var appVersion: String = ""
@@ -134,7 +131,7 @@ struct AboutApp: View {
        }
     
     func shareApp() {
-        let shareText = "Раджу спробувати додаток \"Recall Lingo\" - англійсько-український офлайн-перекладач з чат-інтерфейсом, особистим словником та сповіщеннями для кращого запам'ятовування слів. Він дуже зручний та допоможе покращити свої знання англійської мови. Посиланням:" + " https://itunes.apple.com/app/id\(appId) + Мій друг вже користується ним і рекомендує всім, хто хоче навчатись краще!"
+        let shareText = "Раджу спробувати додаток \"Recall Lingo\" - англійсько-український офлайн-перекладач з чат-інтерфейсом, особистим словником та сповіщеннями для кращого запам'ятовування слів. Він дуже зручний та допоможе покращити свої знання англійської мови. Посилання:" + " https://itunes.apple.com/app/id\(appId) + Мій друг вже користується ним і рекомендує всім, хто хоче навчатись краще!"
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let window = windowScene.windows.first else {
             return
