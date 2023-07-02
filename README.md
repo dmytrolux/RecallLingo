@@ -1,5 +1,4 @@
-# RecallLingo
-
+# Recall Lingo
 
 ## The goal of the project
 This project, called "RecallLingo", was created to meet the personal needs of such an application and went all the way from idea to implementation. The main goal of the project is to provide users with a convenient and effective tool for translating English words and phrases into Ukrainian, with the possibility of learning and memorizing new words, using regular reminders in the form of notifications with the opportunity to test their knowledge.
@@ -89,7 +88,7 @@ If you would like to contribute to the project, you can:
 
 ### 1) Clone the repository:
 ```
-git clone https://github.com/your-username/your-project.git»
+https://github.com/salokpi/RecallLingo.git»
 ```
 ### 2)Create a new branch for your contribution:
 ```
