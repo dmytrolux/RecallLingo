@@ -25,9 +25,9 @@ Note: The project was developed in Xcode 14.3, using Swift 5.8, and targets devi
 ##  Installation
 1) Download this project.
 2)  Open the terminal.
-   2.1) Navigate to the project directory in the terminal (e.g., cd /Users/currentUser/Desktop/RecallLingo) on Mac.
-   2.2)Install the necessary pods by running the command: pod install.
-   2.3)Open RecallLingo.xcworkspace in the project folder.
+    2.1) Navigate to the project directory in the terminal (e.g., cd /Users/currentUser/Desktop/RecallLingo) on Mac.
+    2.2)Install the necessary pods by running the command: pod install.
+    2.3)Open RecallLingo.xcworkspace in the project folder.
 4) You're all set! Select a Device or Simulator, build, and run.
 5) If you encounter any issues with packages, follow these steps:
   4.1) In Xcode, go to Project Navigator.
