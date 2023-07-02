@@ -5,7 +5,7 @@ This project, called "RecallLingo", was created to meet the personal needs of su
 
 ## Frameworks Used
 
- MLKitTranslate: Used for implementing the translation feature.
+-  MLKitTranslate: Used for implementing the translation feature.
 - SwiftUI and UIKit: Utilized for designing and customizing the user interface.
 - WebKit: Used for displaying external links.
 - Combine: Employed for handling data streams.
