@@ -26,15 +26,12 @@ final class TranslateViewModel: ObservableObject {
     @Published var bufferID = UUID()
     @Published var tapppedID : UUID?
     @Published var isEditMode = false
-    @Published var isContainInDict = false //make logica
     @Published var bufferMessageTranslate = ""
     @Published var isBlockingSendButton = false
     
     @Published var isTextFieldFocused = false
     
     @Published var isHidenTitle = false
-    
-     
     
     private let newMessage = NotificationCenter.default.publisher(for: Notifications.newMessage)
     
@@ -62,8 +59,7 @@ final class TranslateViewModel: ObservableObject {
         NotificationCenter.default.post(name: Notifications.newMessage, object: newMessages)
         
     }
-    
-    ///Якщо слово відсутнє в БД, то перекладаємо через MLKitTranslate, інакше дістаємо переклад з БД
+
     func translateText() {
         let key = wordRequest.toKey()
         isBlockingSendButton = true
@@ -74,7 +70,7 @@ final class TranslateViewModel: ObservableObject {
                 return
             }
             
-            recallTranslation(of: word)
+            getFromStorage(at: word)
             MyApp.dataController.increasePopularity(word: word)
         }
         else{
@@ -85,12 +81,9 @@ final class TranslateViewModel: ObservableObject {
             self.isBlockingSendButton = false
         }
 
-        
-        
     }
     
-    ///
-    func recallTranslation(of word: WordEntity){
+    func getFromStorage(at word: WordEntity){
         guard let translate = word.translate else {
             print("Error: WordEntity.translate = nil")
             return
@@ -99,7 +92,7 @@ final class TranslateViewModel: ObservableObject {
         
     }
     
-    ///Перекладаємо у випадку наявності мовної моделі, або завантажуємо її і перекладаємо, якщо не вдається завантажити її через відсутність інтернету то просимо користувача увімкнути інтернет
+    ///Translate if there is a language model, or download it and translate. If it is not possible to download it due to the lack of Internet, then we ask the user to turn on the Internet
      func handleMLKitTranslate(){
          if isLanguageModelDownloaded{
              self.translatingWithMLKitTranslate()
@@ -152,7 +145,7 @@ final class TranslateViewModel: ObservableObject {
 
     }
     
-    //при натисканні на прапорець додавати або видаляти слово із словника
+    ///checkmark adds or removes a word from the dictionary
     func toggleWordDictionaryStatus(this message: ChatUnit) -> Bool{
         let key = message.wordUser.toKey()
         
@@ -223,9 +216,6 @@ final class TranslateViewModel: ObservableObject {
         }
     }
 
-    
-    
-    
     func sendTranslatedMessage(response: String){
         if !response.isEmpty{
             if let index = chat.firstIndex(where: {$0.id == bufferID}){

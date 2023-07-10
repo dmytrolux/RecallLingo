@@ -122,7 +122,6 @@
 			children = (
 				6618605B29DC21AA00C5DFA5 /* .gitignore */,
 				66847BDD29DB3E8400CB3A8E /* RecallLingo */,
-				66FA88D629E766450077C159 /* Extensions */,
 				66847BDC29DB3E8400CB3A8E /* Products */,
 				99C9B88302FD5A7B56BBE37E /* Pods */,
 				407AE14EDCF47A403277A7D7 /* Frameworks */,
@@ -142,17 +141,13 @@
 			children = (
 				66847BDE29DB3E8400CB3A8E /* MyApp.swift */,
 				669EE22A2A0B08360056984E /* Views */,
-				66F8488F2A0472B500ED071A /* DataController.swift */,
-				66F848952A05AE8E00ED071A /* TranslateViewModel.swift */,
-				66D295662A3D25A2009AA0F3 /* AudioManager.swift */,
-				664BE1B92A267E2D00E1B577 /* NetworkMonitor.swift */,
+				66DF77F72A5C224E00182938 /* ViewModels */,
+				66DF77F82A5C226F00182938 /* Managers */,
+				66DF77F62A5C21C700182938 /* Extensions */,
 				66CE6AC42A411D4900A528AE /* CharacterSets.swift */,
 				663A46F92A3B68950038DEEB /* ChatUnit.swift */,
 				66CE6AC62A41AAE700A528AE /* ShowAlert.swift */,
-				66CE6AC82A41AC6F00A528AE /* RoundedCorner.swift */,
-				669EE2372A1039A20056984E /* Color+Extension.swift */,
 				662D853C2A117A1C0065DCF6 /* UDKey.swift */,
-				66E273762A025A3600C44C60 /* LocalNotificationManager.swift */,
 				66563D7D2A44F3A8003D58A3 /* Notifications.swift */,
 				6621D2A52A4D1FD600DF01F4 /* Localizable.strings */,
 				66F8488C2A04706400ED071A /* DictionaryContainer.xcdatamodeld */,
@@ -222,12 +217,33 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		66FA88D629E766450077C159 /* Extensions */ = {
+		66DF77F62A5C21C700182938 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				66CE6AC82A41AC6F00A528AE /* RoundedCorner.swift */,
+				669EE2372A1039A20056984E /* Color+Extension.swift */,
 				66FA88D729E766A50077C159 /* KeyboardHiden.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		66DF77F72A5C224E00182938 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				66F848952A05AE8E00ED071A /* TranslateViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		66DF77F82A5C226F00182938 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				66F8488F2A0472B500ED071A /* DataController.swift */,
+				66D295662A3D25A2009AA0F3 /* AudioManager.swift */,
+				664BE1B92A267E2D00E1B577 /* NetworkMonitor.swift */,
+				66E273762A025A3600C44C60 /* LocalNotificationManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		99C9B88302FD5A7B56BBE37E /* Pods */ = {
@@ -553,7 +569,7 @@
 				CODE_SIGN_ENTITLEMENTS = RecallLingo/RecallLingo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"RecallLingo/Preview Content\"";
 				DEVELOPMENT_TEAM = R53Z54YJ8K;
 				ENABLE_PREVIEWS = YES;
@@ -573,7 +589,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salokpi.RecallLingoX;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -597,7 +613,7 @@
 				CODE_SIGN_ENTITLEMENTS = RecallLingo/RecallLingo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"RecallLingo/Preview Content\"";
 				DEVELOPMENT_TEAM = R53Z54YJ8K;
 				ENABLE_PREVIEWS = YES;
@@ -617,7 +633,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salokpi.RecallLingoX;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

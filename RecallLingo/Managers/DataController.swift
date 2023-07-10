@@ -9,9 +9,12 @@ import CoreData
 import Foundation
 
 class DataController: ObservableObject {
-    let container = NSPersistentContainer(name: "DictionaryContainer")
+    
     @Published var savedEntities: [WordEntity]
     @Published var sortType: SortType
+    
+    let container = NSPersistentContainer(name: "DictionaryContainer")
+    
     init(savedEntities: [WordEntity] = []) {
         if UserDefaults.standard.object(forKey: UDKey.sortType) == nil {
             UserDefaults.standard.register(defaults: [UDKey.sortType : SortType.date.rawValue])
