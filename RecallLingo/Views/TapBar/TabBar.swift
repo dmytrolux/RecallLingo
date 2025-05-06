@@ -9,7 +9,7 @@ import SwiftUI
 
 class TabBarController: ObservableObject {
     @Published var isVisible: Bool = true
-    @Published var selectedTab = 1
+    @Published var selectedTab = 0
 }
 
 struct CustomTabView: View {

@@ -106,20 +106,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4666882AD2C47D7BEFC16A09 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		66847BD229DB3E8400CB3A8E = {
 			isa = PBXGroup;
 			children = (
 				6618605B29DC21AA00C5DFA5 /* .gitignore */,
 				66847BDD29DB3E8400CB3A8E /* RecallLingo */,
 				66847BDC29DB3E8400CB3A8E /* Products */,
-				4666882AD2C47D7BEFC16A09 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
