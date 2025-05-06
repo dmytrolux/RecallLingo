@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MessageTranslateView: View{
     @ObservedObject var viewModel: TranslateViewModel
+    @EnvironmentObject var tabBarController: TabBarController
     var chatUnit: ChatUnit
     @State var animatedText = ""
     @State var widthText: CGFloat = 0
@@ -73,7 +74,8 @@ struct MessageTranslateView: View{
             if !newValue{
                 isEditingMessage = false
                 viewModel.wordRequest = ""
-                UITabBar.showTabBar()
+//                UITabBar.showTabBar()
+                tabBarController.isVisible = true
             }
         }
         .onChange(of: isEditingMessage, perform: { newValue in
@@ -143,7 +145,10 @@ struct MessageTranslateView: View{
         
         .onLongPressGesture(minimumDuration: 0.3){
             viewModel.editing(this: chatUnit,
-                              updateMessageStatus: {isEditingMessage = true})
+                              updateMessageStatus: {
+                isEditingMessage = true
+                self.tabBarController.isVisible = false
+            })
         }
     }
     

@@ -5,12 +5,13 @@
 //  Created by Pryshliak Dmytro on 12.04.2023.
 //
 
-import HidableTabView
+//import HidableTabView
 import SwiftUI
 import CoreData
 
 struct DictionaryView: View {
     @EnvironmentObject var data: DataController
+    @EnvironmentObject var tabBarController: TabBarController
     
     func imageName(word: WordEntity)-> String{
         if word.popularity < 50{
@@ -101,7 +102,8 @@ struct DictionaryView: View {
             
             .navigationBarTitle("dDictionary")
             .onAppear(){
-                UITabBar.showTabBar(animated: true)
+//                UITabBar.showTabBar(animated: true)
+                tabBarController.isVisible = true
             }
             
             .toolbar {

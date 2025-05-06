@@ -11,6 +11,7 @@ import SwiftUI
 struct WordDetailView: View {
     @State var word: WordEntity
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @EnvironmentObject var tabBarController: TabBarController
     
     @StateObject var audioManager = AudioManager.shared
     @State var isSpeakingEng = false
@@ -147,7 +148,9 @@ struct WordDetailView: View {
         .background(Color.myPurpleDark)
         .onAppear(){
             
-            UITabBar.hideTabBar(animated: false)
+//            UITabBar.hideTabBar(animated: false)
+            tabBarController.isVisible = false
+            
             if audioManager.isAutoSpeak{
                 audioManager.speakEng(text: word.original ?? ""){
                     isSpeakingEng = true
@@ -157,7 +160,8 @@ struct WordDetailView: View {
         .onDisappear(){
             
             MyApp.dataController.increasePopularity(word: word)
-            UITabBar.showTabBar(animated: true)
+//            UITabBar.showTabBar(animated: true)
+            tabBarController.isVisible = true
         }
         
         .background(Color.myPurpleDark)

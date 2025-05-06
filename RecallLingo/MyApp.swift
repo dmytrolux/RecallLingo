@@ -13,6 +13,7 @@ import UserNotifications
 struct MyApp: App {
     static var dataController = DataController()
     @StateObject var lNManager = LocalNotificationManager()//
+    @StateObject var tabBarController = TabBarController()
     @Environment(\.scenePhase) private var phase
     @State private var isPresented = false
     var body: some Scene {
@@ -21,6 +22,7 @@ struct MyApp: App {
                 .preferredColorScheme(.dark)
                 .environmentObject(lNManager)
                 .environmentObject(Self.dataController)
+                .environmentObject(tabBarController)
             
                 .onChange(of: phase, perform: { newValue in
                     if newValue == .active {

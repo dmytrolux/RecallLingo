@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct TranslateView_Previews: PreviewProvider {
-    static var previews: some View {
-        TranslateView()
-            .preferredColorScheme(.dark)
-    }
-}
+//struct TranslateView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TranslateView()
+//            .preferredColorScheme(.dark)
+//    }
+//}
 
 struct TranslateView: View {
     @StateObject var viewModel = TranslateViewModel()
@@ -130,9 +130,11 @@ struct TranslateView: View {
             if !viewModel.wordRequest.isEmpty{
                 viewModel.sendMessageForTranslation()
                 
+                
                 if audioManager.isAutoSpeak{
                     audioManager.speak(text: viewModel.wordRequest)
                 }
+                viewModel.wordRequest = ""
             }
         } label: {
             Image(systemName: "paperplane")

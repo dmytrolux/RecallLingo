@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0FDD6AF52F2781874D53860E /* Pods_RecallLingo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC65256C5D1978619E61C04 /* Pods_RecallLingo.framework */; };
 		6618605C29DC21AA00C5DFA5 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6618605B29DC21AA00C5DFA5 /* .gitignore */; };
 		6621D2A02A4C96D600DF01F4 /* AboutApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6621D29F2A4C96D600DF01F4 /* AboutApp.swift */; };
 		6621D2A32A4D1FD600DF01F4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6621D2A52A4D1FD600DF01F4 /* Localizable.strings */; };
@@ -18,7 +17,6 @@
 		664BE1B82A26117200E1B577 /* TranslateTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BE1B72A26117200E1B577 /* TranslateTextField.swift */; };
 		664BE1BA2A267E2D00E1B577 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664BE1B92A267E2D00E1B577 /* NetworkMonitor.swift */; };
 		66563D7E2A44F3A8003D58A3 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66563D7D2A44F3A8003D58A3 /* Notifications.swift */; };
-		6662282A2A4E6D3D00013A19 /* HidableTabView in Frameworks */ = {isa = PBXBuildFile; productRef = 666228292A4E6D3D00013A19 /* HidableTabView */; };
 		666869FB2A45DDB30040BB69 /* RememberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666869FA2A45DDB30040BB69 /* RememberTextField.swift */; };
 		6679C3B02A17CD1700C97213 /* MessageTranslateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6679C3AF2A17CD1700C97213 /* MessageTranslateView.swift */; };
 		66847BDF29DB3E8400CB3A8E /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66847BDE29DB3E8400CB3A8E /* MyApp.swift */; };
@@ -28,6 +26,8 @@
 		669EE2292A0B08130056984E /* WordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669EE2282A0B08130056984E /* WordDetailView.swift */; };
 		669EE2332A0C5EF60056984E /* WordRememberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669EE2322A0C5EF60056984E /* WordRememberView.swift */; };
 		669EE2382A1039A20056984E /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669EE2372A1039A20056984E /* Color+Extension.swift */; };
+		66A67E172DC986550010B1DE /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A67E162DC9864F0010B1DE /* TabBar.swift */; };
+		66A67E192DC998C00010B1DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66A67E182DC998C00010B1DE /* LaunchScreen.storyboard */; };
 		66CE6AC52A411D4900A528AE /* CharacterSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CE6AC42A411D4900A528AE /* CharacterSets.swift */; };
 		66CE6AC72A41AAE700A528AE /* ShowAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CE6AC62A41AAE700A528AE /* ShowAlert.swift */; };
 		66CE6AC92A41AC6F00A528AE /* RoundedCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CE6AC82A41AC6F00A528AE /* RoundedCorner.swift */; };
@@ -57,8 +57,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0AC65256C5D1978619E61C04 /* Pods_RecallLingo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RecallLingo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2B664026F391B2FD7E05BB8B /* Pods-RecallLingo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecallLingo.debug.xcconfig"; path = "Target Support Files/Pods-RecallLingo/Pods-RecallLingo.debug.xcconfig"; sourceTree = "<group>"; };
 		6618605B29DC21AA00C5DFA5 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		6621D29F2A4C96D600DF01F4 /* AboutApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutApp.swift; sourceTree = "<group>"; };
 		6621D2A42A4D1FD600DF01F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -80,6 +78,8 @@
 		669EE2282A0B08130056984E /* WordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailView.swift; sourceTree = "<group>"; };
 		669EE2322A0C5EF60056984E /* WordRememberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordRememberView.swift; sourceTree = "<group>"; };
 		669EE2372A1039A20056984E /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
+		66A67E162DC9864F0010B1DE /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
+		66A67E182DC998C00010B1DE /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		66CE6AC42A411D4900A528AE /* CharacterSets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterSets.swift; sourceTree = "<group>"; };
 		66CE6AC62A41AAE700A528AE /* ShowAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAlert.swift; sourceTree = "<group>"; };
 		66CE6AC82A41AC6F00A528AE /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
@@ -93,7 +93,6 @@
 		66FA88CF29E726A80077C159 /* StatisticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticView.swift; sourceTree = "<group>"; };
 		66FA88D429E726FA0077C159 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		66FA88D729E766A50077C159 /* KeyboardHiden.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHiden.swift; sourceTree = "<group>"; };
-		B44C5A20AFA33C65944DEBAD /* Pods-RecallLingo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecallLingo.release.xcconfig"; path = "Target Support Files/Pods-RecallLingo/Pods-RecallLingo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,20 +100,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0FDD6AF52F2781874D53860E /* Pods_RecallLingo.framework in Frameworks */,
-				6662282A2A4E6D3D00013A19 /* HidableTabView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		407AE14EDCF47A403277A7D7 /* Frameworks */ = {
+		4666882AD2C47D7BEFC16A09 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				0AC65256C5D1978619E61C04 /* Pods_RecallLingo.framework */,
 			);
-			name = Frameworks;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		66847BD229DB3E8400CB3A8E = {
@@ -123,8 +119,7 @@
 				6618605B29DC21AA00C5DFA5 /* .gitignore */,
 				66847BDD29DB3E8400CB3A8E /* RecallLingo */,
 				66847BDC29DB3E8400CB3A8E /* Products */,
-				99C9B88302FD5A7B56BBE37E /* Pods */,
-				407AE14EDCF47A403277A7D7 /* Frameworks */,
+				4666882AD2C47D7BEFC16A09 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -152,6 +147,7 @@
 				6621D2A52A4D1FD600DF01F4 /* Localizable.strings */,
 				66F8488C2A04706400ED071A /* DictionaryContainer.xcdatamodeld */,
 				66847BE229DB3E8600CB3A8E /* Assets.xcassets */,
+				66A67E182DC998C00010B1DE /* LaunchScreen.storyboard */,
 				66847BE429DB3E8600CB3A8E /* Preview Content */,
 			);
 			path = RecallLingo;
@@ -169,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				66847BE029DB3E8400CB3A8E /* MainScreen.swift */,
+				66A67E152DC9863E0010B1DE /* TapBar */,
 				669EE22B2A0B08680056984E /* Translate */,
 				669EE22C2A0B088B0056984E /* Dictionary */,
 				669EE22F2A0B08BE0056984E /* Statistic */,
@@ -217,6 +214,14 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		66A67E152DC9863E0010B1DE /* TapBar */ = {
+			isa = PBXGroup;
+			children = (
+				66A67E162DC9864F0010B1DE /* TabBar.swift */,
+			);
+			path = TapBar;
+			sourceTree = "<group>";
+		};
 		66DF77F62A5C21C700182938 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -246,15 +251,6 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
-		99C9B88302FD5A7B56BBE37E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				2B664026F391B2FD7E05BB8B /* Pods-RecallLingo.debug.xcconfig */,
-				B44C5A20AFA33C65944DEBAD /* Pods-RecallLingo.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -262,12 +258,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66847BE929DB3E8600CB3A8E /* Build configuration list for PBXNativeTarget "RecallLingo" */;
 			buildPhases = (
-				986213CC18EEC120C78640DF /* [CP] Check Pods Manifest.lock */,
 				66847BD729DB3E8400CB3A8E /* Sources */,
 				66847BD829DB3E8400CB3A8E /* Frameworks */,
 				66847BD929DB3E8400CB3A8E /* Resources */,
-				4A4FF835B27901EB0AA5551D /* [CP] Embed Pods Frameworks */,
-				433D3AD04FA32DEA371B82FD /* [CP] Copy Pods Resources */,
 				66E250A42A4A4E5C00DE2521 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -275,9 +268,6 @@
 			dependencies = (
 			);
 			name = RecallLingo;
-			packageProductDependencies = (
-				666228292A4E6D3D00013A19 /* HidableTabView */,
-			);
 			productName = RecallLingo;
 			productReference = 66847BDB29DB3E8400CB3A8E /* RecallLingo.app */;
 			productType = "com.apple.product-type.application";
@@ -290,7 +280,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					66847BDA29DB3E8400CB3A8E = {
 						CreatedOnToolsVersion = 14.3;
@@ -298,7 +288,6 @@
 				};
 			};
 			buildConfigurationList = 66847BD629DB3E8400CB3A8E /* Build configuration list for PBXProject "RecallLingo" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -307,9 +296,7 @@
 				uk,
 			);
 			mainGroup = 66847BD229DB3E8400CB3A8E;
-			packageReferences = (
-				666228282A4E6D3D00013A19 /* XCRemoteSwiftPackageReference "HidableTabView-SwiftUI" */,
-			);
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 66847BDC29DB3E8400CB3A8E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -327,69 +314,12 @@
 				66847BE629DB3E8600CB3A8E /* Preview Assets.xcassets in Resources */,
 				6621D2A32A4D1FD600DF01F4 /* Localizable.strings in Resources */,
 				6618605C29DC21AA00C5DFA5 /* .gitignore in Resources */,
+				66A67E192DC998C00010B1DE /* LaunchScreen.storyboard in Resources */,
 				66847BE329DB3E8600CB3A8E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		433D3AD04FA32DEA371B82FD /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RecallLingo/Pods-RecallLingo-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RecallLingo/Pods-RecallLingo-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RecallLingo/Pods-RecallLingo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4A4FF835B27901EB0AA5551D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RecallLingo/Pods-RecallLingo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RecallLingo/Pods-RecallLingo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RecallLingo/Pods-RecallLingo-frameworks.sh\"\n";
-		};
-		986213CC18EEC120C78640DF /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RecallLingo-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		66847BD729DB3E8400CB3A8E /* Sources */ = {
@@ -424,6 +354,7 @@
 				669EE2332A0C5EF60056984E /* WordRememberView.swift in Sources */,
 				66D295672A3D25A2009AA0F3 /* AudioManager.swift in Sources */,
 				66FA88CC29E706C10077C159 /* DictionaryView.swift in Sources */,
+				66A67E172DC986550010B1DE /* TabBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,6 +410,8 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -540,6 +473,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -560,9 +495,7 @@
 		};
 		66847BEA29DB3E8600CB3A8E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2B664026F391B2FD7E05BB8B /* Pods-RecallLingo.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
@@ -571,17 +504,20 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"RecallLingo/Preview Content\"";
-				DEVELOPMENT_TEAM = R53Z54YJ8K;
+				DEVELOPMENT_TEAM = 2S8FW6N8Q7;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=*]" = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RecallLingo/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Recall Lingo";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
@@ -590,23 +526,22 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.salokpi.RecallLingoX;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salokpi.RecallLingoY;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		66847BEB29DB3E8600CB3A8E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B44C5A20AFA33C65944DEBAD /* Pods-RecallLingo.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
@@ -615,17 +550,19 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"RecallLingo/Preview Content\"";
-				DEVELOPMENT_TEAM = R53Z54YJ8K;
+				DEVELOPMENT_TEAM = 2S8FW6N8Q7;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				"EXCLUDED_ARCHS[sdk=*]" = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RecallLingo/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Recall Lingo";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
@@ -634,15 +571,16 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.salokpi.RecallLingoX;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salokpi.RecallLingoY;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -668,25 +606,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		666228282A4E6D3D00013A19 /* XCRemoteSwiftPackageReference "HidableTabView-SwiftUI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/AliMert/HidableTabView-SwiftUI.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		666228292A4E6D3D00013A19 /* HidableTabView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 666228282A4E6D3D00013A19 /* XCRemoteSwiftPackageReference "HidableTabView-SwiftUI" */;
-			productName = HidableTabView;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		66F8488C2A04706400ED071A /* DictionaryContainer.xcdatamodeld */ = {

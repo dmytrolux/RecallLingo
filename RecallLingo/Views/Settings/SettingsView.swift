@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
-import HidableTabView
+//import HidableTabView
 
 struct SettingsView: View {
     @EnvironmentObject var notificationController: LocalNotificationManager
     @State private var selectedIntervalIndex: Int
     @StateObject var audioManager = AudioManager.shared
+    @EnvironmentObject var tabBarController: TabBarController
     @State var isSpeak: Bool = false
     @State var name = "Siri"
     
@@ -124,7 +125,9 @@ struct SettingsView: View {
                     .navigationTitle("sSetting")
                     .navigationBarTitleDisplayMode(.large)
                     .onAppear(){
-                        UITabBar.showTabBar(animated: true)
+//                        UITabBar.showTabBar(animated: true)
+                        tabBarController.isVisible = true
+                        
                     }
         }
         

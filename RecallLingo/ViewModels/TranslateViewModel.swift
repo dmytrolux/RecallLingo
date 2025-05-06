@@ -11,6 +11,7 @@ import SwiftUI
 
 @MainActor
 final class TranslateViewModel: ObservableObject {
+    @EnvironmentObject var tabBarController: TabBarController
     @Published var networkMonitor = NetworkMonitor()
     @Published var wordRequest: String = ""
     @Published var wordResponse: String = ""
@@ -185,7 +186,8 @@ final class TranslateViewModel: ObservableObject {
                 self.tapppedID = message.id
                 self.isEditMode = true
                 self.wordRequest = message.wordTranslate
-                UITabBar.hideTabBar()
+//                UITabBar.hideTabBar()
+                
                 updateMessageStatus()
             }
         }

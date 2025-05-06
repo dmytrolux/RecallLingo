@@ -9,12 +9,13 @@ import SwiftUI
 import StoreKit
 import UIKit
 import WebKit
-import HidableTabView
+//import HidableTabView
 
 struct AboutApp: View {
     let appId = "6450751867"
     @State private var appVersion: String = ""
     @State private var buildNumber: String = ""
+    @EnvironmentObject var tabBarController: TabBarController
     
     var body: some View {
             VStack{
@@ -117,7 +118,8 @@ struct AboutApp: View {
             .onAppear {
                 fetchAppVersion()
                   
-                        UITabBar.hideTabBar(animated: false)
+//                        UITabBar.hideTabBar(animated: false)
+                tabBarController.isVisible = false
                     
             }
         }
@@ -159,12 +161,12 @@ struct AboutApp: View {
     }
 }
 
-struct AboutApp_Previews: PreviewProvider {
-    static var previews: some View {
-        AboutApp()
-            
-    }
-}
+//struct AboutApp_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AboutApp()
+//            
+//    }
+//}
 
 struct DocumentView: UIViewControllerRepresentable {
     let type: DocumentType

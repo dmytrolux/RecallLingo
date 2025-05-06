@@ -1,0 +1,15 @@
+{
+  "originHash" : "b77cfb806a7e47433aece5eeeea0a011aca517288330201f2289e8f4c4493eb6",
+  "pins" : [
+    {
+      "identity" : "hidabletabview-swiftui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AliMert/HidableTabView-SwiftUI.git",
+      "state" : {
+        "revision" : "9acb7587050fabadd38b7563aaa19f93ba133b73",
+        "version" : "1.0.1"
+      }
+    }
+  ],
+  "version" : 3
+}
